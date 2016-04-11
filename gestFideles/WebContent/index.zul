@@ -1,0 +1,25 @@
+<?page title="Auto Generated index.zul"?>
+<?link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css" ?>
+
+<zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
+<window title="Hello World!!" border="normal" width="200px" apply="controllers.HomeController">
+    <n:h3 id="btn-groups">Button groups</n:h3>
+    <div class="btn-group">
+    	<vbox >
+    		<n:button class="btn-primary">Left</n:button>
+		    <n:button >Middle</n:button>
+		    <x:button id="abc" class="btn-primary">olala</x:button>
+		    <n:button>Right</n:button>
+		    <button id="btn" >zkoss button</button>
+    	</vbox>
+	    
+	    
+	</div>
+ 
+</window>
+</zk>
+
+
+
+
+

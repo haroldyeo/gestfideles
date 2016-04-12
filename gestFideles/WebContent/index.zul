@@ -1,17 +1,32 @@
 <?page title="Auto Generated index.zul"?>
 <?link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css" ?>
+<?script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
-<window title="Hello World!!" border="normal" width="200px" apply="controllers.HomeController">
+<window title="Hello World!!" position="center,top" mode="overlapped" border="normal" width="700px"  height="500px" apply="controllers.HomeController" closable="false">
     <n:h3 id="btn-groups">Button groups</n:h3>
     <div class="btn-group">
-    	<vbox >
-    		<n:button class="btn-primary">Left</n:button>
-		    <n:button >Middle</n:button>
-		    <x:button id="abc" class="btn-primary">olala</x:button>
+    	<hbox >
+    		<n:button class="btn btn-primary">Left</n:button>
+		    <n:button>Middle</n:button>
+		    <x:button id="abc" class="btn btn-danger">olala</x:button>
 		    <n:button>Right</n:button>
 		    <button id="btn" >zkoss button</button>
-    	</vbox>
+		    
+		    <div class="btn-group">
+			  <x:button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Action <span class="caret"></span>
+			  </x:button>
+			  <x:ul class="dropdown-menu">
+			    <x:li><a href="#">Action</a></x:li>
+			    <x:li><a href="#">Another action</a></x:li>
+			    <x:li><a href="#">Something else here</a></x:li>
+			    <x:li role="separator" class="divider"></x:li>
+			    <x:li><a href="#">Separated link</a></x:li>
+			  </x:ul>
+			</div>
+		 
+    	</hbox>
 	    
 	    
 	</div>

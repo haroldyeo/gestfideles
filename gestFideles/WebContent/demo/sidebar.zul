@@ -1,4 +1,4 @@
-<grid hflex="1" vflex="1" sclass="sidebar">
+<grid hflex="1" vflex="1" sclass="sidebar" apply="controllers.SideBarController">
     <columns>
         <column width="36px"/>
         <column/>

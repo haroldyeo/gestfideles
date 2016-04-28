@@ -42,6 +42,9 @@ public class SideBarController extends SelectorComposer<Component> {
             Row row = constructSidebarRow(page.getName(), page.getLabel(),page.getIconUri(),page.getUri());
             rows.appendChild(row);
         }
+        
+        Row row = constructSidebarRow("Yahoo", "Yahoo", null, "http://www.yahoo.fr");
+        rows.appendChild(row);
     }
 
     private Row constructSidebarRow(String name,String label, String imageSrc, final String locationUri) {

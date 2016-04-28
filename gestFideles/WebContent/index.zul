@@ -2,40 +2,31 @@
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
-<window title="Connexion" position="center,center" mode="overlapped" draggable="false" border="none" width="700px"  height="300px" apply="controllers.HomeController" closable="false">
-    <div sclass="login_div">
-    	
-    		<vlayout style="text-align: center"> 
-			        <grid width="50%" left="" height="80%" vflex="1">
-			            <columns>
-			                <column align="right" hflex="min" width="50%"/>
-			                <column/>
-			            </columns>
-			            <rows>
-			                <row>
-			                    <cell sclass="row-title">Identifiant :</cell>
-			                    <cell>
-			                   		 <textbox id="identifiant" placeholder="Saisir l'identifiant" constraint="no empty: Saisir l'identifiant" width="200px"/>
-			                    </cell>
-			                </row>
-			                <row>
-			                    <cell sclass="row-title">Mot de passe :</cell>
-			                    <cell>
-			                 	   <textbox id="txtPassword" type="password" placeholder="Saisir le mot de passe"  width="200px"/>
-			                    </cell>
-			                </row>
-			                
-			            </rows>
-			        </grid>
-	        
-	        <hlayout>
-	            <button id="btnLogin" label="Connexion"/>
-	        </hlayout>
-    </vlayout>
-    		
+	<div align="center" width="1280px" height="800px" style="margin: auto">
+		<panel  draggable="false" border="rounded+" width="500px" height="200px" apply="controllers.HomeController" closable="false" style="padding-bottom: 15px">
+		<caption label="Connexion"></caption>
+		    	<panelchildren >
+		    		<x:table>
+		    			<x:tr>
+		    				<x:td><label value="Identifiant"/></x:td>
+		    				<x:td>:</x:td>
+		    				<x:td><textbox id="txtIdentifiant" constraint="no empty: Saisir l'identifiant" width="200px"/></x:td>
+		    			</x:tr>
+		    			
+		    			<x:tr>
+		    				<x:td><label value="Mot de passe "/></x:td>
+		    				<x:td>:</x:td>
+		    				<x:td><textbox id="txtPassword" type="password"  constraint="no empty: champs obligatoire" width="200px"/></x:td>
+		    			</x:tr>
+		    			
+		    		</x:table>
+		    		
+			        <hlayout>
+			            <button id="btnLogin" label="Connexion" />
+			        </hlayout>
+		    	</panelchildren>
+		 </panel>
 	</div>
- 
-</window>
 </zk>
 
 

@@ -1,0 +1,9 @@
+Plan d'action
+
+- Faire les maquettes
+   - Page de connexion
+   - Page d'acceuil
+   - Sidebars
+   - inner pages
+    
+- Faire la page d'accueil, avec authentification sans base de données

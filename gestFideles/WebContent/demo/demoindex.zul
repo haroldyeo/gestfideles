@@ -10,7 +10,7 @@
             <include src="sidebar.zul"/>
         </west>
         <center id="mainContent" autoscroll="true">
-            <include src="main.zul"/>
+            <include src="profile.zul"/>
         </center>
         <south height="50px" border="none">
             <include src="footer.zul"/>

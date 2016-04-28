@@ -1,3 +1,7 @@
+body{
+	font-size: 2 em;
+}
+
 .banner {
 	background-color:#102d35;
 	color: white;
@@ -41,6 +45,7 @@
 .row-title .z-label{
 	font-weight: bold;
 	color:#636363;
+	font-size: 15px;
 }
 
 .fn-caption .z-caption-l{

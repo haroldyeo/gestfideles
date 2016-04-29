@@ -48,7 +48,7 @@ public class ProfileViewController extends SelectorComposer<Component>{
 	Label nameLabel;
 	
 	//services
-	AuthenticationService authService = new AuthenticationServiceChapter3Impl();
+	AuthenticationService authService = new AuthenticationServiceImpl();
 	UserInfoService userInfoService = new UserInfoServiceChapter3Impl();
 	
 	@Override

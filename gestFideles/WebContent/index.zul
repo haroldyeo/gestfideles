@@ -1,14 +1,14 @@
-<?page title="Auto Generated index.zul"?>
+<?page title="Gestion des fidèles"?>
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
 	<div align="center" width="1280px" height="800px" style="margin: auto">
-		<panel  draggable="false" border="rounded+" width="500px" height="200px" apply="controllers.HomeController" closable="false" style="padding-bottom: 15px">
+		<panel id="pnlLogin" draggable="false" border="rounded+" width="500px" height="200px" apply="controllers.AuthenticationServiceImpl" closable="false" style="padding-bottom: 15px">
 		<caption label="Connexion"></caption>
 		    	<panelchildren >
 		    		<x:table>
 		    			<x:tr>
-		    				<x:td><label value="Identifiant"/></x:td>
+		    				<x:td><label sclass=".form-lbl" value="Identifiant"/></x:td>
 		    				<x:td>:</x:td>
 		    				<x:td><textbox id="txtIdentifiant" constraint="no empty: Saisir l'identifiant" width="200px"/></x:td>
 		    			</x:tr>

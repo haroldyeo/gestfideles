@@ -1,0 +1,19 @@
+<?page title="Page d'accueil de demo" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<zk>
+    <borderlayout hflex="1" vflex="1">
+        <north height="100px" border="none" >
+            <include src="/common/banner.zul"/>
+        </north>
+        <west width="260px" border="none" collapsible="true"
+                splittable="true" minsize="300">
+            <include src="/common/sidebar.zul"/>
+        </west>
+        <center id="mainContent" autoscroll="true">
+            <include src="/common/main.zul"/>
+        </center>
+        <south height="50px" border="none">
+            <include src="/common/footer.zul"/>
+        </south>
+    </borderlayout>
+</zk>

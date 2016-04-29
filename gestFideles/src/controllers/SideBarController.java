@@ -8,11 +8,15 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.SerializableEventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
+import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Panel;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Rows;
+import org.zkoss.zul.Window;
 
 import services.SidebarPage;
 import services.SidebarPageConfig;
@@ -25,8 +29,8 @@ public class SideBarController extends SelectorComposer<Component> {
 	private static final long serialVersionUID = 1L;
 	
 	  //wire components
-    @Wire
-    Grid fnList;
+    @Wire Grid fnList;
+    @Wire Iframe mainFrame;
 
   //services
     SidebarPageConfig pageConfig = new SidebarPageConfigChapter2Impl();
@@ -36,15 +40,21 @@ public class SideBarController extends SelectorComposer<Component> {
         super.doAfterCompose(comp);
 
         //initialize view after view construction.
-        Rows rows = fnList.getRows();
+        if(comp instanceof Grid){
+        	Rows rows = fnList.getRows();
 
-        for(SidebarPage page:pageConfig.getPages()){
-            Row row = constructSidebarRow(page.getName(), page.getLabel(),page.getIconUri(),page.getUri());
+            for(SidebarPage page:pageConfig.getPages()){
+                Row row = constructSidebarRow(page.getName(), page.getLabel(),page.getIconUri(),page.getUri());
+                rows.appendChild(row);
+            }
+            
+            Row row = constructSidebarRow("Yahoo", "Yahoo", null, "http://www.yahoo.fr");
             rows.appendChild(row);
+            
+            Row row2 = constructSidebarRow("Page de connexion", "Page de connexion", null, "/index.zul");
+            rows.appendChild(row2);
         }
         
-        Row row = constructSidebarRow("Yahoo", "Yahoo", null, "http://www.yahoo.fr");
-        rows.appendChild(row);
     }
 
     private Row constructSidebarRow(String name,String label, String imageSrc, final String locationUri) {
@@ -66,7 +76,9 @@ public class SideBarController extends SelectorComposer<Component> {
 
             public void onEvent(Event event) throws Exception {
                 //redirect current url to new location
-                Executions.getCurrent().sendRedirect(locationUri);
+//                Executions.getCurrent().sendRedirect(locationUri);
+            	mainFrame.setSrc(locationUri);
+            		
             }
         };
 

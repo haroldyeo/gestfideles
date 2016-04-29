@@ -1,27 +1,23 @@
 package controllers;
 
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.SerializableEventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Panel;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Rows;
-import org.zkoss.zul.Window;
 
 import services.SidebarPage;
 import services.SidebarPageConfig;
 
-public class SideBarController extends SelectorComposer<Component> {
+public class SideBarController extends MainController {
 
 	/**
 	 * 
@@ -30,7 +26,6 @@ public class SideBarController extends SelectorComposer<Component> {
 	
 	  //wire components
     @Wire Grid fnList;
-    @Wire Iframe mainFrame;
 
   //services
     SidebarPageConfig pageConfig = new SidebarPageConfigChapter2Impl();
@@ -66,9 +61,11 @@ public class SideBarController extends SelectorComposer<Component> {
 
         row.appendChild(image);
         row.appendChild(lab);
+        row.setAttribute("link", locationUri);
 
         //set style attribute
         row.setSclass("sidebar-fn");
+        
 
         //create and register event listener
         EventListener<Event> actionListener = new SerializableEventListener<Event>() {
@@ -76,8 +73,8 @@ public class SideBarController extends SelectorComposer<Component> {
 
             public void onEvent(Event event) throws Exception {
                 //redirect current url to new location
-//                Executions.getCurrent().sendRedirect(locationUri);
-            	mainFrame.setSrc(locationUri);
+                mainFrame.setSrc(locationUri);
+            	
             		
             }
         };
@@ -86,6 +83,5 @@ public class SideBarController extends SelectorComposer<Component> {
 
         return row;
     }
-
-
+    
 }

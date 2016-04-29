@@ -8,7 +8,7 @@
 		    	<panelchildren >
 		    		<x:table>
 		    			<x:tr>
-		    				<x:td><label sclass=".form-lbl" value="Identifiant"/></x:td>
+		    				<x:td><label value="Identifiant"/></x:td>
 		    				<x:td>:</x:td>
 		    				<x:td><textbox id="txtIdentifiant" constraint="no empty: Saisir l'identifiant" width="200px"/></x:td>
 		    			</x:tr>

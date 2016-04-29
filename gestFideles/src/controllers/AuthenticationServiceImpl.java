@@ -48,7 +48,6 @@ public class AuthenticationServiceImpl extends SelectorComposer<Component> imple
 	
 
 	public boolean login(String nm, String pd) {
-		alert(nm+"   -  "+pd);
 		return nm.equals("abc") && pd.equals("abc") ? true : false;
 	}
 

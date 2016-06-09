@@ -1,5 +1,5 @@
 [class="z-label"]:not([class*="z-icon-"]) {
-    font-family: verdana;
+/*     font-family: verdana; */
     font-size: 15px;
 }
 

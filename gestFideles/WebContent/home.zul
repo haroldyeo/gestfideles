@@ -1,18 +1,27 @@
 <?page title="Page d'accueil de demo" contentType="text/html;charset=UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
 <zk>
-    <borderlayout hflex="1" vflex="1">
-        <north height="50px" border="none" >
-            <include src="/common/banner.zul"/>
-        </north>
-        <west width="260px" border="none" collapsible="true" splittable="false" minsize="300">
-            <include src="/common/sidebar.zul"/>
-        </west>
-        <center id="mainContent" autoscroll="true">
-            <include src="/common/main.zul"/>
-        </center>
-        <south height="50px" border="none">
-            <include src="/common/footer.zul"/>
-        </south>
-    </borderlayout>
+	<window id="winMain" apply="controllers.MainController" border="none" hflex="1" vflex="1" >
+		<borderlayout>
+			<north>
+	            <include src="/common/banner.zul"/>
+	        </north>
+	        <west width="260px" border="none" collapsible="true" splittable="false" minsize="300">
+	            <grid hflex="1" vflex="1" sclass="sidebar" id="fnList">
+					    <columns>
+					        <column width="36px"/>
+					        <column/>
+					    </columns>
+					    <rows>
+					    </rows>
+					</grid>
+	        </west>
+	        <center id="mainContent" autoscroll="true">
+	            <iframe id="mainFrame" hflex="1" vflex="1" src="common/profile.zul" ></iframe>
+	        </center>	        
+	        <south height="50px" border="none">
+	            <include src="/common/footer.zul"/>
+	        </south>
+	    </borderlayout>
+    </window>
 </zk>

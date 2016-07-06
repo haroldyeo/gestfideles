@@ -1,9 +1,0 @@
-<grid hflex="1" vflex="1" sclass="sidebar" id="fnList" apply="controllers.SideBarController">
-    <columns>
-        <column width="36px"/>
-        <column/>
-    </columns>
-    <rows>
-       
-    </rows>
-</grid>

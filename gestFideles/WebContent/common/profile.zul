@@ -1,5 +1,5 @@
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
-<window apply="controllers.ProfileViewController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+<window apply="com.controllers.ProfileViewController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
     <caption src="/imgs/profile.png" sclass="fn-caption"
         label="Profile (MVC)"/>
     <vlayout>

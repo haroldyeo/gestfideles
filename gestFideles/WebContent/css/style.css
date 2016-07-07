@@ -34,7 +34,7 @@
 }
 
 .ipad2{
-	background: url("imgs/ipad2.jpg") repeat !important; 
+	background: url("/imgs/ipad2.jpg") repeat !important; 
 }
 
 .sidebar a,.sidebar a:VISITED {

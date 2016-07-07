@@ -1,5 +1,5 @@
 <?page title="Gestion des fidèles"?>
-<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
 <div align="center" hflex="1" vflex="1"  sclass="ipad2">

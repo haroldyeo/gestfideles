@@ -59,7 +59,7 @@ public class AuthenticationServiceImpl extends SelectorComposer<Component> imple
 	public void doCheckLogin(){
 		if(login(txtIdentifiant.getValue(), txtPassword.getValue())){
 			getUserCredential();
-			Executions.getCurrent().sendRedirect("/common/home.zul");
+			Executions.getCurrent().sendRedirect("/home.zul");
 		}
 	}
 }

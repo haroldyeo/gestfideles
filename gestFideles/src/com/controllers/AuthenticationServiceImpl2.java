@@ -24,6 +24,7 @@ import org.zkoss.zul.Textbox;
 
 import com.services.AuthenticationService;
 import com.services.UserCredential;
+import com.utils.Constants;
 import com.utils.OperationsDb;
 
 import model.User;
@@ -55,13 +56,14 @@ public class AuthenticationServiceImpl2 extends SelectorComposer<Component> impl
 		OperationsDb.mapParams.clear();
 		OperationsDb.mapParams.put("identifiant", nm);
 		OperationsDb.mapParams.put("motPasse", pd);
-		List<User> list = OperationsDb.find("users");
+		List<User> list = OperationsDb.find(Constants.users);
 		return list != null &&  list.size() > 0 ? true : false;
 	}
 
 
 	public void logout() {
 		// will be implemented in chapter7
+		Executions.getCurrent().sendRedirect("/login.zul");
 	}
 	
 	@Listen("onClick=#btnLogin")

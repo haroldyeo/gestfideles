@@ -18,7 +18,7 @@ public class HibernateUtil {
 	public static EntityManager entityManager;
     
     public static Session getHibSession(){
-		entityManagerFactory = Persistence.createEntityManagerFactory("rcudemo");
+		entityManagerFactory = Persistence.createEntityManagerFactory("gestFideles");
 		entityManager = entityManagerFactory.createEntityManager();
 		return (Session) entityManager.getDelegate();
 	}

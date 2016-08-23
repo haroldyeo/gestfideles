@@ -32,7 +32,7 @@ public class OperationsDb {
         
         switch(strEntity){
             
-            case("users"):
+            case(Constants.users):
                        Criteria criteria = HibernateUtil.getHibSession().createCriteria(User.class);
                        criteria.addOrder(Order.asc("id"));
                        		if(mapParams != null){
@@ -66,7 +66,7 @@ public class OperationsDb {
                                         					
                        		}
 
-                       		returnedList = (List<User>)criteria.list();
+                       		returnedList = criteria.list();
                         break;
            
             

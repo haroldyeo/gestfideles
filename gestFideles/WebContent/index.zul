@@ -8,7 +8,7 @@
 		<north height="200px" sclass="no-border"></north>
 		<center sclass="no-border">
 		
-		<window title="Gestion des fidèles" position="center" border="normal" apply="com.controllers.AuthenticationServiceImpl" id="pnlLogin" width="500px" height="210px">
+		<window title="Gestion des fidèles" position="center" border="normal" apply="com.controllers.AuthenticationServiceImpl2" id="pnlLogin" width="500px" height="210px">
 	
 			<x:table>
 	   			<x:tr>

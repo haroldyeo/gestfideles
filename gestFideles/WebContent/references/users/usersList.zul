@@ -1,0 +1,60 @@
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+
+<zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
+<window apply="com.main.controllers.UsersController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+    
+    <vlayout>
+    	<label sclass="titles">Liste des utilisateurs</label>
+    	<div sclass="searchBoxes">
+    		<label style="font-weight:bold">Recherche:</label>
+    		<x:table>
+	   			<x:tr>
+	   				<x:td><label value="Identifiant"/></x:td>
+	   				<x:td>:</x:td>
+	   				<x:td><textbox id="txtIdentifiant"  width="200px"/></x:td>
+	   				
+	   				<x:td><label value="Nom"/></x:td>
+	   				<x:td>:</x:td>
+	   				<x:td><textbox id="txtNom"  width="200px"/></x:td>
+	   				
+	   				<x:td><label value="Prénoms "/></x:td>
+	   				<x:td>:</x:td>
+	   				<x:td><textbox id="txtPrenoms" width="200px"/></x:td>
+	   			</x:tr>
+	   			
+	   			<x:tr>
+	   				<x:td><button id="btnSearch" label="Rechercher" /></x:td>
+	   				<x:td></x:td>
+	   				<x:td><button id="btnRefresh" label="Rafraichir" /></x:td>
+	   				<x:td colspan="6"></x:td>
+	   			</x:tr>
+	   			
+	   			
+	   		</x:table>
+    	</div>
+    	
+    	<menubar>
+			<menuitem id="menuAdd" label="Ajouter"></menuitem>
+			<menuitem id="menuUpdate" label="Modifier"></menuitem>
+			<menuitem id="menuDelete" label="Supprimer"></menuitem>
+		</menubar>
+		
+        <listbox id="listboxUsers" checkmark="true" hflex="1">
+	        <listhead>
+	            <listheader label="Identifiant" />
+	            <listheader label="Nom" />
+	            <listheader label="Prénoms" />
+	        </listhead>
+	        
+	        	<template name="model" >
+	        		<listitem>
+	        			<listcell>${each.identifiant}</listcell>
+	        			<listcell>${each.nom}</listcell>
+	        			<listcell>${each.prenoms}</listcell>
+	        		</listitem>
+	        	</template>
+	        
+        </listbox>
+    </vlayout>
+</window>
+</zk>

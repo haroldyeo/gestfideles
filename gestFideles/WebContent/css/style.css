@@ -1,6 +1,7 @@
+
 [class="z-label"]:not([class*="z-icon-"]) {
 /*     font-family: verdana; */
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .banner-head {
@@ -94,6 +95,17 @@
 
 .z-north, .z-south, .z-west, .z-center, .z-east {
 	background: inherit;
+}
+
+.titles{
+	font-size: 22px;
+	color: blue;
+	font-weight: bold;
+}
+
+.searchBoxes{
+	border: 2px solid #88a8aa; padding:5px; margin: 15px;
+	font-size: 12px ; 
 }
 
 

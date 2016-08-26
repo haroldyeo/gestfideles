@@ -64,7 +64,8 @@ public class ProfileViewController extends SelectorComposer<Component>{
 	@Listen("onClick=#saveProfile")
 	public void doSaveProfile(){
 		UserCredential cre = authService.getUserCredential();
-		User user = userInfoService.findUser(cre.getAccount());
+//		User user = userInfoService.findUser(cre.getAccount());
+		User user = userInfoService.findUser(null);
 		if(user==null){
 			//TODO handle un-authenticated access 
 			return;
@@ -97,7 +98,8 @@ public class ProfileViewController extends SelectorComposer<Component>{
 
 	private void refreshProfileView() {
 		UserCredential cre = authService.getUserCredential();
-		User user = userInfoService.findUser(cre.getAccount());
+//		User user = userInfoService.findUser(cre.getAccount());
+		User user = userInfoService.findUser(null);
 		if(user==null){
 			//TODO handle un-authenticated access 
 			return;

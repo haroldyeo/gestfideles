@@ -1,6 +1,7 @@
 package com.controllers;
 
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -36,7 +37,10 @@ public class MainController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
     	super.doAfterCompose(comp);
-    	
+//    	String v = (String) Utils.getSessionAttribute("locationURI");
+    	System.out.println("MAIN   : "+Sessions.getCurrent().toString());
+    	String v = (String) Sessions.getCurrent().getAttribute("locationURI");
+    	mainFrame.setSrc(v!=null ? v : "/common/bienvenue.zul");
     	 //initialize view after view construction.
         
         	Rows rows = fnList.getRows();
@@ -46,10 +50,8 @@ public class MainController extends SelectorComposer<Component> {
                 rows.appendChild(row);
             }
             
-            Row row = constructSidebarRow("Yahoo", "Yahoo", null, "http://www.yahoo.fr");
-            rows.appendChild(row);
             
-            Row row2 = constructSidebarRow("Page de connexion", "Page de connexion", null, "/index.zul");
+            Row row2 = constructSidebarRow("Utilisateurs", "Utilisateurs", null, "/references/users/usersList.zul");
             rows.appendChild(row2);
             
             Row row3 = constructSidebarRow("Nouveau profil", "Nouveau profil", null, "/common/profile.zul");
@@ -80,7 +82,9 @@ public class MainController extends SelectorComposer<Component> {
 
             public void onEvent(Event event) throws Exception {
                 //redirect current url to new location
-                mainFrame.setSrc(locationUri);
+            	Sessions.getCurrent().setAttribute("locationURI", locationUri);
+            	String v = (String) Sessions.getCurrent().getAttribute("locationURI");
+                mainFrame.setSrc(v);
             	
             		
             }

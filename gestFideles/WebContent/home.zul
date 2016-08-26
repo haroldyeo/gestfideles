@@ -1,7 +1,7 @@
 <?page title="Page d'accueil de demo" contentType="text/html;charset=UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 <zk>
-	<window id="winMain" apply="com.controllers.MainController" border="none" hflex="1" vflex="1">
+	<window id="winMain" apply="com.controllers.MainController" border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
 		<borderlayout>
 			<north>
 	            <include src="/common/banner.zul"/>
@@ -16,8 +16,8 @@
 					    </rows>
 					</grid>
 	        </west>
-	        <center id="mainContent" autoscroll="true">
-	            <iframe id="mainFrame" hflex="1" vflex="1" src="/common/bienvenue.zul" ></iframe>
+	        <center id="mainContent" autoscroll="true" style="overflow:auto">
+	            <iframe id="mainFrame" hflex="1" vflex="1" ></iframe>
 	        </center>	        
 	        <south height="50px" border="none">
 	            <include src="/common/footer.zul"/>

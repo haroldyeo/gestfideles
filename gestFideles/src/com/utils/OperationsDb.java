@@ -2,7 +2,6 @@ package com.utils;
 
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,14 +19,12 @@ import model.User;
  *
  * @author Harold
  */
+@SuppressWarnings("rawtypes")
 public class OperationsDb {
 	
-	public static Map<String, Object> mapParams = new HashMap<String, Object>();
-
-    @SuppressWarnings("unchecked")
-	public static List find (String strEntity){
+    
+	public static List find (String strEntity, Map<String,Object> mapParams){
         
-        @SuppressWarnings("rawtypes")
 		List returnedList = null;
         
         switch(strEntity){

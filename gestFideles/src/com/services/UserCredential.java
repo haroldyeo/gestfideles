@@ -9,54 +9,44 @@ Copyright (C) 2012 Potix Corporation. All Rights Reserved.
 package com.services;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 public class UserCredential implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	String account;
-	String name;
+	String sessionId;
+	String identifiant;
+	String nom;
+	String prenoms;
 	
-	Set<String> roles = new HashSet<String>();
-
-	public UserCredential(String account, String name) {
-		this.account = account;
-		this.name = name;
+	
+	
+	public String getSessionId() {
+		return sessionId;
 	}
-
-	public UserCredential() {
-		this.account = "anonymous";
-		this.name = "Anonymous";
-		roles.add("anonymous");
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
-
-	public boolean isAnonymous() {
-		return hasRole("anonymous") || "anonymous".equals(account);
+	public String getIdentifiant() {
+		return identifiant;
 	}
-
-	public String getAccount() {
-		return account;
+	public void setIdentifiant(String identifiant) {
+		this.identifiant = identifiant;
 	}
-
-	public void setAccount(String account) {
-		this.account = account;
+	public String getNom() {
+		return nom;
 	}
-
-	public String getName() {
-		return name;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public String getPrenoms() {
+		return prenoms;
+	}
+	public void setPrenoms(String prenoms) {
+		this.prenoms = prenoms;
 	}
 	
-	public boolean hasRole(String role){
-		return roles.contains(role);
-	}
 	
-	public void addRole(String role){
-		roles.add(role);
-	}
+	
+	
 
 }

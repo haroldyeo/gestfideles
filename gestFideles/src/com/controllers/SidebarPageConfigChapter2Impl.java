@@ -20,9 +20,13 @@ public class SidebarPageConfigChapter2Impl implements SidebarPageConfig{
 
 	HashMap<String,SidebarPage> pageMap = new LinkedHashMap<String,SidebarPage>();
 	public SidebarPageConfigChapter2Impl(){		
-		pageMap.put("fn1",new SidebarPage("zk","ZK","/imgs/site.png","http://www.zkoss.org/"));
-		pageMap.put("fn2",new SidebarPage("demo","ZK Demo","/imgs/demo.png","http://www.zkoss.org/zkdemo"));
-		pageMap.put("fn3",new SidebarPage("devref","ZK Developer Reference","/imgs/doc.png","http://books.zkoss.org/wiki/ZK_Developer's_Reference"));
+//		pageMap.put("fn1",new SidebarPage("zk","ZK","/imgs/site.png","http://www.zkoss.org/"));
+//		pageMap.put("fn2",new SidebarPage("demo","ZK Demo","/imgs/demo.png","http://www.zkoss.org/zkdemo"));
+//		pageMap.put("fn3",new SidebarPage("devref","ZK Developer Reference","/imgs/doc.png","http://books.zkoss.org/wiki/ZK_Developer's_Reference"));
+//		
+		pageMap.put("fn1",new SidebarPage("Utilisateurs","Utilisateurs","/imgs/demo.png","/references/users/usersList.zul"));
+		pageMap.put("fn2",new SidebarPage("Nouveau profil","Nouveau profil","/imgs/demo.png","/common/profile.zul"));
+		
 	}
 	
 	public List<SidebarPage> getPages(){

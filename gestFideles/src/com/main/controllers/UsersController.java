@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.zkoss.zhtml.Button;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -41,18 +39,9 @@ public class UsersController  extends SelectorComposer<Component>{
 	@Override
     public void doAfterCompose(Component comp) throws Exception {
     	super.doAfterCompose(comp);
-    	
-    	System.out.println("USERSS: "+Sessions.getCurrent().toString()+"    "+Sessions.getCurrent().getAttribute("userCredentials"));
-    	if(Sessions.getCurrent().getAttribute("userCredentials") == null){
-    		Sessions.getCurrent().invalidate();
-    		Executions.sendRedirect("http://localhost:8083/gestFideles/");
-    	}else{
     		List<User> listUsers = OperationsDb.find(Constants.users, null);
         	lml = new ListModelList<>(listUsers);
         	listboxUsers.setModel(lml);
-    	}
-    	
-    	
 	}
 	
 	@Listen("onClick=#btnSearch")

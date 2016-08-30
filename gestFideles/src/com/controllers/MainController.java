@@ -1,7 +1,7 @@
 package com.controllers;
 
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -18,6 +18,7 @@ import org.zkoss.zul.Window;
 
 import com.services.SidebarPage;
 import com.services.SidebarPageConfig;
+import com.utils.Utils;
 
 public class MainController extends SelectorComposer<Component> {
 
@@ -37,25 +38,22 @@ public class MainController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
     	super.doAfterCompose(comp);
+    	
+    	if(Utils.getSessionAttribute("userCredentials") == null){
+    		Utils.getCurrentSession().invalidate();
+    		Executions.sendRedirect("http://localhost:8083/gestFideles/");
+    	}else{
+    		String v = (String) Utils.getSessionAttribute("locationURI");
+        	mainFrame.setSrc(v!=null ? v : "/common/bienvenue.zul");
+        	
+        	 //initialize view after view construction.
+            	Rows rows = fnList.getRows();
 
-    	System.out.println("MAIN: "+Sessions.getCurrent().toString()+"    "+Sessions.getCurrent().getAttribute("userCredentials"));
-    	String v = (String) Sessions.getCurrent().getAttribute("locationURI");
-    	mainFrame.setSrc(v!=null ? v : "/common/bienvenue.zul");
-    	 //initialize view after view construction.
-        
-        	Rows rows = fnList.getRows();
-
-            for(SidebarPage page:pageConfig.getPages()){
-                Row row = constructSidebarRow(page.getName(), page.getLabel(),page.getIconUri(),page.getUri());
-                rows.appendChild(row);
-            }
-            
-            
-            Row row2 = constructSidebarRow("Utilisateurs", "Utilisateurs", null, "/references/users/usersList.zul");
-            rows.appendChild(row2);
-            
-            Row row3 = constructSidebarRow("Nouveau profil", "Nouveau profil", null, "/common/profile.zul");
-            rows.appendChild(row3);
+                for(SidebarPage page : pageConfig.getPages()){
+                    Row row = constructSidebarRow(page.getName(), page.getLabel(),page.getIconUri(),page.getUri());
+                    rows.appendChild(row);
+                }
+    		}
         }
         
     
@@ -82,11 +80,9 @@ public class MainController extends SelectorComposer<Component> {
 
             public void onEvent(Event event) throws Exception {
                 //redirect current url to new location
-            	Sessions.getCurrent().setAttribute("locationURI", locationUri);
-            	String v = (String) Sessions.getCurrent().getAttribute("locationURI");
+            	Utils.setSessionAttribute("locationURI", locationUri);
+            	String v = (String) Utils.getSessionAttribute("locationURI");
                 mainFrame.setSrc(v);
-            	
-            		
             }
         };
 

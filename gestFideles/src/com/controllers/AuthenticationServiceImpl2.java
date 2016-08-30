@@ -78,7 +78,7 @@ public class AuthenticationServiceImpl2 extends SelectorComposer<Component> impl
 
 	public void logout() {
 		
-		Sessions.getCurrent().invalidate();
+		Utils.getCurrentSession().invalidate();
 		Executions.getCurrent().sendRedirect("/login.zul");
 	}
 	

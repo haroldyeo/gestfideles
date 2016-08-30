@@ -1,7 +1,7 @@
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
-<window apply="com.main.controllers.UsersController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+<window apply="com.main.controllers.UsersController" id="winUsersList" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
 
 	
     
@@ -36,9 +36,9 @@
     	</div>
     	
     	<menubar>
-			<menuitem id="menuAdd" label="Ajouter"></menuitem>
-			<menuitem id="menuUpdate" label="Modifier"></menuitem>
-			<menuitem id="menuDelete" label="Supprimer"></menuitem>
+			<menuitem id="menuAdd" label="Ajouter" image="/imgs/add-icon.png"></menuitem>
+			<menuitem id="menuUpdate" label="Modifier"  image="/imgs/update-icon.png"></menuitem>
+			<menuitem id="menuDelete" label="Supprimer" image="/imgs/del-icon.png"></menuitem>
 		</menubar>
 		
         <listbox id="listboxUsers" checkmark="true" hflex="1">

@@ -16,6 +16,7 @@ import org.zkoss.zul.Textbox;
 
 import com.utils.Constants;
 import com.utils.OperationsDb;
+import com.utils.Utils;
 
 import model.User;
 
@@ -39,15 +40,25 @@ public class UsersController  extends SelectorComposer<Component>{
 	@Override
     public void doAfterCompose(Component comp) throws Exception {
     	super.doAfterCompose(comp);
+    	
+    	if(comp.getId().equals("winUsersList")){
     		List<User> listUsers = OperationsDb.find(Constants.users, null);
-        	lml = new ListModelList<>(listUsers);
-        	listboxUsers.setModel(lml);
+    		displayListUsers(listUsers);
+        	
+    	}
+    		
 	}
 	
+	private void displayListUsers(List<User> listUsers) {
+		lml = new ListModelList<>(listUsers);
+    	listboxUsers.setModel(lml);
+		
+	}
+
 	@Listen("onClick=#btnSearch")
 	public void doSearch(){
 		
-		if(txtIdentifiant.getValue().equals("") &&  txtNom.getValue().equals("") && txtPrenoms.getValue().equals("")){
+		if(txtIdentifiant.getValue().isEmpty() &&  txtNom.getValue().isEmpty() && txtPrenoms.getValue().isEmpty()){
 			// don't do anything
 		} else {
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -56,8 +67,7 @@ public class UsersController  extends SelectorComposer<Component>{
 			params.put(Constants.prenoms, txtPrenoms.getValue());
 			
 			List<User> listUsers = OperationsDb.find(Constants.users, params);
-	    	lml = new ListModelList<>(listUsers);
-	    	listboxUsers.setModel(lml);
+	    	displayListUsers(listUsers);
 		}
 		
 		
@@ -67,13 +77,12 @@ public class UsersController  extends SelectorComposer<Component>{
 	public void doRefresh(){
 		txtIdentifiant.setValue(""); txtNom.setValue(""); txtPrenoms.setValue("");
 		List<User> listUsers = OperationsDb.find(Constants.users, null);
-    	lml = new ListModelList<>(listUsers);
-    	listboxUsers.setModel(lml);
+    	displayListUsers(listUsers);
 	}
 	
 	@Listen("onClick=#menuAdd")
 	public void onAdd(){
-		alert("ajouter");
+		Utils.openModal("/references/users/usersForm.zul", null, null, "Créer un utilisateur");
 	}
 	
 	

@@ -1,6 +1,7 @@
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
-<window apply="com.controllers.ProfileViewController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
-    <caption src="/imgs/profile.png" sclass="fn-caption" label="Profile (MVC)"/>
+<window id="modalDialog" border="normal"  closable="true"  
+    apply="com.main.controllers.UsersController" 
+    position="center,center" action="show: slideDown;hide: slideUp">
     <vlayout>
         <grid width="500px">
             <columns>
@@ -8,50 +9,45 @@
                 <column/>
             </columns>
             <rows>
+                
                 <row>
-                    <cell sclass="row-title">Account :</cell>
-                    <cell><label id="account"/></cell>
-                </row>
-                <row>
-                    <cell sclass="row-title">Full Name :</cell>
+                    <cell sclass="row-title">Nom:</cell>
                     <cell>
-                    <textbox id="fullName" constraint="no empty: Please enter your full name" width="200px"/>
+                    <textbox id="txtNom" constraint="no empty: Le nom est obligatoire" width="200px"/>
+                    </cell>
+                </row>
+                
+                <row>
+                    <cell sclass="row-title">Prénoms:</cell>
+                    <cell>
+                    <textbox id="txtPrenoms" width="200px"/>
+                    </cell>
+                </row>
+                
+                <row>
+                    <cell sclass="row-title">identifiant:</cell>
+                    <cell>
+                        <textbox id="txtLogin" constraint="no empty: L'identifiant est obligatoire" width="200px"/>
                     </cell>
                 </row>
                 <row>
-                    <cell sclass="row-title">Email :</cell>
+                    <cell sclass="row-title">Mot de passe:</cell>
                     <cell>
-                    <textbox id="email"
-                    constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" width="200px"/>
+                        <textbox id="txtMdp" type="password" constraint="no empty: Le mot de passe est obligatoire" width="200px"/>
                     </cell>
                 </row>
                 <row>
-                    <cell sclass="row-title">Birthday :</cell>
+                    <cell sclass="row-title">Mot de passe (à nouveau):</cell>
                     <cell>
-                        <datebox id="birthday" constraint="no future" format="dd/MM/yyyy" width="200px"/>
-                    </cell>
-                </row>
-                <row>
-                    <cell sclass="row-title">Country :</cell>
-                    <cell>
-                        <listbox id="country" mold="select" width="200px">
-                            <template name="model">
-                                <listitem label="${each}" />
-                            </template>
-                        </listbox>
-                    </cell>
-                </row>
-                <row>
-                    <cell sclass="row-title">Bio :</cell>
-                    <cell><textbox id="bio" multiline="true" hflex="1" height="200px" />
+                        <textbox id="txtMdp2" type="password" constraint="no empty: Le mot de passe est obligatoire" width="200px"/>
                     </cell>
                 </row>
             </rows>
         </grid>
-        <div>You are editing <label id="nameLabel"/>'s profile.</div>
+        
         <hlayout>
-            <button id="saveProfile" label="Save"/>
-            <button id="reloadProfile" label="Reload"/>
+            <button id="btnSave" label="Enregistrer"/>
+            <button id="btnRefresh" label="Rafraichir"/>
         </hlayout>
     </vlayout>
 </window>

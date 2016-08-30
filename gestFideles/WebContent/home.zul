@@ -17,7 +17,7 @@
 					</grid>
 	        </west>
 	        <center id="mainContent" autoscroll="true" style="overflow:auto">
-	            <iframe id="mainFrame" hflex="1" vflex="1" ></iframe>
+	            <include id="mainFrame" ></include>
 	        </center>	        
 	        <south height="50px" border="none">
 	            <include src="/common/footer.zul"/>

@@ -2,6 +2,8 @@
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
 <window apply="com.main.controllers.UsersController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+	
     
     <vlayout>
     	<label sclass="titles">Liste des utilisateurs</label>

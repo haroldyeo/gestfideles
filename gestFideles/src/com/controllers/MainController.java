@@ -9,8 +9,8 @@ import org.zkoss.zk.ui.event.SerializableEventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Grid;
-import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Image;
+import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Rows;
@@ -29,7 +29,7 @@ public class MainController extends SelectorComposer<Component> {
 	//wire components
     @Wire Window winMain ;
     @Wire Grid fnList;
-    @Wire Iframe mainFrame;
+    @Wire Include mainFrame;
 
   //services
     SidebarPageConfig pageConfig = new SidebarPageConfigChapter2Impl();
@@ -37,8 +37,8 @@ public class MainController extends SelectorComposer<Component> {
     @Override
     public void doAfterCompose(Component comp) throws Exception {
     	super.doAfterCompose(comp);
-//    	String v = (String) Utils.getSessionAttribute("locationURI");
-    	System.out.println("MAIN   : "+Sessions.getCurrent().toString());
+
+    	System.out.println("MAIN: "+Sessions.getCurrent().toString()+"    "+Sessions.getCurrent().getAttribute("userCredentials"));
     	String v = (String) Sessions.getCurrent().getAttribute("locationURI");
     	mainFrame.setSrc(v!=null ? v : "/common/bienvenue.zul");
     	 //initialize view after view construction.

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.zkoss.zhtml.Button;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -44,7 +45,7 @@ public class UsersController  extends SelectorComposer<Component>{
     	System.out.println("USERSS: "+Sessions.getCurrent().toString()+"    "+Sessions.getCurrent().getAttribute("userCredentials"));
     	if(Sessions.getCurrent().getAttribute("userCredentials") == null){
     		Sessions.getCurrent().invalidate();
-//    		Executions.sendRedirect("http://localhost:8083/gestFideles/");
+    		Executions.sendRedirect("http://localhost:8083/gestFideles/");
     	}else{
     		List<User> listUsers = OperationsDb.find(Constants.users, null);
         	lml = new ListModelList<>(listUsers);
@@ -56,22 +57,26 @@ public class UsersController  extends SelectorComposer<Component>{
 	
 	@Listen("onClick=#btnSearch")
 	public void doSearch(){
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put(Constants.identifiant, txtIdentifiant.getValue());
-		params.put(Constants.nom, txtNom.getValue());
-		params.put(Constants.prenoms, txtPrenoms.getValue());
 		
-		List<User> listUsers = OperationsDb.find(Constants.users, params);
-    	lml = new ListModelList<>(listUsers);
-    	listboxUsers.setModel(lml);
+		if(txtIdentifiant.getValue().equals("") &&  txtNom.getValue().equals("") && txtPrenoms.getValue().equals("")){
+			// don't do anything
+		} else {
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put(Constants.identifiant, txtIdentifiant.getValue());
+			params.put(Constants.nom, txtNom.getValue());
+			params.put(Constants.prenoms, txtPrenoms.getValue());
+			
+			List<User> listUsers = OperationsDb.find(Constants.users, params);
+	    	lml = new ListModelList<>(listUsers);
+	    	listboxUsers.setModel(lml);
+		}
+		
 		
 	}
 	
 	@Listen("onClick=#btnRefresh")
 	public void doRefresh(){
-		txtIdentifiant.setValue("");
-		txtNom.setValue("");
-		txtPrenoms.setValue("");
+		txtIdentifiant.setValue(""); txtNom.setValue(""); txtPrenoms.setValue("");
 		List<User> listUsers = OperationsDb.find(Constants.users, null);
     	lml = new ListModelList<>(listUsers);
     	listboxUsers.setModel(lml);

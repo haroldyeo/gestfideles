@@ -61,13 +61,13 @@ public class AuthenticationServiceImpl2 extends SelectorComposer<Component> impl
 	}
 
 	public UserCredential getUserCredential(User user){
-		UserCredential cre = (UserCredential)Sessions.getCurrent().getAttribute("userCredential");
+		UserCredential cre = (UserCredential)Sessions.getCurrent().getAttribute("userCredentials");
 		if(cre==null){
 			cre = new UserCredential();
 			cre.setNom(user.getNom());
 			cre.setPrenoms(user.getPrenoms());
 			cre.setIdentifiant(user.getIdentifiant());
-			Sessions.getCurrent().setAttribute("userCredential",cre);
+			Sessions.getCurrent().setAttribute("userCredentials",cre);
 			
 			
 			

@@ -4,7 +4,7 @@
             <label value="Gestion des fidèles" sclass="banner-head" />
         </div>
         <hbox hflex="1" vflex="1" pack="end" align="end">
-            <label>${userCredential.nom} ${userCredential.prenoms}</label>
+            <label>${userCredentials.nom} ${userCredentials.prenoms}</label>
             <span>   -   </span>
             <a id="linkLogout" style="text-decoration: none; color:white">Se déconnecter</a>
         </hbox>

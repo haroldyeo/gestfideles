@@ -1,7 +1,6 @@
 package com.controllers;
 
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -39,10 +38,10 @@ public class MainController extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception {
     	super.doAfterCompose(comp);
     	
-    	if(Utils.getSessionAttribute("userCredentials") == null){
-    		Utils.getCurrentSession().invalidate();
-    		Executions.sendRedirect("http://localhost:8083/gestFideles/");
-    	}else{
+//    	if(Utils.getSessionAttribute("userCredentials") == null){
+//    		Utils.getCurrentSession().invalidate();
+//    		Executions.sendRedirect("http://localhost:8083/gestFideles/");
+//    	}else{
     		String v = (String) Utils.getSessionAttribute("locationURI");
         	mainFrame.setSrc(v!=null ? v : "/common/bienvenue.zul");
         	
@@ -53,7 +52,7 @@ public class MainController extends SelectorComposer<Component> {
                     Row row = constructSidebarRow(page.getName(), page.getLabel(),page.getIconUri(),page.getUri());
                     rows.appendChild(row);
                 }
-    		}
+//    		}
         }
         
     

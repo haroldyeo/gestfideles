@@ -1,11 +1,8 @@
 package com.utils;
 
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -34,7 +31,7 @@ public class OperationsDb {
                        criteria.addOrder(Order.asc("id"));
                        		if(mapParams != null){
                        			
-                       			BigDecimal id = mapParams.get("id") != null ? new BigDecimal((String)mapParams.get("id")) : null; 
+                       			Integer id =  mapParams.get("id") != null ? (Integer) (mapParams.get("id")) : null; 
                            	   String nom = (String)mapParams.get("nom");
                           	   String prenoms = (String)mapParams.get("prenoms");
                           	   String identifiant = (String)mapParams.get("identifiant");
@@ -194,10 +191,11 @@ public class OperationsDb {
               session.beginTransaction();
               session.save(obj);
               session.getTransaction().commit();
+              session.close();
               
           } catch (HibernateException e){
               e.printStackTrace();
-              JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Base de données des fidèles", JOptionPane.ERROR);
+              
           }
   }
   
@@ -208,10 +206,11 @@ public class OperationsDb {
               session.beginTransaction();
               session.merge(obj);  
               session.getTransaction().commit();
+              session.close();
               
           } catch (HibernateException e){
               e.printStackTrace();
-              JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Base de données des fidèles", JOptionPane.ERROR);
+              
           }
   }
   
@@ -222,10 +221,11 @@ public class OperationsDb {
 //              session.beginTransaction();
               HibernateUtil.getHibSession().delete(obj);
               HibernateUtil.getHibSession().getTransaction().commit();
+              HibernateUtil.getHibSession().close();
               
           } catch (HibernateException e){
               e.printStackTrace();
-              JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Base de données des fidèles", JOptionPane.ERROR);
+              
           }
   }
   

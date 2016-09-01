@@ -21,10 +21,23 @@ public class User implements Serializable {
 
 	public User() {
 	}
+	
+	
+
+
+	public User(String identifiant, String motPasse, String nom, String prenoms) {
+		super();
+		this.identifiant = identifiant;
+		this.motPasse = motPasse;
+		this.nom = nom;
+		this.prenoms = prenoms;
+	}
+
+
 
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

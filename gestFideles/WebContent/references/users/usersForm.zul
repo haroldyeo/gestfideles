@@ -1,9 +1,7 @@
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
-<window id="modalDialog" border="normal"  closable="true"  
-    apply="com.main.controllers.UsersController" 
-    position="center,center" action="show: slideDown;hide: slideUp">
+	<div id="divUsersForm2" apply="com.main.controllers.UsersController">
     <vlayout>
-        <grid width="500px">
+        <grid width="500px" style="margin-top: 15px" >
             <columns>
                 <column align="right" hflex="min"/>
                 <column/>
@@ -11,43 +9,43 @@
             <rows>
                 
                 <row>
-                    <cell sclass="row-title">Nom:</cell>
+                    <cell sclass="row-title">*Nom:</cell>
                     <cell>
-                    <textbox id="txtNom" constraint="no empty: Le nom est obligatoire" width="200px"/>
+                    <textbox id="txtNomF"  width="200px"/>
                     </cell>
                 </row>
                 
                 <row>
                     <cell sclass="row-title">Prénoms:</cell>
                     <cell>
-                    <textbox id="txtPrenoms" width="200px"/>
+                    <textbox id="txtPrenomsF" width="200px"/>
                     </cell>
                 </row>
                 
                 <row>
-                    <cell sclass="row-title">identifiant:</cell>
+                    <cell sclass="row-title">*Identifiant:</cell>
                     <cell>
-                        <textbox id="txtLogin" constraint="no empty: L'identifiant est obligatoire" width="200px"/>
+                        <textbox id="txtIdentifiantF"  width="200px"/>
                     </cell>
                 </row>
                 <row>
-                    <cell sclass="row-title">Mot de passe:</cell>
+                    <cell sclass="row-title">*Mot de passe:</cell>
                     <cell>
-                        <textbox id="txtMdp" type="password" constraint="no empty: Le mot de passe est obligatoire" width="200px"/>
+                        <textbox id="txtMdpF" type="password" width="200px"/>
                     </cell>
                 </row>
                 <row>
-                    <cell sclass="row-title">Mot de passe (à nouveau):</cell>
+                    <cell sclass="row-title">*Mot de passe (à nouveau):</cell>
                     <cell>
-                        <textbox id="txtMdp2" type="password" constraint="no empty: Le mot de passe est obligatoire" width="200px"/>
+                        <textbox id="txtMdp2F" type="password"  width="200px"/>
                     </cell>
                 </row>
             </rows>
         </grid>
         
-        <hlayout>
+        <hlayout style="margin-top: 20px">
             <button id="btnSave" label="Enregistrer"/>
-            <button id="btnRefresh" label="Rafraichir"/>
+            <button id="btnRefreshForm" label="Rafraichir"/>
         </hlayout>
     </vlayout>
-</window>
+   </div>

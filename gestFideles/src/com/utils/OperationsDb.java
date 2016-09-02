@@ -1,6 +1,7 @@
 package com.utils;
 
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -100,14 +101,23 @@ public class OperationsDb {
           }
   }
   
-  public static void deleteObject(Object obj){
+  public static void deleteById(Class<?> type, Serializable id) {
        
           try{
-            Session session = HibernateUtil.getHibSession();
-              session.beginTransaction();
-              session.delete(obj);  
-              session.getTransaction().commit();
-              session.close();
+        	  Session session = HibernateUtil.getHibSession();
+        	  Object persistentInstance = session.get(type, id);
+        	  if (persistentInstance != null) {
+        		  session.beginTransaction();
+        	      session.delete(persistentInstance);
+        	      session.getTransaction().commit();
+                  session.close();
+        	  }
+        	  
+            
+//              session.beginTransaction();
+//              session.delete(obj);  
+//              session.getTransaction().commit();
+//              session.close();
               
           } catch (HibernateException e){
               e.printStackTrace();

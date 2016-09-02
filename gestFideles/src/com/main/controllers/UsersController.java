@@ -84,6 +84,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	
 	@Listen("onClick=#menuAdd")
 	public void onAdd(){
+		refreshForm();
 		divUsersList.setVisible(false);
 		divUsersForm1.setVisible(true);
 	}
@@ -119,12 +120,9 @@ public class UsersController  extends SelectorComposer<Component> {
 			    public void onEvent(Event evt) throws InterruptedException {
 			        if (evt.getName().equals("onYes")) {
 			        	User luser = (User)listboxUsers.getSelectedItem().getValue();
-						Map<String, Object> params = new HashMap<String, Object>();
-						params.put(Constants.id_user, luser.getId());
-						List<User> listUsers = OperationsDb.find(Constants.users, params);
-						User usr = listUsers.get(0);
-						OperationsDb.deleteObject(usr);
+						OperationsDb.deleteById(User.class, luser.getId());
 						Messagebox.show("Utilisateur supprimé avec succès", "Supprimer un utilisateur", Messagebox.OK, Messagebox.EXCLAMATION);
+						displayListUsers(null);
 			        } else if (evt.getName().equals("onNo")) {
 			            // nada
 			        } 

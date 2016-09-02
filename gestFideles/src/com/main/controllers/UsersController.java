@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.zkoss.zhtml.Button;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -26,7 +27,7 @@ public class UsersController  extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Wire Div divUsersForm1, divUsersForm2, divUsersList;
+	@Wire Div divUsersForm1, divUsersList;
 		
 	@Wire Listbox listboxUsers;
 	
@@ -91,7 +92,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	public void onUpdate() throws Exception{
 		
 		if(listboxUsers.getSelectedItem() == null){
-			Messagebox.show("Veuillez sélectionner un élement de la liste", "Créer un utilisateur", Messagebox.OK, Messagebox.EXCLAMATION);
+			Messagebox.show("Veuillez sélectionner un élement de la liste", "Modifier un utilisateur", Messagebox.OK, Messagebox.EXCLAMATION);
 		} else{
 			User userSelected = ((User)listboxUsers.getSelectedItem().getValue());
 			
@@ -101,18 +102,44 @@ public class UsersController  extends SelectorComposer<Component> {
 			txtNomF.setValue(userSelected.getNom());
 			txtPrenomsF.setValue(userSelected.getPrenoms());
 			txtIdentifiantF.setValue(userSelected.getIdentifiant());
-//			txtMdp.setValue(userSelected.getMotPasse());
-//			txtMdp2.setValue(userSelected.getMotPasse());
+			txtMdpF.setValue(userSelected.getMotPasse());
+			txtMdp2F.setValue(userSelected.getMotPasse());
 			
 		}
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
+	@Listen("onClick=#menuDelete")
+	public void onDelete() throws Exception{
+		if(listboxUsers.getSelectedItem() == null){
+			Messagebox.show("Veuillez sélectionner un élement de la liste", "Créer un utilisateur", Messagebox.OK, Messagebox.EXCLAMATION);
+		} else{
+			Messagebox.show("Êtes vous sûrs de vouloir supprimer?", "Supprimer un utilisateur", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+			    public void onEvent(Event evt) throws InterruptedException {
+			        if (evt.getName().equals("onYes")) {
+			        	User luser = (User)listboxUsers.getSelectedItem().getValue();
+						Map<String, Object> params = new HashMap<String, Object>();
+						params.put(Constants.id_user, luser.getId());
+						List<User> listUsers = OperationsDb.find(Constants.users, params);
+						User usr = listUsers.get(0);
+						OperationsDb.deleteObject(usr);
+						Messagebox.show("Utilisateur supprimé avec succès", "Supprimer un utilisateur", Messagebox.OK, Messagebox.EXCLAMATION);
+			        } else if (evt.getName().equals("onNo")) {
+			            // nada
+			        } 
+			    }
+		});
+	  }
+		
+	}
+	
 	@Listen("onClick=#menuBack")
 	public void onBack(){
+		divUsersForm1.setVisible(false);
 		divUsersList.setVisible(true);
 		displayListUsers(null);
-		divUsersForm1.setVisible(false);
+		
 	}
 	
 	@Listen("onClick=#btnSave")

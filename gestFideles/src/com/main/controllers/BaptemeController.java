@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.zhtml.Button;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -23,7 +23,7 @@ import com.utils.OperationsDb;
 import model.User;
 
 @SuppressWarnings("unchecked")
-public class UsersController  extends SelectorComposer<Component> {
+public class BaptemeController  extends SelectorComposer<Component> {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -33,9 +33,9 @@ public class UsersController  extends SelectorComposer<Component> {
 	
 	@Wire Textbox txtIdentifiant, txtNom, txtPrenoms, txtIdentifiantF, txtNomF, txtPrenomsF, txtMdpF, txtMdp2F;
 	
-	@Wire Window winUsers;
+	@Wire Window winUsersList;
 	
-	@Wire Button btnSearch,  btnRefresh, btnSave, btnSaveMod;
+	@Wire Button btnSearch, btnSave, btnRefresh;
 	
 	String nom, prenoms,ident, mdp1, mdp2;
 	
@@ -46,7 +46,7 @@ public class UsersController  extends SelectorComposer<Component> {
     public void doAfterCompose(Component comp) throws Exception {
     	super.doAfterCompose(comp);
     	
-    	if(comp.getId().equals("winUsers")){
+    	if(comp.getId().equals("winUsersList")){
     		displayListUsers(null);
     	}
     		
@@ -87,8 +87,6 @@ public class UsersController  extends SelectorComposer<Component> {
 		refreshForm();
 		divUsersList.setVisible(false);
 		divUsersForm1.setVisible(true);
-		btnSave.setVisible(true);
-		btnSaveMod.setVisible(false);
 	}
 	
 	@Listen("onClick=#menuUpdate")
@@ -101,8 +99,6 @@ public class UsersController  extends SelectorComposer<Component> {
 			
 			divUsersList.setVisible(false);
 			divUsersForm1.setVisible(true);
-			btnSave.setVisible(false);
-			btnSaveMod.setVisible(true);
 			
 			txtNomF.setValue(userSelected.getNom());
 			txtPrenomsF.setValue(userSelected.getPrenoms());
@@ -144,34 +140,38 @@ public class UsersController  extends SelectorComposer<Component> {
 		
 	}
 	
-	@Listen("onClick=#btnSaveMod")
-	public void update(){
-		
-		if(errorCheck()){
-			
-			User luser = (User)listboxUsers.getSelectedItem().getValue();
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put(Constants.id, luser.getId());
-			List<User> listUsers = OperationsDb.find(Constants.users, params);
-			User usr = listUsers.get(0);
-			usr.setIdentifiant(ident);
-			usr.setNom(nom);
-			usr.setPrenoms(prenoms);
-			usr.setMotPasse(mdp1);
-			OperationsDb.updateObject(usr);	
-			Messagebox.show("Utilisateur mis à jour avec succès", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
-		}
-	}
-	
 	@Listen("onClick=#btnSave")
 	public void save() throws Exception{
+		
+		User usr = null;
+		
+		if(listboxUsers.getSelectedItem() == null){
 			//create new
 			if(errorCheck()){
-				User usr= new User(ident, mdp1, nom, prenoms);
+				usr= new User(ident, mdp1, nom, prenoms);
 				OperationsDb.persistObject(usr);
 				Messagebox.show("Utilisateur enregistré avec succès", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
 				refreshForm();
-			}	
+			}
+			
+		} else{
+			// update
+			if(errorCheck()){
+				
+				User luser = (User)listboxUsers.getSelectedItem().getValue();
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put(Constants.id_user, luser.getId());
+				List<User> listUsers = OperationsDb.find(Constants.users, params);
+				usr = listUsers.get(0);
+				usr.setIdentifiant(ident);
+				usr.setNom(nom);
+				usr.setPrenoms(prenoms);
+				usr.setMotPasse(mdp1);
+				OperationsDb.updateObject(usr);	
+				Messagebox.show("Utilisateur mis à jour avec succès", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
+			}
+		}
+		
 	}
 	
 	

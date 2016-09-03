@@ -1,13 +1,14 @@
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
-<window apply="com.main.controllers.UsersController" id="winUsersList" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+<window apply="com.main.controllers.UsersController" id="winUsers" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
 
 	
     
     <vlayout>
-    	<div id="divUsersList" width="100%">
+    	
 	    	<label sclass="titles">Gestion des utilisateurs</label>
+	    	<div id="divUsersList" width="100%">
 	    	<div sclass="searchBoxes">
 	    		<label style="font-weight:bold">Recherche:</label>
 	    		<x:table>
@@ -109,8 +110,9 @@
 		            </rows>
 		        </grid>
 		        
-		        <hlayout style="margin-top: 20px">
+		        <hlayout style="margin-top: 20px" apply="com.main.controllers.UsersController">
 		            <button id="btnSave" label="Enregistrer"/>
+		            <button id="btnSaveMod" label="Enregistrer"/>
 		            <button id="btnRefreshForm" label="Rafraichir"/>
 		        </hlayout>
 		    </vlayout>

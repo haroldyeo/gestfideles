@@ -1,0 +1,144 @@
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+
+<zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
+<window apply="com.main.controllers.FideleController" id="winFidele" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+
+	
+    
+    <vlayout>
+    	<div id="divList" width="100%">
+	    	<label sclass="titles">Gestion des fidèless</label>
+	    	<div sclass="searchBoxes">
+	    		<label style="font-weight:bold">Recherche:</label>
+	    		<x:table>
+		   			<x:tr>
+		   				<x:td><label value="Nom"/></x:td>
+		   				<x:td>:</x:td>
+		   				<x:td><textbox id="txtNom"  width="200px"/></x:td>
+		   				
+		   				<x:td><label value="Prénoms"/></x:td>
+		   				<x:td>:</x:td>
+		   				<x:td><textbox id="txtPrenoms"  width="200px"/></x:td>
+		   				
+		   				<x:td><label value="Date naissance"/></x:td>
+		   				<x:td>:</x:td>
+		   				<x:td><datebox format="dd/MM/yyyy" id="txtDateNaissance" width="200px"/></x:td>
+		   			</x:tr>
+		   			
+		   			<x:tr>
+		   				<x:td><button id="btnSearch" label="Rechercher" /></x:td>
+		   				<x:td></x:td>
+		   				<x:td><button id="btnRefresh" label="Rafraichir" /></x:td>
+		   				<x:td colspan="6"></x:td>
+		   			</x:tr>
+		   			
+		   			
+		   		</x:table>
+	    	</div>
+    	
+    	
+    		<menubar>
+				<menuitem id="menuAdd" label="Ajouter" image="/imgs/add-icon.png"></menuitem>
+				<menuitem id="menuUpdate" label="Modifier"  image="/imgs/update-icon.png"></menuitem>
+				<menuitem id="menuDelete" label="Supprimer" image="/imgs/del-icon.png"></menuitem>
+				<menuitem id="menuView" label="Détails" image="/imgs/details-icon.png"></menuitem>
+			</menubar>
+			
+	        <listbox id="listbox" checkmark="true" >
+		        <listhead>
+		            <listheader label="Nom" />
+		            <listheader label="Prénoms" />
+		            <listheader label="Date de naissance" />
+		        </listhead>
+		        
+		        	<template name="model" >
+		        		<listitem>
+		        			<listcell>${each.nom}</listcell>
+		        			<listcell>${each.prenoms}</listcell>
+		        			<listcell>${each.dob}</listcell>
+		        		</listitem>
+		        	</template>
+		       </listbox>
+    	</div>
+    	
+       
+        
+        <div id="divForm" visible="false">
+        	<menubar>
+				<menuitem id="menuBack" label="Retour à la liste" image="/imgs/back-icon.png"></menuitem>
+			</menubar>
+        	<vlayout>
+		        <grid width="500px" style="margin-top: 15px" >
+		            <columns>
+		                <column align="right" hflex="min"/>
+		                <column/>
+		            </columns>
+		            <rows>
+		                
+		                <row>
+		                    <cell sclass="row-title">*Nom:</cell>
+		                    <cell>
+		                    <textbox id="txtNomF"  width="200px"/>
+		                    </cell>
+		                </row>
+		                
+		                <row>
+		                    <cell sclass="row-title">Prénoms:</cell>
+		                    <cell>
+		                    <textbox id="txtPrenomsF" width="200px"/>
+		                    </cell>
+		                </row>
+		                
+		                <row>
+		                    <cell sclass="row-title">*Date de naissance:</cell>
+		                    <cell>
+		                        <date id="dateDob"  width="200px"/>
+		                    </cell>
+		                </row>
+		                <row>
+		                    <cell sclass="row-title">*Lieu de naissance:</cell>
+		                    <cell>
+		                        <textbox id="dateLieu"  width="200px"/>
+		                    </cell>
+		                </row>
+		                <row>
+		                    <cell sclass="row-title">*Nom du père:</cell>
+		                    <cell>
+		                        <textbox id="txtNomPere"  width="200px"/>
+		                    </cell>
+		                </row>
+		                
+		                <row>
+		                    <cell sclass="row-title">*Origine du père:</cell>
+		                    <cell>
+		                        <textbox id="txtOriginePere"  width="200px"/>
+		                    </cell>
+		                </row>
+		                
+		                <row>
+		                    <cell sclass="row-title">*Nom de la mère:</cell>
+		                    <cell>
+		                        <textbox id="txtNomMere"  width="200px"/>
+		                    </cell>
+		                </row>
+		                
+		                <row>
+		                    <cell sclass="row-title">*Origine de la mère:</cell>
+		                    <cell>
+		                        <textbox id="txtOrigineMere"  width="200px"/>
+		                    </cell>
+		                </row>
+		                
+		            </rows>
+		        </grid>
+		        
+		        <hlayout style="margin-top: 20px">
+		            <button id="btnSave" label="Enregistrer"/>
+		            <button id="btnRefreshForm" label="Rafraichir"/>
+		        </hlayout>
+		    </vlayout>
+        </div>
+        
+    </vlayout>
+</window>
+</zk>

@@ -11,7 +11,7 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="fideles")
+@Table(name="\"FIDELESDEV\".fideles")
 @NamedQuery(name="Fidele.findAll", query="SELECT f FROM Fidele f")
 public class Fidele implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class Fidele implements Serializable {
 
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

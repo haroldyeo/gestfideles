@@ -2,6 +2,7 @@ package com.utils;
 
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import model.Fidele;
 import model.User;
 
 /**
@@ -28,42 +30,72 @@ public class OperationsDb {
         switch(strEntity){
             
             case(Constants.users):
-                       Criteria criteria = HibernateUtil.getHibSession().createCriteria(User.class);
-                       criteria.addOrder(Order.asc("id"));
+                       Criteria crUsers = HibernateUtil.getHibSession().createCriteria(User.class);
+                       crUsers.addOrder(Order.asc("id"));
                        		if(mapParams != null){
                        			
-                       			Integer id =  mapParams.get("id") != null ? (Integer) (mapParams.get("id")) : null; 
-                           	   String nom = (String)mapParams.get("nom");
-                          	   String prenoms = (String)mapParams.get("prenoms");
-                          	   String identifiant = (String)mapParams.get("identifiant");
-	                          	 String motPasse = (String)mapParams.get("motPasse");
+                       			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null; 
+                           	   String nom = (String)mapParams.get(Constants.nom);
+                          	   String prenoms = (String)mapParams.get(Constants.prenoms);
+                          	   String identifiant = (String)mapParams.get(Constants.identifiant);
+	                          	 String motPasse = (String)mapParams.get(Constants.mdp);
                            	   
                            	   
                        			if ( id!= null ){
-                                         criteria.add(Restrictions.eq("id", id));
+                                         crUsers.add(Restrictions.eq("id", id));
                                      }                    			
 
                                 if (nom != null && !nom.equals("")){
-                                     	criteria.add(Restrictions.ilike("nom", "%"+nom+"%"));
+                                     	crUsers.add(Restrictions.ilike("nom", "%"+nom+"%"));
                                 }
 
                                 if (prenoms != null && !prenoms.equals("")){
-                                     	criteria.add(Restrictions.ilike("prenoms", "%"+prenoms+"%"));
+                                     	crUsers.add(Restrictions.ilike("prenoms", "%"+prenoms+"%"));
                                 }
                                 
                                 if (identifiant != null && !identifiant.equals("")){
-                                 	criteria.add(Restrictions.eq("identifiant", identifiant));
+                                 	crUsers.add(Restrictions.eq("identifiant", identifiant));
                                 }
                                 
                                 if (motPasse != null && !motPasse.equals("")){
-                                 	criteria.add(Restrictions.eq("motPasse", motPasse));
+                                 	crUsers.add(Restrictions.eq("motPasse", motPasse));
                                 }
                                         					
-                       		}
+                       		} // end if params != null
 
-                       		returnedList = criteria.list();
+                       		returnedList = crUsers.list();
                         break;
+            	case(Constants.fideles):
+            	
+            	Criteria crFideles = HibernateUtil.getHibSession().createCriteria(Fidele.class);
+            	crFideles.addOrder(Order.asc("id"));
+            		if(mapParams != null){
+            			
+            			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null; 
+                    	String nom = (String)mapParams.get(Constants.nom);
+                   	    String prenoms = (String)mapParams.get(Constants.prenoms);
+               	        Date dob = (Date)mapParams.get(Constants.dob);
+                	   
+                	   
+            			if ( id!= null ){
+            				crFideles.add(Restrictions.eq("id", id));
+                          }                    			
+
+                     if (nom != null && !nom.equals("")){
+                    	 crFideles.add(Restrictions.ilike("nom", "%"+nom+"%"));
+                     }
+
+                     if (prenoms != null && !prenoms.equals("")){
+                    	 crFideles.add(Restrictions.ilike("prenoms", "%"+prenoms+"%"));
+                     }
+                     
+                     if (dob != null){
+                    	 crFideles.add(Restrictions.eq("dob", dob));
+                     }
+            	}	// end if params != null
            
+            	returnedList = crFideles.list();
+            	break;
         }
         
         System.out.println("list for keyword: "+strEntity +" -  size: "+returnedList.size());

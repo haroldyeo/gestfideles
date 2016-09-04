@@ -22,7 +22,7 @@ public class SidebarPageConfigChapter2Impl implements SidebarPageConfig{
 	public SidebarPageConfigChapter2Impl(){		
 		pageMap.put("fn1",new SidebarPage("Accueil","Accueil","/imgs/home-icon.png","/common/bienvenue.zul"));
 		pageMap.put("fn2",new SidebarPage("Utilisateurs","Utilisateurs","/imgs/user-group-icon.png","/references/users.zul"));
-		pageMap.put("fn3",new SidebarPage("Baptême","Baptême","/imgs/icon-cross.png","/references/bapteme.zul"));
+		pageMap.put("fn3",new SidebarPage("Fidèles","Fidèles","/imgs/people.png","/references/fideles.zul"));
 		
 	}
 	

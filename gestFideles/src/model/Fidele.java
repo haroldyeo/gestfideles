@@ -34,6 +34,26 @@ public class Fidele implements Serializable {
 
 	public Fidele() {
 	}
+	
+	
+
+
+	public Fidele(Date dob, String lieuNaissance, String nom, String nomMarraine, String nomMere, String nomParrain,
+			String nomPere, String origineMere, String originePere, String prenoms) {
+		super();
+		this.dob = dob;
+		this.lieuNaissance = lieuNaissance;
+		this.nom = nom;
+		this.nomMarraine = nomMarraine;
+		this.nomMere = nomMere;
+		this.nomParrain = nomParrain;
+		this.nomPere = nomPere;
+		this.origineMere = origineMere;
+		this.originePere = originePere;
+		this.prenoms = prenoms;
+	}
+
+
 
 
 	@Id

@@ -1,11 +1,13 @@
 package com.utils;
 
+import java.util.List;
 import java.util.Map;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 public class Utils {
@@ -29,6 +31,29 @@ public class Utils {
 		window.setTitle(title);
         window.doModal();
 		
+	}
+	
+	/**
+	 * True: not empty, ok <br>
+	 * False : empty, ok
+	 * @param abc
+	 * @return
+	 */
+	public static boolean isEmptyCheck(String[] abc){
+		boolean result = false;
+		for(String s : abc){
+			if(s.isEmpty()){
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	public static void clearTextboxes(Textbox[] txts){
+		for(Textbox t : txts){
+			t.setText("");
+		}
 	}
 
 }

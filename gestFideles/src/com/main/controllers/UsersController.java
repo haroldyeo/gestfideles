@@ -19,6 +19,7 @@ import org.zkoss.zul.Window;
 
 import com.utils.Constants;
 import com.utils.OperationsDb;
+import com.utils.Utils;
 
 import model.User;
 
@@ -185,7 +186,9 @@ public class UsersController  extends SelectorComposer<Component> {
 		mdp1 = txtMdpF.getValue();
 		mdp2 = txtMdp2F.getValue();
 		
-		if(nom.isEmpty() ||  ident.isEmpty() || mdp1.isEmpty() || mdp2.isEmpty()){
+		String[] abc = new String[]{nom, prenoms, ident, mdp1, mdp2};
+		
+		if(Utils.isEmptyCheck(abc)){
 			bool = false;
 			Messagebox.show("Veuillze saisir les champs obligatoires", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
 		} else if(!mdp1.equals(mdp2)){
@@ -200,11 +203,10 @@ public class UsersController  extends SelectorComposer<Component> {
 
 	@Listen("onClick=#btnRefreshForm")
 	public void refreshForm() {
-		txtNomF.setText("");
-		txtPrenomsF.setText("");
-		txtIdentifiantF.setText("");
-		txtMdpF.setText("");
-		txtMdp2F.setText("");
+		
+		Textbox[] textBoxes = new Textbox[]{txtNomF, txtPrenomsF, txtIdentifiantF, txtMdpF, txtMdp2F};
+		Utils.clearTextboxes(textBoxes);
+		
 	}
 	
 	

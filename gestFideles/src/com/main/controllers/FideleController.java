@@ -1,15 +1,17 @@
 package com.main.controllers;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.zkoss.zhtml.Button;
+
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModelList;
@@ -20,6 +22,7 @@ import org.zkoss.zul.Window;
 
 import com.utils.Constants;
 import com.utils.OperationsDb;
+import com.utils.Utils;
 
 import model.Fidele;
 
@@ -32,15 +35,18 @@ public class FideleController  extends SelectorComposer<Component> {
 		
 	@Wire Listbox listbox;
 	
-	@Wire Textbox txtNom, txtPrenoms, txtNomF, txtPrenomsF, txtNomPere, dateLieu, txtOriginePere, txtNomMere, txtOrigineMere;
+	@Wire Textbox txtNom, txtPrenoms, txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance, 
+				  txtOriginePere, txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine;
 	
 	@Wire Datebox txtDateNaissance, dateDob;
 	
 	@Wire Window winFidele;
 	
-	@Wire Button btnSearch, btnSave, btnRefresh;
+	@Wire Button btnSearch, btnSave, btnSaveMod,  btnRefresh;
 	
-	String nom, prenoms,ident, mdp1, mdp2;
+	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine;
+	
+	Date dob;
 	
 	ListModelList<Fidele> lml;
 	
@@ -107,7 +113,7 @@ public class FideleController  extends SelectorComposer<Component> {
 			txtPrenomsF.setValue(selected.getPrenoms());
 			dateDob.setValue(selected.getDob());
 			txtNomPere.setValue(selected.getNomPere());
-			dateLieu.setValue(selected.getLieuNaissance() );
+			txtlieuNaissance.setValue(selected.getLieuNaissance() );
 			txtOriginePere.setValue(selected.getOriginePere()); 
 			txtNomMere.setValue(selected.getNomMere() );
 			txtOrigineMere.setValue(selected.getOrigineMere());
@@ -145,41 +151,44 @@ public class FideleController  extends SelectorComposer<Component> {
 		displayList(null);
 		
 	}
+
 	
 	@Listen("onClick=#btnSave")
 	public void save() throws Exception{
-		
-		Fidele entity = null;
-		
-		if(listbox.getSelectedItem() == null){
 			//create new
 			if(errorCheck()){
-				entity= new Fidele(ident, mdp1, nom, prenoms);
-				OperationsDb.persistObject(usr);
+				Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
+				OperationsDb.persistObject(fid);
 				Messagebox.show("Fidèle enregistré avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 				refreshForm();
-			}
-			
-		} else{
-			// update
-			if(errorCheck()){
-				
-				Fidele luser = (Fidele)listbox.getSelectedItem().getValue();
-				Map<String, Object> params = new HashMap<String, Object>();
-				params.put(Constants.id_user, luser.getId());
-				List<Fidele> listUsers = OperationsDb.find(Constants.users, params);
-				usr = listUsers.get(0);
-				usr.setIdentifiant(ident);
-				usr.setNom(nom);
-				usr.setPrenoms(prenoms);
-				usr.setMotPasse(mdp1);
-				OperationsDb.updateObject(usr);	
-				Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
-			}
-		}
-		
+			}	
 	}
 	
+	
+	@Listen("onClick=#btnSaveMod")
+	public void update(){
+		
+		if(errorCheck()){
+			
+			Fidele fid = (Fidele)listbox.getSelectedItem().getValue();
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put(Constants.id, fid.getId());
+			List<Fidele> list = OperationsDb.find(Constants.fideles, params);
+			Fidele p = list.get(0);
+			p.setNom(nom);
+			p.setPrenoms(prenoms);
+			p.setDob(dob);
+			p.setLieuNaissance(lieuNaissance);
+			p.setNomPere(nomPere);
+			p.setNomMere(nomMere);
+			p.setOriginePere(originePere);
+			p.setOrigineMere(origineMere);
+			p.setNomParrain(nomParain);
+			p.setNomMarraine(nomMarraine);
+			OperationsDb.updateObject(p);	
+			Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
+		}
+	}
 	
 	public boolean errorCheck(){
 		
@@ -187,18 +196,20 @@ public class FideleController  extends SelectorComposer<Component> {
 		
 		nom = txtNomF.getValue();
 		prenoms = txtPrenomsF.getValue();
-		ident = txtIdentifiantF.getValue();
-		mdp1 = txtMdpF.getValue();
-		mdp2 = txtMdp2F.getValue();
+		dob = dateDob.getValue();
+		lieuNaissance = txtlieuNaissance.getValue();
+		nomPere = txtNomPere.getValue();
+		nomMere = txtNomMere.getValue();
+		originePere = txtOriginePere.getValue();
+		origineMere = txtOrigineMere.getValue();
+		nomParain = txtNomParrain.getValue();
+		nomMarraine = txtNomMarraine.getValue();
 		
-		if(nom.isEmpty() ||  ident.isEmpty() || mdp1.isEmpty() || mdp2.isEmpty()){
+		String[] abc = new String[]{nom, lieuNaissance, nomPere, originePere, nomMere, origineMere};
+		
+		if(Utils.isEmptyCheck(abc) && dob == null){
 			bool = false;
-			Messagebox.show("Veuillze saisir les champs obligatoires", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
-		} else if(!mdp1.equals(mdp2)){
-			bool = false;
-			Messagebox.show("Les mots de passe saisis ne sont pas identiques", "Créer un fidèle", Messagebox.OK, Messagebox.EXCLAMATION);
-			txtMdpF.setValue("");
-			txtMdp2F.setValue("");
+			Messagebox.show("Veuillez saisir les champs obligatoires", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 		}
 		
 		return bool;
@@ -206,11 +217,12 @@ public class FideleController  extends SelectorComposer<Component> {
 
 	@Listen("onClick=#btnRefreshForm")
 	public void refreshForm() {
-		txtNomF.setText("");
-		txtPrenomsF.setText("");
-		txtIdentifiantF.setText("");
-		txtMdpF.setText("");
-		txtMdp2F.setText("");
+		
+		Textbox[] textBoxes = new Textbox[]{txtNomF, txtPrenomsF, txtlieuNaissance, txtNomPere, txtNomMere, txtOriginePere,
+				txtOrigineMere, txtNomParrain, txtNomMarraine};
+		Utils.clearTextboxes(textBoxes);
+		dateDob.setText("");
+		
 	}
 	
 	

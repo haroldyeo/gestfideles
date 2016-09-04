@@ -11,5 +11,14 @@ public class Constants {
 	public static final String prenoms = "prenoms";
 	public static final String id = "id";
 	public static final String dateNaissance = "dateNaissance";
+	public static final String lieuNaissance = "lieuNaissance";
+	public static final String nomPere = "nomPere";
+	public static final String nomMere = "nomMere";
+	public static final String nomParain = "nomParain";
+	public static final String nomMarraine = "nomMarraine";
+	public static final String originePere = "originePere";
+	public static final String origineMere = "originePere";
+	public static final String mdp = "mdp";
+	public static final String dob = "dob";
 
 }

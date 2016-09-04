@@ -7,7 +7,7 @@
     
     <vlayout>
     	<div id="divList" width="100%">
-	    	<label sclass="titles">Gestion des fidèless</label>
+	    	<label sclass="titles">Gestion des fidèles</label>
 	    	<div sclass="searchBoxes">
 	    		<label style="font-weight:bold">Recherche:</label>
 	    		<x:table>
@@ -38,10 +38,10 @@
     	
     	
     		<menubar>
+    			<menuitem id="menuView" label="Détails" image="/imgs/details-icon.png"></menuitem>
 				<menuitem id="menuAdd" label="Ajouter" image="/imgs/add-icon.png"></menuitem>
 				<menuitem id="menuUpdate" label="Modifier"  image="/imgs/update-icon.png"></menuitem>
 				<menuitem id="menuDelete" label="Supprimer" image="/imgs/del-icon.png"></menuitem>
-				<menuitem id="menuView" label="Détails" image="/imgs/details-icon.png"></menuitem>
 			</menubar>
 			
 	        <listbox id="listbox" checkmark="true" >
@@ -92,13 +92,13 @@
 		                <row>
 		                    <cell sclass="row-title">*Date de naissance:</cell>
 		                    <cell>
-		                        <date id="dateDob"  width="200px"/>
+		                        <datebox id="dateDob"  width="200px"/>
 		                    </cell>
 		                </row>
 		                <row>
 		                    <cell sclass="row-title">*Lieu de naissance:</cell>
 		                    <cell>
-		                        <textbox id="dateLieu"  width="200px"/>
+		                        <textbox id="txtlieuNaissance"  width="200px"/>
 		                    </cell>
 		                </row>
 		                <row>
@@ -129,11 +129,26 @@
 		                    </cell>
 		                </row>
 		                
+		                <row>
+		                    <cell sclass="row-title">Nom du parrain:</cell>
+		                    <cell>
+		                        <textbox id="txtNomParrain"  width="200px"/>
+		                    </cell>
+		                </row>
+		                
+		                <row>
+		                    <cell sclass="row-title">Nom de la marraine:</cell>
+		                    <cell>
+		                        <textbox id="txtNomMarraine"  width="200px"/>
+		                    </cell>
+		                </row>
+		                
 		            </rows>
 		        </grid>
 		        
 		        <hlayout style="margin-top: 20px">
 		            <button id="btnSave" label="Enregistrer"/>
+		            <button id="btnSaveMod" visible="false" label="Enregistrer"/>
 		            <button id="btnRefreshForm" label="Rafraichir"/>
 		        </hlayout>
 		    </vlayout>

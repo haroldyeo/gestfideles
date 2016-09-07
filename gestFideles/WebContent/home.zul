@@ -1,8 +1,8 @@
-<?page title="Page d'accueil de demo" contentType="text/html;charset=UTF-8"?>
+<?page title="Gestion des fidèles" contentType="text/html;charset=UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 <zk>
 	<window id="winMain" apply="com.controllers.MainController" border="none" hflex="1" vflex="1" contentStyle="overflow:auto">
-		<borderlayout>
+		<borderlayout width="100%">
 			<north>
 	            <include src="/common/banner.zul"/>
 	        </north>
@@ -17,7 +17,7 @@
 					</grid>
 	        </west>
 	        <center id="mainContent" autoscroll="true" style="overflow:auto">
-	            <include id="mainFrame" ></include>
+	            <include style="overflow:auto" id="mainFrame" ></include>
 	        </center>	        
 	        <south height="50px" border="none">
 	            <include src="/common/footer.zul"/>

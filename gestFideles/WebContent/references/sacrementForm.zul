@@ -1,0 +1,42 @@
+<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<window id="winSacrementForm" apply="com.main.controllers.SacrementFormController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+    <caption sclass="fn-caption" label="Sacrément"/>
+    <vlayout>
+        <grid width="400px">
+            <columns>
+                <column align="right" hflex="min"/>
+                <column/>
+            </columns>
+            <rows>
+                <row>
+                    <cell sclass="row-title">Libellé:</cell>
+                    <cell>
+                    	<combobox id="txtLibelle" width="200px" >
+                    		<comboitem id="com">1ère communion</comboitem>
+                    		<comboitem id="confirm">Confirmation</comboitem>
+                    		<comboitem id="foi">Profession de foi</comboitem>
+                    	</combobox>
+                    </cell>
+                </row>
+                <row>
+                    <cell sclass="row-title">Date:</cell>
+                    <cell>
+                    <datebox id="dateSacrement" format="dd/MM/yyyy" width="200px"></datebox>
+                    </cell>
+                </row>
+                <row>
+                    <cell sclass="row-title">Lieu :</cell>
+                    <cell>
+                    <textbox id="txtLieu"  width="200px"/>
+                    </cell>
+                </row>
+                
+            </rows>
+        </grid>
+        
+        <hlayout>
+            <button id="saveSacre" label="Enregistrer"/>
+            <button id="reloadSacre" label="Rafraichir"/>
+        </hlayout>
+    </vlayout>
+</window>

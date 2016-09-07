@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -17,6 +17,8 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
+import org.zkoss.zul.Rows;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -27,7 +29,7 @@ import com.utils.Utils;
 import model.Fidele;
 
 @SuppressWarnings("unchecked")
-public class FideleController  extends SelectorComposer<Component> {
+public class FideleController  extends SelectorComposer<Component> implements EventListener<Event>{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -42,7 +44,9 @@ public class FideleController  extends SelectorComposer<Component> {
 	
 	@Wire Window winFidele;
 	
-	@Wire Button btnSearch, btnSave, btnSaveMod,  btnRefresh;
+	@Wire Button btnSearch, btnSave, btnSaveMod,  btnRefresh, btnAddSacrement;
+	
+	@Wire Rows rowsSacrement;
 	
 	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine;
 	
@@ -57,6 +61,8 @@ public class FideleController  extends SelectorComposer<Component> {
     	
     	if(comp.getId().equals("winFidele")){
     		displayList(null);
+    		comp.addEventListener("onAddSacrement", this);
+    		Utils.setSessionAttribute("winFidele", winFidele);
     	}
     		
 	}
@@ -190,6 +196,12 @@ public class FideleController  extends SelectorComposer<Component> {
 		}
 	}
 	
+	
+	@Listen("onClick=#btnAddSacrement")
+	public void onAddSacrement() throws Exception{
+		Utils.openModal("/references/sacrementForm.zul", null, null, "Ajouter un sacrément");
+	}
+	
 	public boolean errorCheck(){
 		
 		boolean bool = true;
@@ -222,6 +234,15 @@ public class FideleController  extends SelectorComposer<Component> {
 				txtOrigineMere, txtNomParrain, txtNomMarraine};
 		Utils.clearTextboxes(textBoxes);
 		dateDob.setText("");
+		
+	}
+
+	@Override
+	public void onEvent(Event event) throws Exception {
+		if(event.getName().equalsIgnoreCase("onAddSacrement")){
+			Row row = (Row) event.getData();
+			rowsSacrement.appendChild(row);
+		}
 		
 	}
 	

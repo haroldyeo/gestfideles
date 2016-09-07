@@ -1,7 +1,7 @@
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
-<window apply="com.main.controllers.FideleController" id="winFidele" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+<window apply="com.main.controllers.FideleController" id="winFidele" border="normal" hflex="1" vflex="1" contentStyle="overflow:scroll">
 
 	
     
@@ -67,85 +67,165 @@
         	<menubar>
 				<menuitem id="menuBack" label="Retour à la liste" image="/imgs/back-icon.png"></menuitem>
 			</menubar>
+			
+			
+<!-- 		   			INFOS DE BASE -->
+		   				
+			<grid width="800px" style="margin-top: 15px" >
+							
+	            <columns>
+	                <column align="left" hflex="min" />
+	                <column/>
+	            </columns>
+	            <rows>
+	                <row>
+	                	<cell colspan="2" style="text-align:left">Infos de base</cell>
+	                </row>
+	                <row>
+	                    <cell sclass="row-title">*Nom:</cell>
+	                    <cell>
+	                    <textbox id="txtNomF"  width="200px"/>
+	                    </cell>
+	                    
+	                     <cell sclass="row-title">Prénoms:</cell>
+	                    <cell>
+	                    <textbox id="txtPrenomsF" width="200px"/>
+	                    </cell>
+	                </row>
+	                
+	                
+	                <row>
+	                    <cell sclass="row-title">*Date de naissance:</cell>
+	                    <cell>
+	                        <datebox id="dateDob"  width="200px"/>
+	                    </cell>
+	                    
+	                     <cell sclass="row-title">*Lieu de naissance:</cell>
+	                    <cell>
+	                        <textbox id="txtlieuNaissance"  width="200px"/>
+	                    </cell>
+	                </row>
+	              
+	                <row>
+	                    <cell sclass="row-title">*Nom du père:</cell>
+	                    <cell>
+	                        <textbox id="txtNomPere"  width="200px"/>
+	                    </cell>
+	                    
+	                    <cell sclass="row-title">*Origine du père:</cell>
+	                    <cell>
+	                        <textbox id="txtOriginePere"  width="200px"/>
+	                    </cell>
+	                </row>
+	              
+	                
+	                <row>
+	                    <cell sclass="row-title">*Nom de la mère:</cell>
+	                    <cell>
+	                        <textbox id="txtNomMere"  width="200px"/>
+	                    </cell>
+	                    
+	                      <cell sclass="row-title">*Origine de la mère:</cell>
+	                    <cell>
+	                        <textbox id="txtOrigineMere"  width="200px"/>
+	                    </cell>
+	                </row>
+	             
+	                
+	                <row>
+	                    <cell sclass="row-title">Nom du parrain:</cell>
+	                    <cell>
+	                        <textbox id="txtNomParrain"  width="200px"/>
+	                    </cell>
+	                    
+	                      <cell sclass="row-title">Nom de la marraine:</cell>
+	                    <cell>
+	                        <textbox id="txtNomMarraine"  width="200px"/>
+	                    </cell>
+	                </row>
+	            
+	                
+	            </rows>
+	        </grid>
+		   				
+		   				
+		   				
+		   				
+		   		<!--  BAPTEME -->		
+		   				
+		   				
+			 <grid width="500px" style="margin-top: 15px" >
+	            <columns>
+	                <column align="left" hflex="min"/>
+	                <column/>
+	            </columns>
+	            <rows>
+	            
+	          	    <row>
+	                	<cell colspan="2" style="text-align:left">Baptême</cell>
+	                </row>
+	                
+	                <row>
+	                    <cell sclass="row-title">Numéro de baptême:</cell>
+	                    <cell>
+	                    <textbox id="txtNumero" width="200px"/>
+	                    </cell>
+	                </row>
+	                
+	                <row>
+	                    <cell sclass="row-title">*Date du baptême:</cell>
+	                    <cell>
+	                    <datebox id="dateBapt"></datebox>
+	                    </cell>
+	                </row>
+	                
+	                <row>
+	                    <cell sclass="row-title">Diocèse:</cell>
+	                    <cell>
+	                    <textbox id="txtDiocese" width="200px"/>
+	                    </cell>
+	                </row>
+	                
+	                <row>
+	                    <cell sclass="row-title">*Eglise:</cell>
+	                    <cell>
+	                        <textbox id="txtEglise" width="200px"/>
+	                    </cell>
+	                </row>
+	                <row>
+	                    <cell sclass="row-title">*Prêtre:</cell>
+	                    <cell>
+	                        <textbox id="txtPretreBapteme"  width="200px"/>
+	                    </cell>
+	                </row>	
+	                
+	                
+	            </rows>
+	        </grid>
+		   			
+			
+				<!-- 		   SACREMENT -->		
+		   				
+		   	 <grid width="500px" id="gridSacrement" style="margin-top: 15px" >
+	            <columns>
+	                <column align="left" hflex="min"/>
+	                <column/>
+	            </columns>
+	            <rows id="rowsSacrement">
+	            	<row>
+	            		<cell colspan="2" style="text-align:left">Sacréments</cell>
+	            	</row>
+	            	
+	            	<row>
+	            		<cell><button id="btnAddSacrement" label="Ajouter"></button></cell>
+	            	</row>
+	            </rows>
+	         </grid>			
+			
+			
+			
         	<vlayout>
-		        <grid width="500px" style="margin-top: 15px" >
-		            <columns>
-		                <column align="right" hflex="min"/>
-		                <column/>
-		            </columns>
-		            <rows>
-		                
-		                <row>
-		                    <cell sclass="row-title">*Nom:</cell>
-		                    <cell>
-		                    <textbox id="txtNomF"  width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		                <row>
-		                    <cell sclass="row-title">Prénoms:</cell>
-		                    <cell>
-		                    <textbox id="txtPrenomsF" width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		                <row>
-		                    <cell sclass="row-title">*Date de naissance:</cell>
-		                    <cell>
-		                        <datebox id="dateDob"  width="200px"/>
-		                    </cell>
-		                </row>
-		                <row>
-		                    <cell sclass="row-title">*Lieu de naissance:</cell>
-		                    <cell>
-		                        <textbox id="txtlieuNaissance"  width="200px"/>
-		                    </cell>
-		                </row>
-		                <row>
-		                    <cell sclass="row-title">*Nom du père:</cell>
-		                    <cell>
-		                        <textbox id="txtNomPere"  width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		                <row>
-		                    <cell sclass="row-title">*Origine du père:</cell>
-		                    <cell>
-		                        <textbox id="txtOriginePere"  width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		                <row>
-		                    <cell sclass="row-title">*Nom de la mère:</cell>
-		                    <cell>
-		                        <textbox id="txtNomMere"  width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		                <row>
-		                    <cell sclass="row-title">*Origine de la mère:</cell>
-		                    <cell>
-		                        <textbox id="txtOrigineMere"  width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		                <row>
-		                    <cell sclass="row-title">Nom du parrain:</cell>
-		                    <cell>
-		                        <textbox id="txtNomParrain"  width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		                <row>
-		                    <cell sclass="row-title">Nom de la marraine:</cell>
-		                    <cell>
-		                        <textbox id="txtNomMarraine"  width="200px"/>
-		                    </cell>
-		                </row>
-		                
-		            </rows>
-		        </grid>
-		        
+		       
 		        <hlayout style="margin-top: 20px">
 		            <button id="btnSave" label="Enregistrer"/>
 		            <button id="btnSaveMod" visible="false" label="Enregistrer"/>

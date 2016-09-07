@@ -160,7 +160,7 @@ public class BaptemeController  extends SelectorComposer<Component> {
 				
 				User luser = (User)listboxUsers.getSelectedItem().getValue();
 				Map<String, Object> params = new HashMap<String, Object>();
-				params.put(Constants.id_user, luser.getId());
+				params.put(Constants.id, luser.getId());
 				List<User> listUsers = OperationsDb.find(Constants.users, params);
 				usr = listUsers.get(0);
 				usr.setIdentifiant(ident);

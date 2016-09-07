@@ -22,7 +22,7 @@
 		   				
 		   				<x:td><label value="Date naissance"/></x:td>
 		   				<x:td>:</x:td>
-		   				<x:td><datebox format="dd/MM/yyyy" id="txtDateNaissance" width="200px"/></x:td>
+		   				<x:td><datebox format="dd/MM/yyyy" readonly="true" id="txtDateNaissance" width="200px"/></x:td>
 		   			</x:tr>
 		   			
 		   			<x:tr>
@@ -97,7 +97,7 @@
 	                <row>
 	                    <cell sclass="row-title">*Date de naissance:</cell>
 	                    <cell>
-	                        <datebox id="dateDob"  width="200px"/>
+	                        <datebox id="dateDob" readonly="true" width="200px"/>
 	                    </cell>
 	                    
 	                     <cell sclass="row-title">*Lieu de naissance:</cell>
@@ -168,14 +168,14 @@
 	                <row>
 	                    <cell sclass="row-title">Numéro de baptême:</cell>
 	                    <cell>
-	                    <textbox id="txtNumero" width="200px"/>
+	                    <textbox id="txtNumeroBapt" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
 	                    <cell sclass="row-title">*Date du baptême:</cell>
 	                    <cell>
-	                    <datebox id="dateBapt"></datebox>
+	                    <datebox id="dateBapt" readonly="true" width="200px"></datebox>
 	                    </cell>
 	                </row>
 	                
@@ -208,17 +208,17 @@
 		   				
 		   	 <grid width="500px" id="gridSacrement" style="margin-top: 15px" >
 	            <columns>
-	                <column align="left" hflex="min"/>
+	                <column align="left" width="150px"/>
+	                <column/>
+	                <column/>
 	                <column/>
 	            </columns>
 	            <rows id="rowsSacrement">
 	            	<row>
 	            		<cell colspan="2" style="text-align:left">Sacréments</cell>
+	            		<cell colspan="2"><button id="btnAddSacrement" label="Ajouter"></button></cell>
 	            	</row>
 	            	
-	            	<row>
-	            		<cell><button id="btnAddSacrement" label="Ajouter"></button></cell>
-	            	</row>
 	            </rows>
 	         </grid>			
 			

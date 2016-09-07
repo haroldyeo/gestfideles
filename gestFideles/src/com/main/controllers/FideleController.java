@@ -26,6 +26,7 @@ import com.utils.Constants;
 import com.utils.OperationsDb;
 import com.utils.Utils;
 
+import model.Bapteme;
 import model.Fidele;
 
 @SuppressWarnings("unchecked")
@@ -36,23 +37,28 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	@Wire Div divForm, divList;
 		
 	@Wire Listbox listbox;
-	
-	@Wire Textbox txtNom, txtPrenoms, txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance, 
-				  txtOriginePere, txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine;
-	
-	@Wire Datebox txtDateNaissance, dateDob;
-	
+
 	@Wire Window winFidele;
 	
 	@Wire Button btnSearch, btnSave, btnSaveMod,  btnRefresh, btnAddSacrement;
 	
-	@Wire Rows rowsSacrement;
+	ListModelList<Fidele> lml;
 	
+	/*-----	Infos de base  ----*/
+	@Wire Textbox txtNom, txtPrenoms, txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance, 
+				  txtOriginePere, txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine;
+	@Wire Datebox txtDateNaissance, dateDob;
 	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine;
-	
 	Date dob;
 	
-	ListModelList<Fidele> lml;
+	/*-----	Bapteme  ----*/
+	@Wire Textbox txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme;
+	@Wire Datebox dateBapt;
+	String diocese, eglise, numero, pretre;
+	Date dateBapteme;
+	
+	/*-----	Sacréments  ----*/
+	@Wire Rows rowsSacrement;
 	
 	
 	@Override
@@ -161,18 +167,36 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	@Listen("onClick=#btnSave")
 	public void save() throws Exception{
-			//create new
-			if(errorCheck()){
-				Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
-				OperationsDb.persistObject(fid);
-				Messagebox.show("Fidèle enregistré avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
-				refreshForm();
-			}	
+		
+			try{				
+				assignValues();
+				
+				//create new
+				if(errorCheck()){
+					// persist Fidele
+					Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
+					OperationsDb.persistObject(fid);
+					
+//					persist Bapteme
+					Bapteme bapt = new Bapteme(dateBapteme, diocese, eglise, numero, pretre, fid);
+					OperationsDb.persistObject(bapt);
+					
+					Messagebox.show("Fidèle enregistré avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
+					refreshForm();
+				}	
+				
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		
+			
 	}
 	
 	
 	@Listen("onClick=#btnSaveMod")
 	public void update(){
+		
+		assignValues();
 		
 		if(errorCheck()){
 			
@@ -205,21 +229,12 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	public boolean errorCheck(){
 		
 		boolean bool = true;
+				
+		String[] abc = new String[]{nom, lieuNaissance, nomPere, originePere, nomMere, origineMere,   
+									diocese, eglise, numero, pretre};
 		
-		nom = txtNomF.getValue();
-		prenoms = txtPrenomsF.getValue();
-		dob = dateDob.getValue();
-		lieuNaissance = txtlieuNaissance.getValue();
-		nomPere = txtNomPere.getValue();
-		nomMere = txtNomMere.getValue();
-		originePere = txtOriginePere.getValue();
-		origineMere = txtOrigineMere.getValue();
-		nomParain = txtNomParrain.getValue();
-		nomMarraine = txtNomMarraine.getValue();
 		
-		String[] abc = new String[]{nom, lieuNaissance, nomPere, originePere, nomMere, origineMere};
-		
-		if(Utils.isEmptyCheck(abc) && dob == null){
+		if(Utils.isEmptyCheck(abc)){
 			bool = false;
 			Messagebox.show("Veuillez saisir les champs obligatoires", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 		}
@@ -227,13 +242,36 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		return bool;
 	}
 
+	private void assignValues() {
+		// infos de base
+				nom = txtNomF.getValue();
+				prenoms = txtPrenomsF.getValue();
+				dob = dateDob.getValue();
+				lieuNaissance = txtlieuNaissance.getValue();
+				nomPere = txtNomPere.getValue();
+				nomMere = txtNomMere.getValue();
+				originePere = txtOriginePere.getValue();
+				origineMere = txtOrigineMere.getValue();
+				nomParain = txtNomParrain.getValue();
+				nomMarraine = txtNomMarraine.getValue();
+				
+				// bapteme
+				dateBapteme = dateBapt.getValue();
+				diocese = txtDiocese.getValue();
+				eglise = txtEglise.getValue();
+				numero = txtNumeroBapt.getValue();
+				pretre = txtPretreBapteme.getValue();
+		
+	}
+
 	@Listen("onClick=#btnRefreshForm")
 	public void refreshForm() {
 		
 		Textbox[] textBoxes = new Textbox[]{txtNomF, txtPrenomsF, txtlieuNaissance, txtNomPere, txtNomMere, txtOriginePere,
-				txtOrigineMere, txtNomParrain, txtNomMarraine};
+				txtOrigineMere, txtNomParrain, txtNomMarraine,  txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme};
 		Utils.clearTextboxes(textBoxes);
 		dateDob.setText("");
+		dateBapt.setText("");
 		
 	}
 

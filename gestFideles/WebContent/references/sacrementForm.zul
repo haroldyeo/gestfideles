@@ -11,17 +11,17 @@
                 <row>
                     <cell sclass="row-title">Libellé:</cell>
                     <cell>
-                    	<combobox id="txtLibelle" width="200px" >
-                    		<comboitem id="com">1ère communion</comboitem>
-                    		<comboitem id="confirm">Confirmation</comboitem>
-                    		<comboitem id="foi">Profession de foi</comboitem>
+                    	<combobox id="txtLibelle" width="200px" readonly="true" >
+                    		<comboitem id="com" label="1ère communion" />
+                    		<comboitem id="confirm" label="Confirmation" />
+                    		<comboitem id="foi" label="Profession de foi" />
                     	</combobox>
                     </cell>
                 </row>
                 <row>
                     <cell sclass="row-title">Date:</cell>
                     <cell>
-                    <datebox id="dateSacrement" format="dd/MM/yyyy" width="200px"></datebox>
+                    <datebox id="dateSacrement" readonly="true" format="dd/MM/yyyy" width="200px"></datebox>
                     </cell>
                 </row>
                 <row>

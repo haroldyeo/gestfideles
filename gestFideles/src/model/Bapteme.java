@@ -10,6 +10,8 @@ import java.util.Date;
  * 
  */
 @Entity
+
+@Table(name="\"FIDELESDEV\".bapteme")
 @NamedQuery(name="Bapteme.findAll", query="SELECT b FROM Bapteme b")
 public class Bapteme implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,10 +25,25 @@ public class Bapteme implements Serializable {
 
 	public Bapteme() {
 	}
+	
+	
+
+
+	public Bapteme(Date dateBapteme, String diocese, String eglise, String numero, String pretre, Fidele fidele) {
+		super();
+		this.dateBapteme = dateBapteme;
+		this.diocese = diocese;
+		this.eglise = eglise;
+		this.numero = numero;
+		this.pretre = pretre;
+		this.fidele = fidele;
+	}
+
+
 
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

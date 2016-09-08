@@ -65,6 +65,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	/*-----	Sacréments  ----*/
 	@Wire Rows rowsSacrement;
+	@Wire Row rowTitle;
 	String libelle, lieu;
 	Date dateSacrement;
 	List<Sacrement> listSacrement = new ArrayList<>();
@@ -148,16 +149,39 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			List<Bapteme> listBapt = (List<Bapteme>)OperationsDb.find(Constants.bapteme, params);
 			Bapteme bapt = listBapt.size() == 1 ? listBapt.get(0) : null;
 			
-			txtNumeroBapt.setValue(bapt.getNumero());
-			dateBapt.setValue(bapt.getDateBapteme());
-			dateBapt.setFormat("dd/MM/yyyy");
-			txtDiocese.setValue(bapt.getDiocese());
-			txtEglise.setValue(bapt.getEglise());
-			txtPretreBapteme.setValue(bapt.getPretre());
+			if(bapt != null){
+				txtNumeroBapt.setValue(bapt.getNumero());
+				dateBapt.setValue(bapt.getDateBapteme());
+				dateBapt.setFormat("dd/MM/yyyy");
+				txtDiocese.setValue(bapt.getDiocese());
+				txtEglise.setValue(bapt.getEglise());
+				txtPretreBapteme.setValue(bapt.getPretre());
+			}
 			
-			
+			// sacrements
+			refreshRowsSacrements();
+			List<Sacrement> listSacres = (List<Sacrement>)OperationsDb.find(Constants.sacrements, params);
+			for(Sacrement s : listSacres){
+				rowsSacrement.appendChild(Utils.buildSacrements(s));
+			}
 		}
 		
+	}
+	
+	@Listen("onClick=#menuDetails")
+	public void onDetails() throws Exception{
+		
+		onUpdate();
+			
+		for(Component comp : divForm.getFellows()){
+			if(comp instanceof Textbox){
+				((Textbox) comp).setReadonly(true);
+			} if (comp instanceof Datebox){
+				((Datebox) comp).setDisabled(true);
+			} if (comp instanceof Button){
+					((Button) comp).setVisible(false);
+			}
+		}
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -329,15 +353,19 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		Utils.clearTextboxes(textBoxes);
 		dateDob.setText("");
 		dateBapt.setText("");
+		refreshRowsSacrements();
 		
+		
+	}
+
+	private void refreshRowsSacrements() {
 		// refresh sacrements
-		List<Row> listRow = rowsSacrement.getChildren();
-		for(int i=0; i<listRow.size(); i++){
-			if(!listRow.get(i).getId().equals("title")){
-				listRow.get(i).detach();
+			if(rowTitle.getNextSibling()!= null){
+				while(rowTitle.getNextSibling()!= null){
+					rowTitle.getNextSibling().detach();
+				}
 			}
-		}
-		
+					
 	}
 
 	@Override

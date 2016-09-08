@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 
 import model.Bapteme;
 import model.Fidele;
+import model.Sacrement;
 import model.User;
 
 /**
@@ -113,6 +114,23 @@ public class OperationsDb {
                           }
             		}
             		returnedList = crBapteme.list();
+            		break;
+            		
+            	case(Constants.sacrements):
+            		Criteria crSacrements = HibernateUtil.getHibSession().createCriteria(Sacrement.class);
+            			crSacrements.addOrder(Order.asc("id"));
+            			crSacrements.createAlias("fidele", "fid");
+            		if(mapParams != null){
+            			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null;
+            			Integer fideleId =  mapParams.get(Constants.fideleId) != null ? (Integer) (mapParams.get(Constants.fideleId)) : null;
+            			if ( id!= null ){
+            				crSacrements.add(Restrictions.eq("id", id));
+                          }
+            			if ( fideleId!= null ){
+            				crSacrements.add(Restrictions.eq("fid.id", fideleId));
+                          }
+            		}
+            		returnedList = crSacrements.list();
             		break;
         }
         

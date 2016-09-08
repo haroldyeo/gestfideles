@@ -79,7 +79,7 @@
 	            </columns>
 	            <rows>
 	                <row>
-	                	<cell colspan="2" style="text-align:left">Infos de base</cell>
+	                	<cell colspan="2" style="text-align:left">Informations de base</cell>
 	                </row>
 	                <row>
 	                    <cell sclass="row-title">*Nom:</cell>
@@ -214,7 +214,7 @@
 	                <column/>
 	            </columns>
 	            <rows id="rowsSacrement">
-	            	<row>
+	            	<row id="title">
 	            		<cell colspan="2" style="text-align:left">Sacréments</cell>
 	            		<cell colspan="2"><button id="btnAddSacrement" label="Ajouter"></button></cell>
 	            	</row>

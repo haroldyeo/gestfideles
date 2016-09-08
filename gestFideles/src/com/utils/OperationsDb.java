@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import model.Bapteme;
 import model.Fidele;
 import model.User;
 
@@ -96,6 +97,23 @@ public class OperationsDb {
            
             	returnedList = crFideles.list();
             	break;
+            	
+            	case(Constants.bapteme):
+            		Criteria crBapteme = HibernateUtil.getHibSession().createCriteria(Bapteme.class);
+            		crBapteme.addOrder(Order.asc("id"));
+            		crBapteme.createAlias("fidele", "fid");
+            		if(mapParams != null){
+            			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null;
+            			Integer fideleId =  mapParams.get(Constants.fideleId) != null ? (Integer) (mapParams.get(Constants.fideleId)) : null;
+            			if ( id!= null ){
+            				crBapteme.add(Restrictions.eq("id", id));
+                          }
+            			if ( fideleId!= null ){
+            				crBapteme.add(Restrictions.eq("fid.id", fideleId));
+                          }
+            		}
+            		returnedList = crBapteme.list();
+            		break;
         }
         
         System.out.println("list for keyword: "+strEntity +" -  size: "+returnedList.size());
@@ -117,6 +135,23 @@ public class OperationsDb {
               
           }
   }
+  
+  public static void persistObject(List<Object> listPersObjc){
+      
+      try{
+          Session session = HibernateUtil.getHibSession();
+          session.beginTransaction();
+          for(Object obj : listPersObjc){
+        	  session.save(obj);
+          }
+          session.getTransaction().commit();
+          session.close();
+          
+      } catch (HibernateException e){
+          e.printStackTrace();
+          
+      }
+}
   
   public static void updateObject(Object obj){
        

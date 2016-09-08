@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="sacrements")
+@Table(name="\"FIDELESDEV\".sacrements")
 @NamedQuery(name="Sacrement.findAll", query="SELECT s FROM Sacrement s")
 public class Sacrement implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,9 +23,20 @@ public class Sacrement implements Serializable {
 	public Sacrement() {
 	}
 
+	
+
+	public Sacrement(Date dateSacrement, String libelle, String lieu, Fidele fidele) {
+		super();
+		this.dateSacrement = dateSacrement;
+		this.libelle = libelle;
+		this.lieu = lieu;
+		this.fidele = fidele;
+	}
+
+
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

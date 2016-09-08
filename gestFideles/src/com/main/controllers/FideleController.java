@@ -1,5 +1,8 @@
 package com.main.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +15,10 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Cell;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -28,6 +33,7 @@ import com.utils.Utils;
 
 import model.Bapteme;
 import model.Fidele;
+import model.Sacrement;
 
 @SuppressWarnings("unchecked")
 public class FideleController  extends SelectorComposer<Component> implements EventListener<Event>{
@@ -59,6 +65,9 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	/*-----	Sacréments  ----*/
 	@Wire Rows rowsSacrement;
+	String libelle, lieu;
+	Date dateSacrement;
+	List<Sacrement> listSacrement = new ArrayList<>();
 	
 	
 	@Override
@@ -121,6 +130,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			divList.setVisible(false);
 			divForm.setVisible(true);
 			
+			// infos de base
 			txtNomF.setValue(selected.getNom());
 			txtPrenomsF.setValue(selected.getPrenoms());
 			dateDob.setValue(selected.getDob());
@@ -129,6 +139,22 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			txtOriginePere.setValue(selected.getOriginePere()); 
 			txtNomMere.setValue(selected.getNomMere() );
 			txtOrigineMere.setValue(selected.getOrigineMere());
+			txtNomParrain.setValue(selected.getNomParrain());
+			txtNomMarraine.setValue(selected.getNomMarraine());
+			
+			//bapteme
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put(Constants.fideleId, selected.getId());
+			List<Bapteme> listBapt = (List<Bapteme>)OperationsDb.find(Constants.bapteme, params);
+			Bapteme bapt = listBapt.size() == 1 ? listBapt.get(0) : null;
+			
+			txtNumeroBapt.setValue(bapt.getNumero());
+			dateBapt.setValue(bapt.getDateBapteme());
+			dateBapt.setFormat("dd/MM/yyyy");
+			txtDiocese.setValue(bapt.getDiocese());
+			txtEglise.setValue(bapt.getEglise());
+			txtPretreBapteme.setValue(bapt.getPretre());
+			
 			
 		}
 		
@@ -173,13 +199,17 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				
 				//create new
 				if(errorCheck()){
-					// persist Fidele
 					Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
-					OperationsDb.persistObject(fid);
-					
-//					persist Bapteme
 					Bapteme bapt = new Bapteme(dateBapteme, diocese, eglise, numero, pretre, fid);
-					OperationsDb.persistObject(bapt);
+					for(Sacrement s : listSacrement){
+						s.setFidele(fid);
+					}
+					List<Object> listObj = new ArrayList<>();
+					listObj.add(fid);
+					listObj.add(bapt);
+					listObj.addAll(listSacrement);
+					
+					OperationsDb.persistObject(listObj);
 					
 					Messagebox.show("Fidèle enregistré avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 					refreshForm();
@@ -194,7 +224,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	
 	@Listen("onClick=#btnSaveMod")
-	public void update(){
+	public void update() throws ParseException{
 		
 		assignValues();
 		
@@ -242,7 +272,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		return bool;
 	}
 
-	private void assignValues() {
+	private void assignValues() throws ParseException {
 		// infos de base
 				nom = txtNomF.getValue();
 				prenoms = txtPrenomsF.getValue();
@@ -261,6 +291,33 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				eglise = txtEglise.getValue();
 				numero = txtNumeroBapt.getValue();
 				pretre = txtPretreBapteme.getValue();
+				
+				// sacréments
+					
+					// 	get rows
+					List<Row> listrow = rowsSacrement.getChildren();
+					// for each row, get cells and then labels
+					for(Row row : listrow){
+						if(!row.getId().equals("title")){
+							List<String> list = new ArrayList<String>();
+							List<Cell> listCells = row.getChildren();
+							for(Cell cell : listCells){
+								if(cell.getFirstChild() instanceof Label){
+									Label l = (Label) cell.getFirstChild();
+									list.add(l.getValue()); 
+									// ajout dans l'ordre de libelle, date, lieu
+								}
+							}
+							if(list.size() == 3){
+								libelle = list.get(0);
+								SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+								dateSacrement = formatter.parse(list.get(1));
+								lieu = list.get(2);
+								Sacrement sacr = new Sacrement(dateSacrement, libelle, lieu, null);
+								listSacrement.add(sacr);
+							}
+						}
+					}
 		
 	}
 
@@ -272,6 +329,14 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		Utils.clearTextboxes(textBoxes);
 		dateDob.setText("");
 		dateBapt.setText("");
+		
+		// refresh sacrements
+		List<Row> listRow = rowsSacrement.getChildren();
+		for(int i=0; i<listRow.size(); i++){
+			if(!listRow.get(i).getId().equals("title")){
+				listRow.get(i).detach();
+			}
+		}
 		
 	}
 

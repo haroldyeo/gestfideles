@@ -7,7 +7,7 @@
     
     <vlayout>
     	<div id="divList" width="100%">
-	    	<label sclass="titles">Gestion des fidèles</label>
+	    	<label sclass="titles">Fidèles</label>
 	    	<div sclass="searchBoxes">
 	    		<label style="font-weight:bold">Recherche:</label>
 	    		<x:table>

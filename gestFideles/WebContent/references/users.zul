@@ -7,7 +7,7 @@
     
     <vlayout>
     	
-	    	<label sclass="titles">Gestion des utilisateurs</label>
+	    	<label sclass="titles">Utilisateurs</label>
 	    	<div id="divUsersList" width="100%">
 	    	<div sclass="searchBoxes">
 	    		<label style="font-weight:bold">Recherche:</label>

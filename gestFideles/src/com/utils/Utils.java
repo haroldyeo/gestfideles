@@ -106,7 +106,7 @@ public class Utils {
         private static final long serialVersionUID = 1L;
 
         public void onEvent(Event event) throws Exception {
-           Button btnDel = (Button) getSessionAttribute("btnDel");
+           Button btnDel = (Button) event.getTarget();
            btnDel.getParent().getParent().detach();
         }
     };

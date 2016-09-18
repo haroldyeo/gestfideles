@@ -44,23 +44,23 @@ public class OperationsDb {
                            	   
                            	   
                        			if ( id!= null ){
-                                         crUsers.add(Restrictions.eq("id", id));
+                                         crUsers.add(Restrictions.eq(Constants.id, id));
                                      }                    			
 
                                 if (nom != null && !nom.equals("")){
-                                     	crUsers.add(Restrictions.ilike("nom", "%"+nom+"%"));
+                                     	crUsers.add(Restrictions.ilike(Constants.nom, "%"+nom+"%"));
                                 }
 
                                 if (prenoms != null && !prenoms.equals("")){
-                                     	crUsers.add(Restrictions.ilike("prenoms", "%"+prenoms+"%"));
+                                     	crUsers.add(Restrictions.ilike(Constants.prenoms, "%"+prenoms+"%"));
                                 }
                                 
                                 if (identifiant != null && !identifiant.equals("")){
-                                 	crUsers.add(Restrictions.eq("identifiant", identifiant));
+                                 	crUsers.add(Restrictions.eq(Constants.identifiant, identifiant));
                                 }
                                 
                                 if (motPasse != null && !motPasse.equals("")){
-                                 	crUsers.add(Restrictions.eq("motPasse", motPasse));
+                                 	crUsers.add(Restrictions.eq(Constants.mdp, motPasse));
                                 }
                                         					
                        		} // end if params != null
@@ -80,19 +80,19 @@ public class OperationsDb {
                 	   
                 	   
             			if ( id!= null ){
-            				crFideles.add(Restrictions.eq("id", id));
+            				crFideles.add(Restrictions.eq(Constants.id, id));
                           }                    			
 
                      if (nom != null && !nom.equals("")){
-                    	 crFideles.add(Restrictions.ilike("nom", "%"+nom+"%"));
+                    	 crFideles.add(Restrictions.ilike(Constants.nom, "%"+nom+"%"));
                      }
 
                      if (prenoms != null && !prenoms.equals("")){
-                    	 crFideles.add(Restrictions.ilike("prenoms", "%"+prenoms+"%"));
+                    	 crFideles.add(Restrictions.ilike(Constants.prenoms, "%"+prenoms+"%"));
                      }
                      
                      if (dob != null){
-                    	 crFideles.add(Restrictions.eq("dob", dob));
+                    	 crFideles.add(Restrictions.eq(Constants.dob, dob));
                      }
             	}	// end if params != null
            

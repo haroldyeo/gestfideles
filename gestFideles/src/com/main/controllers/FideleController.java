@@ -118,6 +118,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		refreshForm();
 		divList.setVisible(false);
 		divForm.setVisible(true);
+		undoReadOnly();
 	}
 	
 	@Listen("onClick=#menuUpdate")
@@ -127,6 +128,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			Messagebox.show("Veuillez sélectionner un élement de la liste", "Modifier un fidèle", Messagebox.OK, Messagebox.EXCLAMATION);
 		} else{
 			Fidele selected = ((Fidele)listbox.getSelectedItem().getValue());
+			
+			undoReadOnly();
 			
 			divList.setVisible(false);
 			divForm.setVisible(true);
@@ -172,16 +175,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	public void onDetails() throws Exception{
 		
 		onUpdate();
-			
-		for(Component comp : divForm.getFellows()){
-			if(comp instanceof Textbox){
-				((Textbox) comp).setReadonly(true);
-			} if (comp instanceof Datebox){
-				((Datebox) comp).setDisabled(true);
-			} if (comp instanceof Button){
-					((Button) comp).setVisible(false);
-			}
-		}
+		doReadOnly();
+		
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -367,12 +362,70 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 					
 	}
+	
+	private void doReadOnly(){
+		for(Component comp : divForm.getFellows()){
+			if(comp instanceof Textbox){
+				((Textbox) comp).setReadonly(true);
+			} if (comp instanceof Datebox){
+				((Datebox) comp).setDisabled(true);
+			} if (comp instanceof Button){
+					((Button) comp).setVisible(false);
+			}
+		}
+
+		for(Component comp : rowsSacrement.getChildren()){
+			if(comp instanceof Row){
+				Row r = (Row)comp;
+
+				for(Component comp2 : r.getChildren()){
+					if( comp2 instanceof Cell){
+						Cell c = (Cell)comp2;
+						if(c.getFirstChild() instanceof Button){
+							Button b = (Button) c.getFirstChild();
+							b.setVisible(false);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+private void undoReadOnly(){
+		for(Component comp : divForm.getFellows()){
+			if(comp instanceof Textbox){
+				((Textbox) comp).setReadonly(false);
+			} if (comp instanceof Datebox){
+				((Datebox) comp).setDisabled(false);
+			} if (comp instanceof Button){
+					((Button) comp).setVisible(true);
+			}
+		}
+		
+		for(Component comp : rowsSacrement.getChildren()){
+			if(comp instanceof Row){
+				Row r = (Row)comp;
+	
+				for(Component comp2 : r.getChildren()){
+					if( comp2 instanceof Cell){
+						Cell c = (Cell)comp2;
+						if(c.getFirstChild() instanceof Button){
+							Button b = (Button) c.getFirstChild();
+							b.setVisible(true);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	@Override
 	public void onEvent(Event event) throws Exception {
 		if(event.getName().equalsIgnoreCase("onAddSacrement")){
 			Row row = (Row) event.getData();
 			rowsSacrement.appendChild(row);
+		} if(event.getName().equalsIgnoreCase("onClearSacrement")){
+			
 		}
 		
 	}

@@ -21,7 +21,7 @@ public class Constants {
 	public static final String nomMarraine = "nomMarraine";
 	public static final String originePere = "originePere";
 	public static final String origineMere = "originePere";
-	public static final String mdp = "mdp";
+	public static final String mdp = "motPasse";
 	public static final String dob = "dob";
 
 }

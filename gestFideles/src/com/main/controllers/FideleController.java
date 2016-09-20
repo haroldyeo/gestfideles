@@ -87,8 +87,12 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		if(list == null)
 			list = OperationsDb.find(Constants.fideles, null);
 		lml = new ListModelList<Fidele>(list);
-    	listbox.setModel(lml);
+		SimpleDateFormat sm = new SimpleDateFormat("dd-MM-yyyy");
+		for(Fidele fid : list){
+			fid.set_dob(sm.format(fid.getDob()));
+		}
 		
+    	listbox.setModel(lml);
 	}
 
 	@Listen("onClick=#btnSearch")

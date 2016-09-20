@@ -55,7 +55,7 @@
 		        		<listitem>
 		        			<listcell>${each.nom}</listcell>
 		        			<listcell>${each.prenoms}</listcell>
-		        			<listcell>${each.dob}</listcell>
+		        			<listcell>${each._dob}</listcell>
 		        		</listitem>
 		        	</template>
 		       </listbox>

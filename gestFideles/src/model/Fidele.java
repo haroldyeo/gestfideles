@@ -31,6 +31,7 @@ public class Fidele implements Serializable {
 	private List<Enfant> enfants;
 	private List<Mariage> mariages;
 	private List<Sacrement> sacrements;
+	private String _dob;
 
 	public Fidele() {
 	}
@@ -288,5 +289,21 @@ public class Fidele implements Serializable {
 
 		return sacrement;
 	}
+
+
+
+	@Transient
+	public String get_dob() {
+		return _dob;
+	}
+
+
+
+
+	public void set_dob(String _dob) {
+		this._dob = _dob;
+	}
+	
+	
 
 }

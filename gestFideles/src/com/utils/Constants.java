@@ -2,6 +2,9 @@ package com.utils;
 
 public class Constants {
 	
+	public static final String modeSave = "save";
+	public static final String modeUpdate = "update";
+	
 	public static final String users = "users";
 	public static final String fideles = "fideles";
 	public static final String bapteme = "bapteme";

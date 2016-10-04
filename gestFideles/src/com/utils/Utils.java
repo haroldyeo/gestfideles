@@ -72,6 +72,7 @@ public class Utils {
 		Label lblLieu = new Label(s.getLieu());
 		Button btnDel = new Button();
 		btnDel.setImage("/imgs/btn-del.png");
+		btnDel.setAttribute("idSacre", s.getId().toString());
 		btnDel.addEventListener(Events.ON_CLICK, actionListener);
 		
 		

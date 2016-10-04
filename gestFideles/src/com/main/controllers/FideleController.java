@@ -69,6 +69,10 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	String libelle, lieu;
 	Date dateSacrement;
 	List<Sacrement> listSacrement = new ArrayList<>();
+	List<String> sacrementKeysInit = new ArrayList<>();
+	List<String> sacrementKeysForm = new ArrayList<>();
+	List<String> sacrementKeysThatRemain = new ArrayList<>();
+	List<Row> listNewRowsUpdate = new ArrayList<>();
 	
 	
 	@Override
@@ -122,6 +126,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		refreshForm();
 		divList.setVisible(false);
 		divForm.setVisible(true);
+		btnSave.setVisible(true);
+		btnSaveMod.setVisible(false);
 		undoReadOnly();
 	}
 	
@@ -137,6 +143,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			
 			divList.setVisible(false);
 			divForm.setVisible(true);
+			btnSave.setVisible(false);
+			btnSaveMod.setVisible(true);
 			
 			// infos de base
 			txtNomF.setValue(selected.getNom());
@@ -170,6 +178,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			List<Sacrement> listSacres = (List<Sacrement>)OperationsDb.find(Constants.sacrements, params);
 			for(Sacrement s : listSacres){
 				rowsSacrement.appendChild(Utils.buildSacrements(s));
+				sacrementKeysInit.add(s.getId().toString());
 			}
 		}
 		
@@ -218,7 +227,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	public void save() throws Exception{
 		
 			try{				
-				assignValues();
+				assignValues(Constants.modeSave);
 				
 				//create new
 				if(errorCheck()){
@@ -249,7 +258,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	@Listen("onClick=#btnSaveMod")
 	public void update() throws ParseException{
 		
-		assignValues();
+		assignValues(Constants.modeUpdate);
 		
 		if(errorCheck()){
 			
@@ -295,7 +304,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		return bool;
 	}
 
-	private void assignValues() throws ParseException {
+	private void assignValues(String mode) throws ParseException {
 		// infos de base
 				nom = txtNomF.getValue();
 				prenoms = txtPrenomsF.getValue();
@@ -324,23 +333,107 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 						if(!row.getId().equals("title")){
 							List<String> list = new ArrayList<String>();
 							List<Cell> listCells = row.getChildren();
-							for(Cell cell : listCells){
-								if(cell.getFirstChild() instanceof Label){
-									Label l = (Label) cell.getFirstChild();
-									list.add(l.getValue()); 
-									// ajout dans l'ordre de libelle, date, lieu
+							
+							
+							if(mode.equals(Constants.modeUpdate)){ 
+								
+								
+								// aucune sacrement en modif
+								if(sacrementKeysInit.isEmpty() ){
+									if(sacrementKeysForm.isEmpty()){
+										// Nada 
+									} else {
+										// create new sacrements
+										createNewSacrements(listCells, list);
+									}
 								}
-							}
-							if(list.size() == 3){
-								libelle = list.get(0);
-								SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-								dateSacrement = formatter.parse(list.get(1));
-								lieu = list.get(2);
-								Sacrement sacr = new Sacrement(dateSacrement, libelle, lieu, null);
-								listSacrement.add(sacr);
-							}
-						}
-					}
+								
+								else if(!sacrementKeysInit.isEmpty()){
+									if(sacrementKeysForm.isEmpty()){
+										// delete everything from init 
+										for(String sInit : sacrementKeysInit){
+											OperationsDb.deleteById(Sacrement.class, sInit);
+										}
+									} else {
+										// make comparisons
+										
+										//get form keys
+										for(Cell cell : listCells){
+												if(cell.getFirstChild() instanceof Button){
+													Button b = (Button) cell.getFirstChild();
+													if(b.getAttribute("idSacre") != null){
+														sacrementKeysForm.add((String) b.getAttribute("idSacre"));
+													} else {
+													//		create new sacrements 
+														
+													}
+														
+												}
+												
+												// comaparaison liste des ID ==> créer la liste des keys that remain
+												for(String sInit : sacrementKeysInit){
+													for(String sForm : sacrementKeysForm){
+														if(sInit.equals(sForm)){
+															// ajouter à la liste des éléments qui restent
+															sacrementKeysThatRemain.add(sInit);
+														}
+													}
+												}
+												
+												// suppression des éléments qui partent
+												for(String sInit : sacrementKeysInit){
+													for(String sRemain : sacrementKeysThatRemain){
+														if(!sInit.equals(sRemain)){
+															// suppression de l'élément
+															OperationsDb.deleteById(Sacrement.class, sInit);
+														}
+													}
+												}
+												
+												
+											} // end for cell : listCells
+										
+										
+									} // end else
+									
+								} // end init not empty
+								
+								
+							} // end mode update
+							
+							if(mode.equals(Constants.modeSave)){
+								// create new sacrements
+								createNewSacrements(listCells, list);
+								
+							} // end mode save
+							
+						} // end rowID != title
+					} // end for row:listRow
+							
+	}
+
+	private void createNewSacrements(List<Cell> listCells, List<String> list) {
+
+		for(Cell cell : listCells){
+			if(cell.getFirstChild() instanceof Label){
+				Label l = (Label) cell.getFirstChild();
+				list.add(l.getValue()); 
+				// ajout dans l'ordre de libelle, date, lieu
+			}
+		}
+		
+		if(list.size() == 3){
+			libelle = list.get(0);
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				dateSacrement = formatter.parse(list.get(1));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			lieu = list.get(2);
+			Sacrement sacr = new Sacrement(dateSacrement, libelle, lieu, null);
+			listSacrement.add(sacr);
+		}
 		
 	}
 

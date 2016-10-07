@@ -72,6 +72,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	List<String> sacrementKeysInit = new ArrayList<>();
 	List<String> sacrementKeysForm = new ArrayList<>();
 	List<String> sacrementKeysThatRemain = new ArrayList<>();
+	List<String> sacrementKeysToDelete = new ArrayList<>();
 	List<Row> listNewRowsUpdate = new ArrayList<>();
 	
 	
@@ -263,10 +264,13 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		if(errorCheck()){
 			
 			Fidele fid = (Fidele)listbox.getSelectedItem().getValue();
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put(Constants.id, fid.getId());
-			List<Fidele> list = OperationsDb.find(Constants.fideles, params);
-			Fidele p = list.get(0);
+//			Map<String, Object> params = new HashMap<String, Object>();
+//			params.put(Constants.id, fid.getId());
+//			List<Fidele> list = OperationsDb.find(Constants.fideles, params);
+			
+			
+//			Fidele p = list.get(0);
+			Fidele p = (Fidele) OperationsDb.getById(Fidele.class, fid.getId());
 			p.setNom(nom);
 			p.setPrenoms(prenoms);
 			p.setDob(dob);
@@ -277,7 +281,17 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			p.setOrigineMere(origineMere);
 			p.setNomParrain(nomParain);
 			p.setNomMarraine(nomMarraine);
-			OperationsDb.updateObject(p);	
+			OperationsDb.updateObject(p);
+			
+			if(!listSacrement.isEmpty()){
+				for(Sacrement s : listSacrement){
+					s.setFidele(p);
+				}
+				List<Object> listObj = new ArrayList<>();
+				listObj.addAll(listSacrement);
+				OperationsDb.persistObject(listObj);
+			}
+				
 			Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 		}
 	}
@@ -330,46 +344,30 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					List<Row> listrow = rowsSacrement.getChildren();
 					// for each row, get cells and then labels
 					for(Row row : listrow){
-						if(!row.getId().equals("title")){
-							List<String> list = new ArrayList<String>();
+						if(!row.getId().equals("rowTitle")){
 							List<Cell> listCells = row.getChildren();
 							
 							
 							if(mode.equals(Constants.modeUpdate)){ 
 								
+								doFillSacrementsForm(listCells);
+								
 								
 								// aucune sacrement en modif
 								if(sacrementKeysInit.isEmpty() ){
-									if(sacrementKeysForm.isEmpty()){
-										// Nada 
-									} else {
-										// create new sacrements
-										createNewSacrements(listCells, list);
-									}
+										createNewSacrements(listCells);
 								}
 								
 								else if(!sacrementKeysInit.isEmpty()){
+									
 									if(sacrementKeysForm.isEmpty()){
 										// delete everything from init 
 										for(String sInit : sacrementKeysInit){
-											OperationsDb.deleteById(Sacrement.class, sInit);
+											OperationsDb.deleteById(Sacrement.class, Integer.parseInt(sInit));
 										}
 									} else {
 										// make comparisons
-										
-										//get form keys
-										for(Cell cell : listCells){
-												if(cell.getFirstChild() instanceof Button){
-													Button b = (Button) cell.getFirstChild();
-													if(b.getAttribute("idSacre") != null){
-														sacrementKeysForm.add((String) b.getAttribute("idSacre"));
-													} else {
-													//		create new sacrements 
-														
-													}
-														
-												}
-												
+																																
 												// comaparaison liste des ID ==> créer la liste des keys that remain
 												for(String sInit : sacrementKeysInit){
 													for(String sForm : sacrementKeysForm){
@@ -381,6 +379,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 												}
 												
 												// suppression des éléments qui partent
+												// ===> REVOIR CE CODE!!!!!
+												boolean flag;
 												for(String sInit : sacrementKeysInit){
 													for(String sRemain : sacrementKeysThatRemain){
 														if(!sInit.equals(sRemain)){
@@ -389,12 +389,9 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 														}
 													}
 												}
-												
-												
-											} // end for cell : listCells
+																						
 										
-										
-									} // end else
+									} // end else ==> sacrements NOT empty
 									
 								} // end init not empty
 								
@@ -403,7 +400,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 							
 							if(mode.equals(Constants.modeSave)){
 								// create new sacrements
-								createNewSacrements(listCells, list);
+								createNewSacrements(listCells);
 								
 							} // end mode save
 							
@@ -412,8 +409,20 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 							
 	}
 
-	private void createNewSacrements(List<Cell> listCells, List<String> list) {
+	private void doFillSacrementsForm(List<Cell> listCells) {
+		for(Cell cell : listCells){
+			if(cell.getFirstChild() instanceof Button){
+				Button b = (Button) cell.getFirstChild();
+				if(b.getAttribute("idSacre") != null){
+					sacrementKeysForm.add((String) b.getAttribute("idSacre"));
+				} 
+			}
+		}
+		
+	}
 
+	private void createNewSacrements(List<Cell> listCells) {
+		List<String> list = new ArrayList<String>();
 		for(Cell cell : listCells){
 			if(cell.getFirstChild() instanceof Label){
 				Label l = (Label) cell.getFirstChild();

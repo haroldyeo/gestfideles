@@ -186,6 +186,19 @@ public class OperationsDb {
           }
   }
   
+  
+  
+  public static Object getById(Class<?> type, Serializable id){
+	  Object obj = null;
+	  try{
+    	  Session session = HibernateUtil.getHibSession();
+    	  obj = session.get(type, id);  
+	  } catch (HibernateException e){
+          e.printStackTrace();
+  }
+	return obj;
+  }
+  
   public static void deleteById(Class<?> type, Serializable id) {
        
           try{
@@ -193,7 +206,7 @@ public class OperationsDb {
         	  Object persistentInstance = session.get(type, id);
         	  if (persistentInstance != null) {
         		  session.beginTransaction();
-        	      session.delete(persistentInstance);
+        	      session.delete(getById(type, id));
         	      session.getTransaction().commit();
                   session.close();
         	  }

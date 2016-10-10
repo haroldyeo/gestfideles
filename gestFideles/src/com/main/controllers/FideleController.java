@@ -72,7 +72,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	List<String> sacrementKeysInit = new ArrayList<>();
 	List<String> sacrementKeysForm = new ArrayList<>();
 	List<String> sacrementKeysThatRemain = new ArrayList<>();
-	List<String> sacrementKeysToDelete = new ArrayList<>();
 	List<Row> listNewRowsUpdate = new ArrayList<>();
 	
 	
@@ -87,6 +86,9 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
     	}
     		
 	}
+	
+	
+	/*------------------- BASIC STUFF ****************************/
 	
 	private void displayList(List<Fidele> list) {
 		if(list == null)
@@ -122,16 +124,17 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
     	displayList(list);
 	}
 	
+	/*--------------- ADD - UPDATE - DELETE - DETAILS ************************/
+	
 	@Listen("onClick=#menuAdd")
 	public void onAdd(){
 		refreshForm();
-		divList.setVisible(false);
-		divForm.setVisible(true);
-		btnSave.setVisible(true);
-		btnSaveMod.setVisible(false);
+		doOnAddVisibility();
 		undoReadOnly();
 	}
 	
+	
+
 	@Listen("onClick=#menuUpdate")
 	public void onUpdate() throws Exception{
 		
@@ -141,11 +144,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			Fidele selected = ((Fidele)listbox.getSelectedItem().getValue());
 			
 			undoReadOnly();
+			doOnUpdateVisibility();
 			
-			divList.setVisible(false);
-			divForm.setVisible(true);
-			btnSave.setVisible(false);
-			btnSaveMod.setVisible(true);
 			
 			// infos de base
 			txtNomF.setValue(selected.getNom());
@@ -177,6 +177,10 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			// sacrements
 			refreshRowsSacrements();
 			List<Sacrement> listSacres = (List<Sacrement>)OperationsDb.find(Constants.sacrements, params);
+			
+			sacrementKeysInit = new ArrayList<>();
+			
+			// obtenir liste des sacrements initiaux
 			for(Sacrement s : listSacres){
 				rowsSacrement.appendChild(Utils.buildSacrements(s));
 				sacrementKeysInit.add(s.getId().toString());
@@ -185,6 +189,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		
 	}
 	
+
+
 	@Listen("onClick=#menuDetails")
 	public void onDetails() throws Exception{
 		
@@ -224,6 +230,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	}
 
 	
+	/*--------------- SAVE  -  UPDATE   ************************/
+	
 	@Listen("onClick=#btnSave")
 	public void save() throws Exception{
 		
@@ -234,6 +242,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				if(errorCheck()){
 					Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
 					Bapteme bapt = new Bapteme(dateBapteme, diocese, eglise, numero, pretre, fid);
+					listSacrement.clear();
 					for(Sacrement s : listSacrement){
 						s.setFidele(fid);
 					}
@@ -296,11 +305,66 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 	}
 	
+	/*-------------    SACREMENTS   *****************************/
+
 	
 	@Listen("onClick=#btnAddSacrement")
 	public void onAddSacrement() throws Exception{
 		Utils.openModal("/references/sacrementForm.zul", null, null, "Ajouter un sacrément");
 	}
+	
+	private void doFillSacrementsForm(List<Cell> listCells) {
+		
+		for(Cell cell : listCells){
+			if(cell.getFirstChild() instanceof Button){
+				Button b = (Button) cell.getFirstChild();
+				if(b.getAttribute("idSacre") != null){
+					sacrementKeysForm.add((String) b.getAttribute("idSacre"));
+				} else{
+					listNewRowsUpdate.add((Row) cell.getParent());
+				}
+			}
+		}
+	}
+
+	private void createNewSacrements(Row row) {
+		listSacrement.clear();
+		List<String> list = new ArrayList<String>();
+		for(Component cell : row.getChildren()){
+			if(cell.getFirstChild() instanceof Label){
+				Label l = (Label) cell.getFirstChild();
+				list.add(l.getValue()); 
+				// ajout dans l'ordre de libelle, date, lieu
+			}
+		}
+		
+		if(list.size() == 3){
+			libelle = list.get(0);
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				dateSacrement = formatter.parse(list.get(1));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			lieu = list.get(2);
+			Sacrement sacr = new Sacrement(dateSacrement, libelle, lieu, null);
+			listSacrement.add(sacr);
+		}
+		
+	}
+	
+	@Override
+	public void onEvent(Event event) throws Exception {
+		if(event.getName().equalsIgnoreCase("onAddSacrement")){
+			Row row = (Row) event.getData();
+			rowsSacrement.appendChild(row);
+		} 
+		
+	}
+	
+	
+	/*-------------    UTILS   *****************************/
+	
 	
 	public boolean errorCheck(){
 		
@@ -342,109 +406,62 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					
 					// 	get rows
 					List<Row> listrow = rowsSacrement.getChildren();
-					// for each row, get cells and then labels
-					for(Row row : listrow){
-						if(!row.getId().equals("rowTitle")){
-							List<Cell> listCells = row.getChildren();
-							
-							
-							if(mode.equals(Constants.modeUpdate)){ 
-								
-								doFillSacrementsForm(listCells);
-								
-								
-								// aucune sacrement en modif
-								if(sacrementKeysInit.isEmpty() ){
-										createNewSacrements(listCells);
+					
+					if(mode.equals(Constants.modeUpdate)){
+						
+							// obtenir liste des sacrements du form et ajout des rows des new sacrements
+							listNewRowsUpdate.clear();
+							sacrementKeysForm.clear();
+							for(Row row : listrow){
+								if(!row.getId().equals("rowTitle")){
+									List<Cell> listCells = row.getChildren();
+									doFillSacrementsForm(listCells);
 								}
-								
-								else if(!sacrementKeysInit.isEmpty()){
-									
-									if(sacrementKeysForm.isEmpty()){
-										// delete everything from init 
-										for(String sInit : sacrementKeysInit){
-											OperationsDb.deleteById(Sacrement.class, Integer.parseInt(sInit));
-										}
-									} else {
-										// make comparisons
-																																
-												// comaparaison liste des ID ==> créer la liste des keys that remain
-												for(String sInit : sacrementKeysInit){
-													for(String sForm : sacrementKeysForm){
-														if(sInit.equals(sForm)){
-															// ajouter à la liste des éléments qui restent
-															sacrementKeysThatRemain.add(sInit);
-														}
-													}
-												}
-												
-												// suppression des éléments qui partent
-												// ===> REVOIR CE CODE!!!!!
-												boolean flag;
-												for(String sInit : sacrementKeysInit){
-													for(String sRemain : sacrementKeysThatRemain){
-														if(!sInit.equals(sRemain)){
-															// suppression de l'élément
-															OperationsDb.deleteById(Sacrement.class, sInit);
-														}
-													}
-												}
-																						
-										
-									} // end else ==> sacrements NOT empty
-									
-								} // end init not empty
-								
-								
-							} // end mode update
+							}
 							
-							if(mode.equals(Constants.modeSave)){
-								// create new sacrements
-								createNewSacrements(listCells);
-								
-							} // end mode save
+							// liste des sacrements inchangés
+							//==> comparaison des deux listes
 							
-						} // end rowID != title
-					} // end for row:listRow
+							sacrementKeysThatRemain.clear();
+							for(String sInit : sacrementKeysInit){
+								for(String sForm : sacrementKeysForm){
+									if(sInit.equals(sForm)){
+										// ajouter à la liste des éléments qui restent
+										sacrementKeysThatRemain.add(sInit);
+									}
+								}
+							}
+							
+							
+							// liste des sacrements to delete -----> on les supprime right away
+							for(String sInit : sacrementKeysInit){
+								if(!sacrementKeysThatRemain.contains(sInit)){
+									OperationsDb.deleteById(Sacrement.class, Integer.parseInt(sInit));
+								}
+							}
+							
+							
+							// liste des rows new sacrements -------> on les crée right away
+							for(Row row : listNewRowsUpdate){
+								createNewSacrements(row);
+							}
+							
+					} // end mode update
+							
+					
+					if(mode.equals(Constants.modeSave)){
+						// create new sacrements
+						for(Row row : listrow){
+							if(!row.getId().equals("rowTitle")){
+								createNewSacrements(row);
+							}
+						}
+					} // end mode save
+							
 							
 	}
 
-	private void doFillSacrementsForm(List<Cell> listCells) {
-		for(Cell cell : listCells){
-			if(cell.getFirstChild() instanceof Button){
-				Button b = (Button) cell.getFirstChild();
-				if(b.getAttribute("idSacre") != null){
-					sacrementKeysForm.add((String) b.getAttribute("idSacre"));
-				} 
-			}
-		}
-		
-	}
-
-	private void createNewSacrements(List<Cell> listCells) {
-		List<String> list = new ArrayList<String>();
-		for(Cell cell : listCells){
-			if(cell.getFirstChild() instanceof Label){
-				Label l = (Label) cell.getFirstChild();
-				list.add(l.getValue()); 
-				// ajout dans l'ordre de libelle, date, lieu
-			}
-		}
-		
-		if(list.size() == 3){
-			libelle = list.get(0);
-			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			try {
-				dateSacrement = formatter.parse(list.get(1));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			lieu = list.get(2);
-			Sacrement sacr = new Sacrement(dateSacrement, libelle, lieu, null);
-			listSacrement.add(sacr);
-		}
-		
-	}
+	
 
 	@Listen("onClick=#btnRefreshForm")
 	public void refreshForm() {
@@ -525,14 +542,24 @@ private void undoReadOnly(){
 		}
 	}
 
-	@Override
-	public void onEvent(Event event) throws Exception {
-		if(event.getName().equalsIgnoreCase("onAddSacrement")){
-			Row row = (Row) event.getData();
-			rowsSacrement.appendChild(row);
-		} if(event.getName().equalsIgnoreCase("onClearSacrement")){
-			
-		}
+
+	
+	public void doOnAddVisibility() {
+		divList.setVisible(false);
+		divForm.setVisible(true);
+		btnSave.setVisible(true);
+		btnSaveMod.setVisible(false);
+		btnRefresh.setVisible(true);
+		
+	}
+	
+	private void doOnUpdateVisibility() {
+
+		divList.setVisible(false);
+		divForm.setVisible(true);
+		btnSave.setVisible(false);
+		btnSaveMod.setVisible(true);
+		btnRefresh.setVisible(false);
 		
 	}
 	

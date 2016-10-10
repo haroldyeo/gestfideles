@@ -206,7 +206,7 @@ public class OperationsDb {
         	  Object persistentInstance = session.get(type, id);
         	  if (persistentInstance != null) {
         		  session.beginTransaction();
-        	      session.delete(getById(type, id));
+        	      session.delete(persistentInstance);
         	      session.getTransaction().commit();
                   session.close();
         	  }
@@ -217,7 +217,7 @@ public class OperationsDb {
 //              session.getTransaction().commit();
 //              session.close();
               
-          } catch (HibernateException e){
+          } catch (Exception e){
               e.printStackTrace();
               
           }

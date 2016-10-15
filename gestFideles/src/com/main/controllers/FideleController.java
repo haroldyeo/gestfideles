@@ -242,16 +242,11 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				if(errorCheck()){
 					Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
 					Bapteme bapt = new Bapteme(dateBapteme, diocese, eglise, numero, pretre, fid);
-					listSacrement.clear();
+					fid.addBapteme(bapt);
 					for(Sacrement s : listSacrement){
-						s.setFidele(fid);
+						fid.addSacrement(s);
 					}
-					List<Object> listObj = new ArrayList<>();
-					listObj.add(fid);
-					listObj.add(bapt);
-					listObj.addAll(listSacrement);
-					
-					OperationsDb.persistObject(listObj);
+					OperationsDb.persistObject(fid);
 					
 					Messagebox.show("Fidèle enregistré avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 					refreshForm();
@@ -290,16 +285,14 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			p.setOrigineMere(origineMere);
 			p.setNomParrain(nomParain);
 			p.setNomMarraine(nomMarraine);
-			OperationsDb.updateObject(p);
-			
 			if(!listSacrement.isEmpty()){
 				for(Sacrement s : listSacrement){
-					s.setFidele(p);
+					fid.addSacrement(s);
 				}
-				List<Object> listObj = new ArrayList<>();
-				listObj.addAll(listSacrement);
-				OperationsDb.persistObject(listObj);
 			}
+			OperationsDb.updateObject(p);
+			
+			
 				
 			Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 		}

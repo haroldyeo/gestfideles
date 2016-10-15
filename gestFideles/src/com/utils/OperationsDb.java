@@ -153,24 +153,7 @@ public class OperationsDb {
               
           }
   }
-  
-  public static void persistObject(List<Object> listPersObjc){
-      
-      try{
-          Session session = HibernateUtil.getHibSession();
-          session.beginTransaction();
-          for(Object obj : listPersObjc){
-        	  session.save(obj);
-          }
-          session.getTransaction().commit();
-          session.close();
-          
-      } catch (HibernateException e){
-          e.printStackTrace();
-          
-      }
-}
-  
+
   public static void updateObject(Object obj){
        
           try{

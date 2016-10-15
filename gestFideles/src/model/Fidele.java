@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -167,8 +169,10 @@ public class Fidele implements Serializable {
 
 
 	//bi-directional many-to-one association to Bapteme
-	@OneToMany(mappedBy="fidele")
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
 	public List<Bapteme> getBaptemes() {
+		if(baptemes == null)
+				baptemes = new ArrayList<>();
 		return this.baptemes;
 	}
 
@@ -267,8 +271,10 @@ public class Fidele implements Serializable {
 
 
 	//bi-directional many-to-one association to Sacrement
-	@OneToMany(mappedBy="fidele")
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
 	public List<Sacrement> getSacrements() {
+		if(sacrements == null)
+			sacrements = new ArrayList<>();
 		return this.sacrements;
 	}
 

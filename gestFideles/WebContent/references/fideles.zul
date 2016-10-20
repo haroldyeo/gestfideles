@@ -22,7 +22,7 @@
 		   				
 		   				<x:td><label value="Date naissance"/></x:td>
 		   				<x:td>:</x:td>
-		   				<x:td><datebox format="dd/MM/yyyy" readonly="true" id="txtDateNaissance" width="200px"/></x:td>
+		   				<x:td><datebox format="dd/MM/yyyy" id="txtDateNaissance" width="200px"/></x:td>
 		   			</x:tr>
 		   			
 		   			<x:tr>
@@ -97,7 +97,7 @@
 	                <row>
 	                    <cell sclass="row-title">*Date de naissance:</cell>
 	                    <cell>
-	                        <datebox id="dateDob" readonly="true" width="200px"/>
+	                        <datebox id="dateDob" width="200px"/>
 	                    </cell>
 	                    
 	                     <cell sclass="row-title">*Lieu de naissance:</cell>
@@ -175,7 +175,7 @@
 	                <row>
 	                    <cell sclass="row-title">*Date du baptême:</cell>
 	                    <cell>
-	                    <datebox id="dateBapt" readonly="true" width="200px"></datebox>
+	                    <datebox id="dateBapt"  width="200px"></datebox>
 	                    </cell>
 	                </row>
 	                

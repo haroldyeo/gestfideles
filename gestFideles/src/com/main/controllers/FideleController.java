@@ -129,8 +129,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	@Listen("onClick=#menuAdd")
 	public void onAdd(){
 		refreshForm();
-		doOnAddVisibility();
 		undoReadOnly();
+		doOnAddVisibility();
 	}
 	
 	
@@ -225,6 +225,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	public void onBack(){
 		divForm.setVisible(false);
 		divList.setVisible(true);
+		btnSearch.setVisible(true);
+		btnRefresh.setVisible(true);
 		displayList(null);
 		
 	}
@@ -542,7 +544,6 @@ private void undoReadOnly(){
 		divForm.setVisible(true);
 		btnSave.setVisible(true);
 		btnSaveMod.setVisible(false);
-		btnRefresh.setVisible(true);
 		
 	}
 	
@@ -552,7 +553,6 @@ private void undoReadOnly(){
 		divForm.setVisible(true);
 		btnSave.setVisible(false);
 		btnSaveMod.setVisible(true);
-		btnRefresh.setVisible(false);
 		
 	}
 	

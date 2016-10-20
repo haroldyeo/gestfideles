@@ -36,7 +36,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	
 	@Wire Window winUsers;
 	
-	@Wire Button btnSearch,  btnRefresh, btnSave, btnSaveMod;
+	@Wire Button btnSearch,  btnRefresh, btnSave, btnSaveMod, btnRefreshForm;
 	
 	String nom, prenoms,ident, mdp1, mdp2;
 	
@@ -90,6 +90,7 @@ public class UsersController  extends SelectorComposer<Component> {
 		divUsersForm1.setVisible(true);
 		btnSave.setVisible(true);
 		btnSaveMod.setVisible(false);
+		btnRefreshForm.setVisible(true);
 	}
 	
 	@Listen("onClick=#menuUpdate")
@@ -104,6 +105,7 @@ public class UsersController  extends SelectorComposer<Component> {
 			divUsersForm1.setVisible(true);
 			btnSave.setVisible(false);
 			btnSaveMod.setVisible(true);
+			btnRefreshForm.setVisible(false);
 			
 			txtNomF.setValue(userSelected.getNom());
 			txtPrenomsF.setValue(userSelected.getPrenoms());

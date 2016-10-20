@@ -175,6 +175,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 			
 			// sacrements
+			listSacrement.clear();
 			refreshRowsSacrements();
 			List<Sacrement> listSacres = (List<Sacrement>)OperationsDb.find(Constants.sacrements, params);
 			
@@ -269,14 +270,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		
 		if(errorCheck()){
 			
-			Fidele fid = (Fidele)listbox.getSelectedItem().getValue();
-//			Map<String, Object> params = new HashMap<String, Object>();
-//			params.put(Constants.id, fid.getId());
-//			List<Fidele> list = OperationsDb.find(Constants.fideles, params);
+			Fidele p = (Fidele)listbox.getSelectedItem().getValue();
 			
-			
-//			Fidele p = list.get(0);
-			Fidele p = (Fidele) OperationsDb.getById(Fidele.class, fid.getId());
 			p.setNom(nom);
 			p.setPrenoms(prenoms);
 			p.setDob(dob);
@@ -289,7 +284,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			p.setNomMarraine(nomMarraine);
 			if(!listSacrement.isEmpty()){
 				for(Sacrement s : listSacrement){
-					fid.addSacrement(s);
+					p.addSacrement(s);
 				}
 			}
 			OperationsDb.updateObject(p);
@@ -322,8 +317,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 	}
 
-	private void createNewSacrements(Row row) {
-		listSacrement.clear();
+	private void createNewSacrements(Row row, String mode) {
+		
 		List<String> list = new ArrayList<String>();
 		for(Component cell : row.getChildren()){
 			if(cell.getFirstChild() instanceof Label){
@@ -378,7 +373,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	}
 
 	private void assignValues(String mode) throws ParseException {
-		// infos de base
+			// infos de base
 				nom = txtNomF.getValue();
 				prenoms = txtPrenomsF.getValue();
 				dob = dateDob.getValue();
@@ -438,7 +433,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 							
 							// liste des rows new sacrements -------> on les crée right away
 							for(Row row : listNewRowsUpdate){
-								createNewSacrements(row);
+								createNewSacrements(row, Constants.modeUpdate);
 							}
 							
 					} // end mode update
@@ -448,7 +443,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 						// create new sacrements
 						for(Row row : listrow){
 							if(!row.getId().equals("rowTitle")){
-								createNewSacrements(row);
+								createNewSacrements(row, mode);
 							}
 						}
 					} // end mode save
@@ -548,12 +543,10 @@ private void undoReadOnly(){
 	}
 	
 	private void doOnUpdateVisibility() {
-
 		divList.setVisible(false);
 		divForm.setVisible(true);
 		btnSave.setVisible(false);
 		btnSaveMod.setVisible(true);
-		
 	}
 	
 	

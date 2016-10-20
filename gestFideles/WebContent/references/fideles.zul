@@ -97,7 +97,7 @@
 	                <row>
 	                    <cell sclass="row-title">*Date de naissance:</cell>
 	                    <cell>
-	                        <datebox id="dateDob" width="200px"/>
+	                        <datebox format="dd/MM/yyyy" id="dateDob" width="200px"/>
 	                    </cell>
 	                    
 	                     <cell sclass="row-title">*Lieu de naissance:</cell>
@@ -175,7 +175,7 @@
 	                <row>
 	                    <cell sclass="row-title">*Date du baptême:</cell>
 	                    <cell>
-	                    <datebox id="dateBapt"  width="200px"></datebox>
+	                    <datebox format="dd/MM/yyyy" id="dateBapt"  width="200px"></datebox>
 	                    </cell>
 	                </row>
 	                

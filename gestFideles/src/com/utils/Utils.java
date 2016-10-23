@@ -13,6 +13,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.SerializableEventListener;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Cell;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
@@ -59,10 +60,19 @@ public class Utils {
 		return result;
 	}
 	
-	public static void clearTextboxes(Textbox[] txts){
-		for(Textbox t : txts){
-			t.setText("");
+	public static void clearComponents(Component[] comps){
+		if(comps instanceof Textbox[]){
+			for(Textbox t : (Textbox[])comps){
+				t.setText("");
+			}
 		}
+		
+		else if(comps instanceof Datebox[]){
+			for(Datebox d : (Datebox[])comps){
+				d.setText("");
+			}
+		}
+		
 	}
 
 	public static Row buildSacrements(Sacrement s) {

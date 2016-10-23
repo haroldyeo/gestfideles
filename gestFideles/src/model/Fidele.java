@@ -1,11 +1,22 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 /**
@@ -29,6 +40,7 @@ public class Fidele implements Serializable {
 	private String originePere;
 	private String prenoms;
 	private List<Bapteme> baptemes;
+	private List<SacrementMalades> sacrementMalades;
 	private List<CommunionPascale> communionPascales;
 	private List<Enfant> enfants;
 	private List<Mariage> mariages;
@@ -193,6 +205,32 @@ public class Fidele implements Serializable {
 
 		return bapteme;
 	}
+	
+	//bi-directional many-to-one association to SacrementMalades
+		@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
+		public List<SacrementMalades> getSacrementMalades() {
+			if(sacrementMalades == null)
+					sacrementMalades = new ArrayList<>();
+			return this.sacrementMalades;
+		}
+
+		public void setSacrementMalades(List<SacrementMalades> sacrementMalades) {
+			this.sacrementMalades = sacrementMalades;
+		}
+
+		public SacrementMalades addSacrementMalades(SacrementMalades sacrementMalades) {
+			getSacrementMalades().add(sacrementMalades);
+			sacrementMalades.setFidele(this);
+
+			return sacrementMalades;
+		}
+
+		public SacrementMalades removeBapteme(SacrementMalades sacrementMalades) {
+			getSacrementMalades().remove(sacrementMalades);
+			sacrementMalades.setFidele(null);
+
+			return sacrementMalades;
+		}
 
 
 	//bi-directional many-to-one association to CommunionPascale
@@ -221,7 +259,7 @@ public class Fidele implements Serializable {
 
 
 	//bi-directional many-to-one association to Enfant
-	@OneToMany(mappedBy="fidele")
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
 	public List<Enfant> getEnfants() {
 		return this.enfants;
 	}
@@ -246,7 +284,7 @@ public class Fidele implements Serializable {
 
 
 	//bi-directional many-to-one association to Mariage
-	@OneToMany(mappedBy="fidele")
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
 	public List<Mariage> getMariages() {
 		return this.mariages;
 	}

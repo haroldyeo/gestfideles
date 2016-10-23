@@ -29,6 +29,7 @@ public class Mariage implements Serializable {
 	private String pretre;
 	private String temoin1;
 	private String temoin2;
+	private String numMariage;
 	private Fidele fidele;
 
 	public Mariage() {
@@ -204,5 +205,17 @@ public class Mariage implements Serializable {
 	public void setFidele(Fidele fidele) {
 		this.fidele = fidele;
 	}
+
+
+	public String getNumMariage() {
+		return numMariage;
+	}
+
+
+	public void setNumMariage(String numMariage) {
+		this.numMariage = numMariage;
+	}
+	
+	
 
 }

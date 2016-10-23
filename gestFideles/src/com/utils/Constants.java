@@ -9,6 +9,7 @@ public class Constants {
 	public static final String fideles = "fideles";
 	public static final String bapteme = "bapteme";
 	public static final String sacrements = "sacrements";
+	public static final String mariage = "mariage";
 	
 	
 	public static final String identifiant = "identifiant";

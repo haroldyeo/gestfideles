@@ -24,6 +24,22 @@ import model.User;
 @SuppressWarnings("rawtypes")
 public class OperationsDb {
 	
+	public static List doSearch(String entity, String value){
+		List returnedList = null;
+        
+        switch(entity){            
+            case(Constants.fideles):
+            	
+            	Criteria crFideles = HibernateUtil.getHibSession().createCriteria(Fidele.class);
+        		crFideles.addOrder(Order.asc("id"));
+        		returnedList = crFideles.add(Restrictions.or(Restrictions.ilike(Constants.nom, "%"+value+"%"), 
+        				Restrictions.ilike(Constants.prenoms, "%"+value+"%"))).list();
+             
+                 
+            	break;
+        }
+        return returnedList;
+	}
     
 	public static List find (String strEntity, Map<String,Object> mapParams){
         

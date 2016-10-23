@@ -48,10 +48,12 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	@Wire Button btnSearch, btnSave, btnSaveMod,  btnRefresh, btnAddSacrement;
 	
+	@Wire Textbox txtSearch;
+	
 	ListModelList<Fidele> lml;
 	
 	/*-----	Infos de base  ----*/
-	@Wire Textbox txtNom, txtPrenoms, txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance, 
+	@Wire Textbox txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance, 
 				  txtOriginePere, txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine;
 	@Wire Datebox txtDateNaissance, dateDob;
 	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine;
@@ -104,22 +106,18 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 
 	@Listen("onClick=#btnSearch")
 	public void doSearch(){
-		if(txtDateNaissance.getValue() == null &&  txtNom.getValue().isEmpty() && txtPrenoms.getValue().isEmpty()){
+		if(txtSearch.getValue().isEmpty()){
 			// don't do anything
-		} else {
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put(Constants.dateNaissance, txtDateNaissance.getValue());
-			params.put(Constants.nom, txtNom.getValue());
-			params.put(Constants.prenoms, txtPrenoms.getValue());
-			
-			List<Fidele> list = OperationsDb.find(Constants.fideles, params);
+		} else {			
+			List<Fidele> list = OperationsDb.doSearch(Constants.fideles, txtSearch.getValue());
 	    	displayList(list);
+		
 		}
 	}
 	
 	@Listen("onClick=#btnRefresh")
 	public void doRefresh(){
-		txtDateNaissance.setValue(null); txtNom.setValue(""); txtPrenoms.setValue("");
+		txtSearch.setValue("");
 		List<Fidele> list = OperationsDb.find(Constants.fideles, null);
     	displayList(list);
 	}

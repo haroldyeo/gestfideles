@@ -33,6 +33,7 @@ import com.utils.Utils;
 
 import model.Bapteme;
 import model.Fidele;
+import model.Mariage;
 import model.Sacrement;
 
 @SuppressWarnings("unchecked")
@@ -76,6 +77,45 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	List<String> sacrementKeysThatRemain = new ArrayList<>();
 	List<Row> listNewRowsUpdate = new ArrayList<>();
 	
+	/*----  Mariage  ----*/
+	@Wire Textbox txtNumMariage, txtEgliseMariage, txtConjoint, txtNumBaptConjoint, txtPretreMariage, txtTemoin1, txtTemoin2;
+	@Wire Datebox dateboxMariage, dateboxBaptConjoint;
+	String numMariage, egliseMariage, conjoint, numBaptConjoint, pretreMariage, temoin1, temoin2;
+	Date dateMariage, dateBaptConjoint;
+	
+	/*----  Bénédiction nuptiale  ----*/
+	@Wire Textbox txtEgliseBenNupt, txtDispenseBenNupt, txtEvecheBenNupt;
+	@Wire Datebox dateboxBenNupt;
+	String egliseBenNupt, dispenseBenNupt, evecheBenNupt;
+	Date dateBenNupt;
+	
+	/*----  Formalités civiles  ----*/
+	@Wire Datebox dateboxFormCivile;
+	@Wire Textbox txtNumFormCivile, txtMairie;
+	Date dateFormCivile;
+	String numFormCivile, mairie;
+	
+	/*----  Enfants  ----*/
+	@Wire Rows rowsEnfants;
+	@Wire Button btnAddEnfants;
+	String nomEnfant;
+	Date dateNaissanceEnfant;
+	List<Sacrement> listEnfants = new ArrayList<>();
+	List<String> enfantsKeysInit = new ArrayList<>();
+	List<String> enfantsKeysForm = new ArrayList<>();
+	List<String> enfantsKeysThatRemain = new ArrayList<>();
+	List<Row> listNewEnfantsRowsUpdate = new ArrayList<>();
+	
+	/*----  Sacréments malades  ----*/
+	@Wire Rows rowsSacrementMalades;
+	@Wire Button btnAddMalade;
+	String nomMalade;
+	Date dateSacrementMalade;
+	List<Sacrement> listSacrementsMalade = new ArrayList<>();
+	List<String> maladesKeysInit = new ArrayList<>();
+	List<String> maladesKeysForm = new ArrayList<>();
+	List<String> maladesKeysThatRemain = new ArrayList<>();
+	List<Row> listNewMaladesRowsUpdate = new ArrayList<>();
 	
 	@Override
     public void doAfterCompose(Component comp) throws Exception {
@@ -157,12 +197,9 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			txtNomParrain.setValue(selected.getNomParrain());
 			txtNomMarraine.setValue(selected.getNomMarraine());
 			
-			//bapteme
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put(Constants.fideleId, selected.getId());
-			List<Bapteme> listBapt = (List<Bapteme>)OperationsDb.find(Constants.bapteme, params);
-			Bapteme bapt = listBapt.size() == 1 ? listBapt.get(0) : null;
 			
+			//bapteme
+			Bapteme bapt = selected.getBaptemes().size() == 1 ?  selected.getBaptemes().get(0) : null;
 			if(bapt != null){
 				txtNumeroBapt.setValue(bapt.getNumero());
 				dateBapt.setValue(bapt.getDateBapteme());
@@ -175,7 +212,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			// sacrements
 			listSacrement.clear();
 			refreshRowsSacrements();
-			List<Sacrement> listSacres = (List<Sacrement>)OperationsDb.find(Constants.sacrements, params);
+			List<Sacrement> listSacres = selected.getSacrements();
 			
 			sacrementKeysInit = new ArrayList<>();
 			
@@ -184,7 +221,20 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				rowsSacrement.appendChild(Utils.buildSacrements(s));
 				sacrementKeysInit.add(s.getId().toString());
 			}
-		}
+			
+			// mariage
+//			List<Mariage> lm = (List<Mariage>)OperationsDb.find(Constants.mariage, params);
+//			Mariage m = lm.size() == 1 ? lm.get(0) : null;
+//			txtNumMariage.setValue(m.getNumMariage()); 
+//			txtEgliseMariage.setValue(m.getLieu());
+//			txtConjoint.setValue(m.getEpoux());
+//			txtNumBaptConjoint.setValue(m.getNumBaptEpoux());
+//			txtPretreMariage.setValue(m.getPretre());
+//			txtTemoin1.setValue(m.getTemoin1());
+//			txtTemoin2.setValue(m.getTemoin2());
+//			dateboxMariage.setValue(m.getDateMariage());
+//			dateboxBaptConjoint.setValue(m.getDateBaptEpoux());
+		}// fin du else
 		
 	}
 	
@@ -244,6 +294,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
 					Bapteme bapt = new Bapteme(dateBapteme, diocese, eglise, numero, pretre, fid);
 					fid.addBapteme(bapt);
+					
 					for(Sacrement s : listSacrement){
 						fid.addSacrement(s);
 					}
@@ -256,7 +307,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			} catch(Exception e){
 				e.printStackTrace();
 			}
-		
 			
 	}
 	
@@ -287,8 +337,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 			OperationsDb.updateObject(p);
 			
-			
-				
 			Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
 		}
 	}
@@ -315,7 +363,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 	}
 
-	private void createNewSacrements(Row row, String mode) {
+	private void createNewSacrements(Row row) {
 		
 		List<String> list = new ArrayList<String>();
 		for(Component cell : row.getChildren()){
@@ -347,6 +395,43 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			Row row = (Row) event.getData();
 			rowsSacrement.appendChild(row);
 		} 
+		
+	}
+	
+	/*-------------    ENFANTS   *****************************/
+
+	@Listen("onClick=#btnAddEnfant")
+	public void onAddEnfant() throws Exception{
+		Utils.openModal("/references/enfantForm.zul", null, null, "Ajouter un enfant");
+	}
+	
+	private void doFillEnfantsForm(List<Cell> listCells) {
+		
+		for(Cell cell : listCells){
+			if(cell.getFirstChild() instanceof Button){
+				Button b = (Button) cell.getFirstChild();
+				if(b.getAttribute("idEnfant") != null){
+					enfantsKeysForm.add((String) b.getAttribute("idEnfant"));
+				} else{
+					listNewEnfantsRowsUpdate.add((Row) cell.getParent());
+				}
+			}
+		}
+		
+	}
+
+
+	private void createNewEnfants(Row row) {
+		
+		List<String> list = new ArrayList<String>();
+		for(Component cell : row.getChildren()){
+			if(cell.getFirstChild() instanceof Label){
+				Label l = (Label) cell.getFirstChild();
+				list.add(l.getValue()); 
+				// ajout dans l'ordre de libelle, date, lieu
+			}
+		}
+	
 		
 	}
 	
@@ -390,17 +475,40 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				numero = txtNumeroBapt.getValue();
 				pretre = txtPretreBapteme.getValue();
 				
+				// mariage
+				numMariage = txtNumMariage.getValue();
+				egliseMariage = txtEgliseMariage.getValue();
+				conjoint = txtConjoint.getValue();
+				numBaptConjoint = txtNumBaptConjoint.getValue();
+				pretreMariage = txtPretreMariage.getValue();
+				temoin1 = txtTemoin1.getValue();
+				temoin2 = txtTemoin2.getValue();
+				dateMariage = dateboxMariage.getValue();
+				dateBaptConjoint = dateboxBaptConjoint.getValue();
+				
+				// bénédiction nuptiale
+				dateBenNupt = dateboxBenNupt.getValue();
+				egliseBenNupt = txtEgliseBenNupt.getValue();
+				dispenseBenNupt = txtDispenseBenNupt.getValue();
+				evecheBenNupt = txtEvecheBenNupt.getValue();
+				
+				// Formalités civiles
+				dateFormCivile = dateboxFormCivile.getValue();
+				numFormCivile =txtNumFormCivile.getValue();
+				mairie = txtMairie.getValue();
+				
+				
+				
 				// sacréments
 					
 					// 	get rows
-					List<Row> listrow = rowsSacrement.getChildren();
-					
+					List<Row> listrowSacrements = rowsSacrement.getChildren();
 					if(mode.equals(Constants.modeUpdate)){
 						
 							// obtenir liste des sacrements du form et ajout des rows des new sacrements
 							listNewRowsUpdate.clear();
 							sacrementKeysForm.clear();
-							for(Row row : listrow){
+							for(Row row : listrowSacrements){
 								if(!row.getId().equals("rowTitle")){
 									List<Cell> listCells = row.getChildren();
 									doFillSacrementsForm(listCells);
@@ -431,7 +539,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 							
 							// liste des rows new sacrements -------> on les crée right away
 							for(Row row : listNewRowsUpdate){
-								createNewSacrements(row, Constants.modeUpdate);
+								createNewSacrements(row);
 							}
 							
 					} // end mode update
@@ -439,26 +547,55 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					
 					if(mode.equals(Constants.modeSave)){
 						// create new sacrements
-						for(Row row : listrow){
+						for(Row row : listrowSacrements){
 							if(!row.getId().equals("rowTitle")){
-								createNewSacrements(row, mode);
+								createNewSacrements(row);
 							}
 						}
 					} // end mode save
-							
+					
+					
+					
+				// enfants
+				List<Row> listRowsEnfants = rowsEnfants.getChildren();
+				
+				if(mode.equals(Constants.modeSave)){
+					// create new enfants
+					for(Row row : listRowsEnfants){
+						if(!row.getId().equals("rowTitleEnfant")){
+							createNewEnfants(row);
+						}
+					}
+				} // end mode save
+				
+				if(mode.equals(Constants.modeUpdate)){
+					// obtenir liste des enfants du form et ajout des rows des new enfants
+					listNewEnfantsRowsUpdate.clear();
+					enfantsKeysForm.clear();
+					for(Row row : listRowsEnfants){
+						if(!row.getId().equals("rowTitleEnfant")){
+							List<Cell> listCells = row.getChildren();
+							doFillEnfantsForm(listCells);
+						}
+					}
+				}
+				
 							
 	}
 
-	
 
 	@Listen("onClick=#btnRefreshForm")
 	public void refreshForm() {
 		
 		Textbox[] textBoxes = new Textbox[]{txtNomF, txtPrenomsF, txtlieuNaissance, txtNomPere, txtNomMere, txtOriginePere,
-				txtOrigineMere, txtNomParrain, txtNomMarraine,  txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme};
-		Utils.clearTextboxes(textBoxes);
-		dateDob.setText("");
-		dateBapt.setText("");
+				txtOrigineMere, txtNomParrain, txtNomMarraine,  txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme,
+				txtNumMariage, txtEgliseMariage, txtConjoint, txtNumBaptConjoint, txtPretreMariage, txtTemoin1, txtTemoin2,
+				txtEgliseBenNupt, txtDispenseBenNupt, txtEvecheBenNupt};
+		Utils.clearComponents(textBoxes);
+		
+		Datebox[] dateBoxes = {dateDob, dateBapt, dateboxMariage, dateboxBenNupt};
+		Utils.clearComponents(dateBoxes);
+		
 		refreshRowsSacrements();
 		
 		

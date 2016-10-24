@@ -148,6 +148,9 @@ public class OperationsDb {
             		}
             		returnedList = crSacrements.list();
             		break;
+            		
+            	case(Constants.mariage):
+            		break;
         }
         
         System.out.println("list for keyword: "+strEntity +" -  size: "+returnedList.size());

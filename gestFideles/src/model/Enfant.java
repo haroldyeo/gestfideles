@@ -25,6 +25,19 @@ public class Enfant implements Serializable {
 	public Enfant() {
 	}
 
+	
+
+	public Enfant(Date dateBapteme, Date dob, String lieuBapteme, String nom, String numBapteme, Fidele fidele) {
+		super();
+		this.dateBapteme = dateBapteme;
+		this.dob = dob;
+		this.lieuBapteme = lieuBapteme;
+		this.nom = nom;
+		this.numBapteme = numBapteme;
+		this.fidele = fidele;
+	}
+
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

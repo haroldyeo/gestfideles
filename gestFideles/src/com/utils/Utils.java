@@ -19,6 +19,7 @@ import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import model.Enfant;
 import model.Sacrement;
 
 public class Utils {
@@ -86,7 +87,6 @@ public class Utils {
 			btnDel.setAttribute("idSacre", s.getId().toString());
 		btnDel.addEventListener(Events.ON_CLICK, actionListener);
 		
-		
 		Cell cell1 = new Cell();
 		cell1.appendChild(lblLibelleSacre);
 		
@@ -99,22 +99,75 @@ public class Utils {
 		Cell cell4 = new Cell();
 		cell4.appendChild(btnDel);
 		
-		
 		Row row = new Row();
 		row.appendChild(cell1);
 		row.appendChild(cell2);
 		row.appendChild(cell3);
 		row.appendChild(cell4);
 		
-		 
-        
-		
 		return row;
 		
 	}
 	
-	//create and register event listener
     static EventListener<Event> actionListener = new SerializableEventListener<Event>() {
+        private static final long serialVersionUID = 1L;
+
+        public void onEvent(Event event) throws Exception {
+           Button btnDel = (Button) event.getTarget();
+           btnDel.getParent().getParent().detach();
+        }
+    };
+    
+    
+    public static Row buildEnfants(Enfant e){
+    	Label lblnomEnfant = new Label(e.getNom());
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Label lblDateNaissance = new Label(sdf.format(e.getDob()));
+		Label lblDateBapt = new Label(sdf.format(e.getDateBapteme()));
+		Label lblnumBaptEnfant = new Label(e.getNumBapteme());
+		Label lblLieuBaptEnfant = new Label(e.getLieuBapteme());
+		
+		Button btnDel = new Button();
+		btnDel.setImage("/imgs/btn-del.png");
+		if(e.getId() != null)
+			btnDel.setAttribute("idEnfant", e.getId().toString());
+		btnDel.addEventListener(Events.ON_CLICK, enfantListener);
+		
+		Cell cell1 = new Cell();
+		cell1.appendChild(lblnomEnfant);
+		
+		Cell cell2 = new Cell();
+		cell2.appendChild(lblDateNaissance);
+		
+		Cell cell3 = new Cell();
+		cell3.appendChild(lblDateBapt);
+		
+		Cell cell4 = new Cell();
+		cell4.appendChild(lblDateBapt);
+		
+		Cell cell5 = new Cell();
+		cell5.appendChild(lblnumBaptEnfant); 
+		
+		Cell cell6 = new Cell();
+		cell6.appendChild(lblLieuBaptEnfant); 
+		
+		Cell cell7 = new Cell();
+		cell7.appendChild(btnDel);
+		
+		Row row = new Row();
+		row.appendChild(cell1);
+		row.appendChild(cell2);
+		row.appendChild(cell3);
+		row.appendChild(cell4);
+		row.appendChild(cell5);
+		row.appendChild(cell6);
+		row.appendChild(cell7);
+		
+		return row;
+    	
+    }
+
+    static EventListener<Event> enfantListener = new SerializableEventListener<Event>() {
         private static final long serialVersionUID = 1L;
 
         public void onEvent(Event event) throws Exception {

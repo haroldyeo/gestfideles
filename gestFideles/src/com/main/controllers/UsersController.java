@@ -207,7 +207,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	public void refreshForm() {
 		
 		Textbox[] textBoxes = new Textbox[]{txtNomF, txtPrenomsF, txtIdentifiantF, txtMdpF, txtMdp2F};
-		Utils.clearTextboxes(textBoxes);
+		Utils.clearComponents(textBoxes);
 		
 	}
 	

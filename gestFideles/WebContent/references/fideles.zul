@@ -230,7 +230,7 @@
 	                <row>
 	                    <cell sclass="row-title">Date:</cell>
 	                    <cell>
-	                    <datebox format="dd/MM/yyyy" id="dateMariage"  width="200px"></datebox>
+	                    <datebox format="dd/MM/yyyy" id="dateboxMariage"  width="200px"></datebox>
 	                    </cell>
 	                    
 	                     <cell sclass="row-title">Eglise:</cell>
@@ -247,7 +247,7 @@
 	                    
 	                    <cell sclass="row-title">Date baptême conjoint:</cell>
 	                    <cell>
-	                        <datebox format="dd/MM/yyyy" id="dateBaptConjoint"  width="200px"></datebox>
+	                        <datebox format="dd/MM/yyyy" id="dateboxBaptConjoint"  width="200px"></datebox>
 	                    </cell>
 	                </row>
 	                	                
@@ -295,7 +295,7 @@
 	                <row>
 	                    <cell sclass="row-title">Date:</cell>
 	                    <cell>
-	                    <datebox format="dd/MM/yyyy" id="dateBenNupt"  width="200px"></datebox>
+	                    <datebox format="dd/MM/yyyy" id="dateboxBenNupt"  width="200px"></datebox>
 	                    </cell>
 	                    
 	                     <cell sclass="row-title">Eglise:</cell>
@@ -336,17 +336,17 @@
 	                <row>
 	                    <cell sclass="row-title">Date:</cell>
 	                    <cell>
-	                    <datebox format="dd/MM/yyyy" id="dateFormCivile"  width="200px"></datebox>
+	                    <datebox format="dd/MM/yyyy" id="dateboxFormCivile"  width="200px"></datebox>
 	                    </cell>
 	                    
 	                     <cell sclass="row-title">Numéro:</cell>
 	                    <cell>
-	                    <textbox id="txtFormCivile" width="200px"/>
+	                    <textbox id="txtNumFormCivile" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Marie de:</cell>
+	                    <cell sclass="row-title">Mairie de:</cell>
 	                    <cell>
 	                    <textbox id="txtMairie" width="200px"/>
 	                    </cell>
@@ -364,7 +364,7 @@
 	                <column/>
 	                <column/>
 	            </columns>
-	            <rows id="rowsEnfant">
+	            <rows id="rowsEnfants">
 	            	<row id="rowTitleEnfant">
 	            		<cell colspan="4" style="text-align:left">Enfants</cell>
 	            	</row>

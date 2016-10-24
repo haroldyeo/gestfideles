@@ -1,0 +1,52 @@
+<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<window id="winEnfantForm" apply="com.main.controllers.EnfantFormController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+    <caption sclass="fn-caption" label="Enfants"/>
+    <vlayout>
+        <grid width="400px">
+            <columns>
+                <column align="right" hflex="min"/>
+                <column/>
+            </columns>
+            <rows>
+            	<row>
+                    <cell sclass="row-title">Nom :</cell>
+                    <cell>
+                    <textbox id="txtNomEnfant"  width="200px"/>
+                    </cell>
+                </row>
+                
+                <row>
+                    <cell sclass="row-title">Date de naissance:</cell>
+                    <cell>
+                    <datebox id="dateNaissanceEnfant" readonly="true" format="dd/MM/yyyy" width="200px"></datebox>
+                    </cell>
+                </row>
+                
+                 <row>
+                    <cell sclass="row-title">Date de baptême:</cell>
+                    <cell>
+                    <datebox id="dateBaptEnfant" readonly="true" format="dd/MM/yyyy" width="200px"></datebox>
+                    </cell>
+                </row>
+                
+                 <row>
+                    <cell sclass="row-title">Numéro de baptême:</cell>
+                    <cell>
+                    <textbox id="txtNumBaptEnfant"  width="200px"/>
+                    </cell>
+                </row>
+                
+                <row>
+                    <cell sclass="row-title">Lieu de baptême:</cell>
+                    <cell>
+                    <textbox id="txtLieuBaptEnfant"  width="200px"/>
+                    </cell>
+                </row>
+            </rows>
+        </grid>
+        
+        <hlayout>
+            <button id="saveEnfant" label="Enregistrer"/>
+        </hlayout>
+    </vlayout>
+</window>

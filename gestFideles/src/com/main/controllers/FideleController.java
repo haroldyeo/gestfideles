@@ -4,9 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -80,24 +78,24 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	/*----  Mariage  ----*/
 	@Wire Textbox txtNumMariage, txtEgliseMariage, txtConjoint, txtNumBaptConjoint, txtPretreMariage, txtTemoin1, txtTemoin2;
 	@Wire Datebox dateboxMariage, dateboxBaptConjoint;
-	String numMariage, egliseMariage, conjoint, numBaptConjoint, pretreMariage, temoin1, temoin2;
-	Date dateMariage, dateBaptConjoint;
+	String numMariage, egliseMariage, epoux, numBaptEpoux, pretreMariage, temoin1, temoin2;
+	Date dateMariage, dateBaptEpoux;
 	
 	/*----  Bénédiction nuptiale  ----*/
 	@Wire Textbox txtEgliseBenNupt, txtDispenseBenNupt, txtEvecheBenNupt;
 	@Wire Datebox dateboxBenNupt;
-	String egliseBenNupt, dispenseBenNupt, evecheBenNupt;
-	Date dateBenNupt;
+	String benedNuptLieu, dispenseNum, dispenseEveche;
+	Date benedNuptDate;
 	
 	/*----  Formalités civiles  ----*/
 	@Wire Datebox dateboxFormCivile;
 	@Wire Textbox txtNumFormCivile, txtMairie;
-	Date dateFormCivile;
-	String numFormCivile, mairie;
+	Date formalitesDate;
+	String numFormalites, formalitesMairie;
 	
 	/*----  Enfants  ----*/
 	@Wire Rows rowsEnfants;
-	@Wire Button btnAddEnfants;
+	@Wire Button btnAddEnfant;
 	String nomEnfant;
 	Date dateNaissanceEnfant;
 	List<Sacrement> listEnfants = new ArrayList<>();
@@ -124,6 +122,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
     	if(comp.getId().equals("winFidele")){
     		displayList(null);
     		comp.addEventListener("onAddSacrement", this);
+    		comp.addEventListener("onAddEnfant", this);
     		Utils.setSessionAttribute("winFidele", winFidele);
     	}
     		
@@ -223,17 +222,16 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 			
 			// mariage
-//			List<Mariage> lm = (List<Mariage>)OperationsDb.find(Constants.mariage, params);
-//			Mariage m = lm.size() == 1 ? lm.get(0) : null;
-//			txtNumMariage.setValue(m.getNumMariage()); 
-//			txtEgliseMariage.setValue(m.getLieu());
-//			txtConjoint.setValue(m.getEpoux());
-//			txtNumBaptConjoint.setValue(m.getNumBaptEpoux());
-//			txtPretreMariage.setValue(m.getPretre());
-//			txtTemoin1.setValue(m.getTemoin1());
-//			txtTemoin2.setValue(m.getTemoin2());
-//			dateboxMariage.setValue(m.getDateMariage());
-//			dateboxBaptConjoint.setValue(m.getDateBaptEpoux());
+			Mariage m = selected.getMariages().size() == 1 ? selected.getMariages().get(0) : null;
+			txtNumMariage.setValue(m.getNumMariage()); 
+			txtEgliseMariage.setValue(m.getLieu());
+			txtConjoint.setValue(m.getEpoux());
+			txtNumBaptConjoint.setValue(m.getNumBaptEpoux());
+			txtPretreMariage.setValue(m.getPretre());
+			txtTemoin1.setValue(m.getTemoin1());
+			txtTemoin2.setValue(m.getTemoin2());
+			dateboxMariage.setValue(m.getDateMariage());
+			dateboxBaptConjoint.setValue(m.getDateBaptEpoux());
 		}// fin du else
 		
 	}
@@ -292,12 +290,22 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				//create new
 				if(errorCheck()){
 					Fidele fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
+					// Baptême
 					Bapteme bapt = new Bapteme(dateBapteme, diocese, eglise, numero, pretre, fid);
 					fid.addBapteme(bapt);
 					
+					// Sacrément
 					for(Sacrement s : listSacrement){
 						fid.addSacrement(s);
 					}
+					
+					// Mariage
+					Mariage m = new Mariage(benedNuptDate, benedNuptLieu, dateBaptEpoux, dateMariage, 
+							dispenseEveche, dispenseNum, epoux, formalitesDate, numFormalites, formalitesMairie, 
+							lieu, numBaptEpoux, pretre, temoin1, temoin2, numMariage);
+					fid.addMariage(m);
+					
+					// Persist
 					OperationsDb.persistObject(fid);
 					
 					Messagebox.show("Fidèle enregistré avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
@@ -396,6 +404,10 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			rowsSacrement.appendChild(row);
 		} 
 		
+		if(event.getName().equalsIgnoreCase("onAddEnfant")){
+			Row row = (Row) event.getData();
+			rowsEnfants.appendChild(row);
+		} 
 	}
 	
 	/*-------------    ENFANTS   *****************************/
@@ -478,24 +490,24 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				// mariage
 				numMariage = txtNumMariage.getValue();
 				egliseMariage = txtEgliseMariage.getValue();
-				conjoint = txtConjoint.getValue();
-				numBaptConjoint = txtNumBaptConjoint.getValue();
+				epoux = txtConjoint.getValue();
+				numBaptEpoux = txtNumBaptConjoint.getValue();
 				pretreMariage = txtPretreMariage.getValue();
 				temoin1 = txtTemoin1.getValue();
 				temoin2 = txtTemoin2.getValue();
 				dateMariage = dateboxMariage.getValue();
-				dateBaptConjoint = dateboxBaptConjoint.getValue();
+				dateBaptEpoux = dateboxBaptConjoint.getValue();
 				
 				// bénédiction nuptiale
-				dateBenNupt = dateboxBenNupt.getValue();
-				egliseBenNupt = txtEgliseBenNupt.getValue();
-				dispenseBenNupt = txtDispenseBenNupt.getValue();
-				evecheBenNupt = txtEvecheBenNupt.getValue();
+				benedNuptDate = dateboxBenNupt.getValue();
+				benedNuptLieu = txtEgliseBenNupt.getValue();
+				dispenseNum = txtDispenseBenNupt.getValue();
+				dispenseEveche = txtEvecheBenNupt.getValue();
 				
 				// Formalités civiles
-				dateFormCivile = dateboxFormCivile.getValue();
-				numFormCivile =txtNumFormCivile.getValue();
-				mairie = txtMairie.getValue();
+				formalitesDate = dateboxFormCivile.getValue();
+				numFormalites =txtNumFormCivile.getValue();
+				formalitesMairie = txtMairie.getValue();
 				
 				
 				

@@ -22,8 +22,8 @@ public class Mariage implements Serializable {
 	private String dispenseNum;
 	private String epoux;
 	private Date formalitesDate;
-	private String formalitesLieu;
-	private String formalitesMarie;
+	private String numFormalites;
+	private String formalitesMairie;
 	private String lieu;
 	private String numBaptEpoux;
 	private String pretre;
@@ -34,6 +34,30 @@ public class Mariage implements Serializable {
 
 	public Mariage() {
 	}
+	
+	
+	public Mariage(Date benedNuptDate, String benedNuptLieu, Date dateBaptEpoux, Date dateMariage,
+			String dispenseEveche, String dispenseNum, String epoux, Date formalitesDate, String formalitesLieu,
+			String formalitesMairie, String lieu, String numBaptEpoux, String pretre, String temoin1, String temoin2,
+			String numMariage) {
+		super();
+		this.benedNuptDate = benedNuptDate;
+		this.benedNuptLieu = benedNuptLieu;
+		this.dateBaptEpoux = dateBaptEpoux;
+		this.dateMariage = dateMariage;
+		this.dispenseEveche = dispenseEveche;
+		this.dispenseNum = dispenseNum;
+		this.epoux = epoux;
+		this.formalitesDate = formalitesDate;
+		this.formalitesMairie = formalitesMairie;
+		this.lieu = lieu;
+		this.numBaptEpoux = numBaptEpoux;
+		this.pretre = pretre;
+		this.temoin1 = temoin1;
+		this.temoin2 = temoin2;
+		this.numMariage = numMariage;
+	}
+
 
 
 	@Id
@@ -129,24 +153,33 @@ public class Mariage implements Serializable {
 		this.formalitesDate = formalitesDate;
 	}
 
-
-	@Column(name="formalites_lieu")
-	public String getFormalitesLieu() {
-		return this.formalitesLieu;
+	public String getNumFormalites() {
+		return numFormalites;
 	}
 
-	public void setFormalitesLieu(String formalitesLieu) {
-		this.formalitesLieu = formalitesLieu;
+
+	public void setNumFormalites(String numFormalites) {
+		this.numFormalites = numFormalites;
 	}
 
 
 	@Column(name="formalites_marie")
-	public String getFormalitesMarie() {
-		return this.formalitesMarie;
+	public String getformalitesMairie() {
+		return this.formalitesMairie;
 	}
 
-	public void setFormalitesMarie(String formalitesMarie) {
-		this.formalitesMarie = formalitesMarie;
+	public String getFormalitesMairie() {
+		return formalitesMairie;
+	}
+
+
+	public void setFormalitesMairie(String formalitesMairie) {
+		this.formalitesMairie = formalitesMairie;
+	}
+
+
+	public void setformalitesMairie(String formalitesMairie) {
+		this.formalitesMairie = formalitesMairie;
 	}
 
 

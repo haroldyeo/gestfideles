@@ -357,7 +357,7 @@
 	        
 	        	<!-- 		   ENFANTS -->		
 		   				
-		   	 <grid width="500px" id="gridEnfant" style="margin-top: 15px" >
+		   	 <grid width="800px" id="gridEnfant" style="margin-top: 15px" >
 	            <columns>
 	                <column align="left" width="150px"/>
 	                <column/>

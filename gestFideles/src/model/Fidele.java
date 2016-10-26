@@ -261,6 +261,8 @@ public class Fidele implements Serializable {
 	//bi-directional many-to-one association to Enfant
 	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
 	public List<Enfant> getEnfants() {
+		if(enfants == null)
+			enfants = new ArrayList<>();
 		return this.enfants;
 	}
 
@@ -286,6 +288,8 @@ public class Fidele implements Serializable {
 	//bi-directional many-to-one association to Mariage
 	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
 	public List<Mariage> getMariages() {
+		if(mariages == null)
+			mariages = new ArrayList<>();
 		return this.mariages;
 	}
 

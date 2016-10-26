@@ -8,10 +8,11 @@
 		<class>model.Mariage</class>
 		<class>model.Sacrement</class>
 		<class>model.User</class>
+		<class>model.SacrementMalades</class>
 		<properties>
-			<!--		
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
-			-->
+					
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			
 			
 <!-- 			<property name="hibernate.archive.autodetection" value="class, hbm"/> -->
 			

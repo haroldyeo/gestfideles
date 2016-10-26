@@ -196,13 +196,10 @@
 	                <column/>
 	            </columns>
 	            <rows id="rowsSacrement">
-	            	<row id="rowTitle">
-	            		<cell colspan="4" style="text-align:left">Sacréments</cell>
+	            	<row id="rowTitleSacrement" sclass="rowTitle">
+	            		<cell colspan="2" style="text-align:left">Sacréments</cell>
+	            		<cell colspan="2"><button id="btnAddSacrement" label="Ajouter"></button></cell>
 	            	</row>
-	            	<row>
-	            		<cell colspan="4"><button id="btnAddSacrement" label="Ajouter"></button></cell>
-	            	</row>
-	            	
 	            </rows>
 	         </grid>		
 	         
@@ -366,12 +363,9 @@
 	            </columns>
 	            <rows id="rowsEnfants">
 	            	<row id="rowTitleEnfant">
-	            		<cell colspan="4" style="text-align:left">Enfants</cell>
-	            	</row>
-	            	<row>
-	            		<cell colspan="4"><button id="btnAddEnfant" label="Ajouter"></button></cell>
-	            	</row>
-	            	
+	            		<cell colspan="2" style="text-align:left">Enfants</cell>
+	            		<cell colspan="2"><button id="btnAddEnfant" label="Ajouter"></button></cell>
+	            	</row>	            	
 	            </rows>
 	         </grid>
 	         
@@ -382,16 +376,12 @@
 	                <column align="left" width="150px"/>
 	                <column/>
 	                <column/>
-	                <column/>
 	            </columns>
-	            <rows id="rowsMalade">
-	            	<row id="rowTitleMalade">
-	            		<cell colspan="4" style="text-align:left">Sacréments des malades</cell>
-	            	</row>
-	            	<row>
-	            		<cell colspan="4"><button id="btnAddMalade" label="Ajouter"></button></cell>
-	            	</row>
-	            	
+	            <rows id="rowsSacrementMalades">
+	            	<row id="rowTitleMalade" sclass="rowTitle">
+	            		<cell colspan="2" style="text-align:left">Sacréments des malades</cell>
+	            		<cell ><button id="btnAddMalade" label="Ajouter"></button></cell>
+	            	</row>	            	
 	            </rows>
 	         </grid>			
 			

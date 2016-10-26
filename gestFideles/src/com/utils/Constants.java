@@ -10,6 +10,8 @@ public class Constants {
 	public static final String bapteme = "bapteme";
 	public static final String sacrements = "sacrements";
 	public static final String mariage = "mariage";
+	public static final String enfants = "enfants";
+	public static final String sacreMalades = "sacreMalades";
 	
 	
 	public static final String identifiant = "identifiant";
@@ -27,5 +29,10 @@ public class Constants {
 	public static final String origineMere = "originePere";
 	public static final String mdp = "motPasse";
 	public static final String dob = "dob";
+	
+	
+	public static final String events_sacrement = "onAddSacrement";
+	public static final String events_sacrementMalade = "onAddSacreMalade";
+	public static final String events_enfant = "onAddEnfant";
 
 }

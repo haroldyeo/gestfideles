@@ -11,6 +11,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.utils.Constants;
 import com.utils.Utils;
 
 import model.Enfant;
@@ -45,11 +46,11 @@ public class EnfantFormController  extends SelectorComposer<Component> {
 		} else {
 			
 			Enfant f = new Enfant(dateBaptEnfant.getValue(), dateNaissanceEnfant.getValue(),
-					txtLieuBaptEnfant.getValue(), txtNomEnfant.getValue(), txtNumBaptEnfant.getValue(), null);
+					txtLieuBaptEnfant.getValue(), txtNomEnfant.getValue(), txtNumBaptEnfant.getValue());
 			
 			Window win = (Window) Utils.getSessionAttribute("winFidele");
 			
-			Events.postEvent("onAddEnfant", win, Utils.buildEnfants(f));
+			Events.postEvent(Constants.events_enfant, win, Utils.buildEnfants(f));
 			
 			winEnfantForm.detach();
 			

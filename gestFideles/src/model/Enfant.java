@@ -27,20 +27,19 @@ public class Enfant implements Serializable {
 
 	
 
-	public Enfant(Date dateBapteme, Date dob, String lieuBapteme, String nom, String numBapteme, Fidele fidele) {
+	public Enfant(Date dateBapteme, Date dob, String lieuBapteme, String nom, String numBapteme) {
 		super();
 		this.dateBapteme = dateBapteme;
 		this.dob = dob;
 		this.lieuBapteme = lieuBapteme;
 		this.nom = nom;
 		this.numBapteme = numBapteme;
-		this.fidele = fidele;
 	}
 
 
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}

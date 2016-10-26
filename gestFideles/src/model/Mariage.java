@@ -10,6 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="\"FIDELESDEV\".mariage")
 @NamedQuery(name="Mariage.findAll", query="SELECT m FROM Mariage m")
 public class Mariage implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +23,7 @@ public class Mariage implements Serializable {
 	private String dispenseNum;
 	private String epoux;
 	private Date formalitesDate;
-	private String numFormalites;
+	private String formalitesNum;
 	private String formalitesMairie;
 	private String lieu;
 	private String numBaptEpoux;
@@ -36,10 +37,12 @@ public class Mariage implements Serializable {
 	}
 	
 	
+
+
 	public Mariage(Date benedNuptDate, String benedNuptLieu, Date dateBaptEpoux, Date dateMariage,
-			String dispenseEveche, String dispenseNum, String epoux, Date formalitesDate, String formalitesLieu,
+			String dispenseEveche, String dispenseNum, String epoux, Date formalitesDate, String formalitesNum,
 			String formalitesMairie, String lieu, String numBaptEpoux, String pretre, String temoin1, String temoin2,
-			String numMariage) {
+			String numMariage, Fidele fidele) {
 		super();
 		this.benedNuptDate = benedNuptDate;
 		this.benedNuptLieu = benedNuptLieu;
@@ -49,6 +52,7 @@ public class Mariage implements Serializable {
 		this.dispenseNum = dispenseNum;
 		this.epoux = epoux;
 		this.formalitesDate = formalitesDate;
+		this.formalitesNum = formalitesNum;
 		this.formalitesMairie = formalitesMairie;
 		this.lieu = lieu;
 		this.numBaptEpoux = numBaptEpoux;
@@ -56,12 +60,14 @@ public class Mariage implements Serializable {
 		this.temoin1 = temoin1;
 		this.temoin2 = temoin2;
 		this.numMariage = numMariage;
+		this.fidele = fidele;
 	}
 
 
 
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}
@@ -153,28 +159,20 @@ public class Mariage implements Serializable {
 		this.formalitesDate = formalitesDate;
 	}
 
-	public String getNumFormalites() {
-		return numFormalites;
+	@Column(name="formalites_num")
+	public String getFormalitesNum() {
+		return formalitesNum;
+	}
+
+	
+	public void setFormalitesNum(String numFormalites) {
+		this.formalitesNum = numFormalites;
 	}
 
 
-	public void setNumFormalites(String numFormalites) {
-		this.numFormalites = numFormalites;
-	}
-
-
-	@Column(name="formalites_marie")
+	@Column(name="formalites_mairie")
 	public String getformalitesMairie() {
 		return this.formalitesMairie;
-	}
-
-	public String getFormalitesMairie() {
-		return formalitesMairie;
-	}
-
-
-	public void setFormalitesMairie(String formalitesMairie) {
-		this.formalitesMairie = formalitesMairie;
 	}
 
 
@@ -239,7 +237,7 @@ public class Mariage implements Serializable {
 		this.fidele = fidele;
 	}
 
-
+	@Column(name="num_mariage")
 	public String getNumMariage() {
 		return numMariage;
 	}

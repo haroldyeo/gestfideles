@@ -1,0 +1,31 @@
+<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<window id="winSacreMaladeForm" apply="com.main.controllers.SacreMaladeFormController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+    <caption sclass="fn-caption" label="Sacrément des Malades"/>
+    <vlayout>
+        <grid width="400px">
+            <columns>
+                <column align="right" hflex="min"/>
+                <column/>
+            </columns>
+            <rows>
+            	<row>
+                    <cell sclass="row-title">Date :</cell>
+                    <cell>
+                    <datebox id="dateSacreMalade" readonly="true" format="dd/MM/yyyy" width="200px"></datebox>
+                    </cell>
+                </row>
+                
+                <row>
+                    <cell sclass="row-title">Lieu:</cell>
+                    <cell>
+                    <textbox id="txtLieuSacreMalade"  width="200px"/>
+                    </cell>
+                </row>
+            </rows>
+        </grid>
+        
+        <hlayout>
+            <button id="saveSacreMalade" label="Enregistrer"/>
+        </hlayout>
+    </vlayout>
+</window>

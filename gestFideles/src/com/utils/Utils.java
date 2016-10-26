@@ -21,6 +21,7 @@ import org.zkoss.zul.Window;
 
 import model.Enfant;
 import model.Sacrement;
+import model.SacrementMalades;
 
 public class Utils {
 	
@@ -61,18 +62,21 @@ public class Utils {
 		return result;
 	}
 	
-	public static void clearComponents(Component[] comps){
-		if(comps instanceof Textbox[]){
-			for(Textbox t : (Textbox[])comps){
-				t.setText("");
+	public static void clearComponents(Component[]... comps){
+		for(Component[] c : comps){
+			if(c instanceof Textbox[]){
+				for(Textbox t : (Textbox[])c){
+					t.setText("");
+				}
+			}
+			
+			else if(c instanceof Datebox[]){
+				for(Datebox d : (Datebox[])c){
+					d.setText("");
+				}
 			}
 		}
 		
-		else if(comps instanceof Datebox[]){
-			for(Datebox d : (Datebox[])comps){
-				d.setText("");
-			}
-		}
 		
 	}
 
@@ -131,7 +135,7 @@ public class Utils {
 		btnDel.setImage("/imgs/btn-del.png");
 		if(e.getId() != null)
 			btnDel.setAttribute("idEnfant", e.getId().toString());
-		btnDel.addEventListener(Events.ON_CLICK, enfantListener);
+		btnDel.addEventListener(Events.ON_CLICK, actionListener);
 		
 		Cell cell1 = new Cell();
 		cell1.appendChild(lblnomEnfant);
@@ -167,13 +171,35 @@ public class Utils {
     	
     }
 
-    static EventListener<Event> enfantListener = new SerializableEventListener<Event>() {
-        private static final long serialVersionUID = 1L;
+        
+    public static Row buildSacreMalade(SacrementMalades sm){
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Label lblDate = new Label(sdf.format(sm.getDate()));
+		Label lblLieu = new Label(sm.getLieu());
+		
+		Button btnDel = new Button();
+		btnDel.setImage("/imgs/btn-del.png");
+		if(sm.getId() != null)
+			btnDel.setAttribute("idSacrementMalade", sm.getId().toString());
+		btnDel.addEventListener(Events.ON_CLICK, actionListener);
+		
+		Cell cell1 = new Cell();
+		cell1.appendChild(lblDate);
+		
+		Cell cell2 = new Cell();
+		cell2.appendChild(lblLieu);
+		
+		Cell cell3 = new Cell();
+		cell3.appendChild(btnDel);
+		
+		Row row = new Row();
+		row.appendChild(cell1);
+		row.appendChild(cell2);
+		row.appendChild(cell3);
+		
+		return row;
+    	
+    }
 
-        public void onEvent(Event event) throws Exception {
-           Button btnDel = (Button) event.getTarget();
-           btnDel.getParent().getParent().detach();
-        }
-    };
 
 }

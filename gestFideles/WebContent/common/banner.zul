@@ -1,7 +1,7 @@
 <div hflex="1" vflex="1" sclass="banner">
     <hbox hflex="1" vflex="1" align="center">
-        <div width="400px">
-            <label value="Gestion des fidèles" sclass="banner-head" />
+        <div width="700px">
+            <label value="Carnets de baptême électronique" sclass="banner-head" />
         </div>
         <hbox hflex="1" vflex="1" pack="end" align="end">
             <label>${userCredentials.nom} ${userCredentials.prenoms}</label>

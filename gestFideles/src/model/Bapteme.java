@@ -29,14 +29,13 @@ public class Bapteme implements Serializable {
 	
 
 
-	public Bapteme(Date dateBapteme, String diocese, String eglise, String numero, String pretre, Fidele fidele) {
+	public Bapteme(Date dateBapteme, String diocese, String eglise, String numero, String pretre) {
 		super();
 		this.dateBapteme = dateBapteme;
 		this.diocese = diocese;
 		this.eglise = eglise;
 		this.numero = numero;
 		this.pretre = pretre;
-		this.fidele = fidele;
 	}
 
 

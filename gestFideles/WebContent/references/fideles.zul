@@ -61,15 +61,15 @@
 	            </columns>
 	            <rows>
 	                <row>
-	                	<cell colspan="2" style="text-align:left">Informations de base</cell>
+	                	<cell colspan="2" style="text-align:left"><label sclass="grid-title">Informations de base</label></cell>
 	                </row>
 	                <row>
-	                    <cell sclass="row-title">Nom:</cell>
+	                    <cell sclass="cell-title">Nom:</cell>
 	                    <cell>
 	                    <textbox id="txtNomF"  width="200px"/>
 	                    </cell>
 	                    
-	                     <cell sclass="row-title">Prénoms:</cell>
+	                     <cell sclass="cell-title">Prénoms:</cell>
 	                    <cell>
 	                    <textbox id="txtPrenomsF" width="200px"/>
 	                    </cell>
@@ -77,24 +77,24 @@
 	                
 	                
 	                <row>
-	                    <cell sclass="row-title">Date de naissance:</cell>
+	                    <cell sclass="cell-title">Date de naissance:</cell>
 	                    <cell>
 	                        <datebox format="dd/MM/yyyy" id="dateDob" width="200px"/>
 	                    </cell>
 	                    
-	                     <cell sclass="row-title">Lieu de naissance:</cell>
+	                     <cell sclass="cell-title">Lieu de naissance:</cell>
 	                    <cell>
 	                        <textbox id="txtlieuNaissance"  width="200px"/>
 	                    </cell>
 	                </row>
 	              
 	                <row>
-	                    <cell sclass="row-title">Nom du père:</cell>
+	                    <cell sclass="cell-title">Nom du père:</cell>
 	                    <cell>
 	                        <textbox id="txtNomPere"  width="200px"/>
 	                    </cell>
 	                    
-	                    <cell sclass="row-title">Origine du père:</cell>
+	                    <cell sclass="cell-title">Origine du père:</cell>
 	                    <cell>
 	                        <textbox id="txtOriginePere"  width="200px"/>
 	                    </cell>
@@ -102,12 +102,12 @@
 	              
 	                
 	                <row>
-	                    <cell sclass="row-title">Nom de la mère:</cell>
+	                    <cell sclass="cell-title">Nom de la mère:</cell>
 	                    <cell>
 	                        <textbox id="txtNomMere"  width="200px"/>
 	                    </cell>
 	                    
-	                      <cell sclass="row-title">Origine de la mère:</cell>
+	                      <cell sclass="cell-title">Origine de la mère:</cell>
 	                    <cell>
 	                        <textbox id="txtOrigineMere"  width="200px"/>
 	                    </cell>
@@ -115,12 +115,12 @@
 	             
 	                
 	                <row>
-	                    <cell sclass="row-title">Nom du parrain:</cell>
+	                    <cell sclass="cell-title">Nom du parrain:</cell>
 	                    <cell>
 	                        <textbox id="txtNomParrain"  width="200px"/>
 	                    </cell>
 	                    
-	                      <cell sclass="row-title">Nom de la marraine:</cell>
+	                      <cell sclass="cell-title">Nom de la marraine:</cell>
 	                    <cell>
 	                        <textbox id="txtNomMarraine"  width="200px"/>
 	                    </cell>
@@ -144,38 +144,38 @@
 	            <rows>
 	            
 	          	    <row>
-	                	<cell colspan="2" style="text-align:left">Baptême</cell>
+	                	<cell colspan="2" style="text-align:left"><label sclass="grid-title">Baptême</label></cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Numéro de baptême:</cell>
+	                    <cell sclass="cell-title">Numéro de baptême:</cell>
 	                    <cell>
 	                    <textbox id="txtNumeroBapt" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Date du baptême:</cell>
+	                    <cell sclass="cell-title">Date du baptême:</cell>
 	                    <cell>
 	                    <datebox format="dd/MM/yyyy" id="dateBapt"  width="200px"></datebox>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Diocèse:</cell>
+	                    <cell sclass="cell-title">Diocèse:</cell>
 	                    <cell>
 	                    <textbox id="txtDiocese" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Eglise:</cell>
+	                    <cell sclass="cell-title">Eglise:</cell>
 	                    <cell>
 	                        <textbox id="txtEglise" width="200px"/>
 	                    </cell>
 	                </row>
 	                <row>
-	                    <cell sclass="row-title">Prêtre:</cell>
+	                    <cell sclass="cell-title">Prêtre:</cell>
 	                    <cell>
 	                        <textbox id="txtPretreBapteme"  width="200px"/>
 	                    </cell>
@@ -197,7 +197,7 @@
 	            </columns>
 	            <rows id="rowsSacrement">
 	            	<row id="rowTitleSacrement" sclass="rowTitle">
-	            		<cell colspan="2" style="text-align:left">Sacréments</cell>
+	            		<cell colspan="2" style="text-align:left"><label sclass="grid-title">Sacréments</label></cell>
 	            		<cell colspan="2"><button id="btnAddSacrement" label="Ajouter"></button></cell>
 	            	</row>
 	            </rows>
@@ -214,58 +214,58 @@
 	            <rows>
 	            
 	          	    <row>
-	                	<cell colspan="2" style="text-align:left">Mariage</cell>
+	                	<cell colspan="4" style="text-align:left; font-weight: bold"><label sclass="grid-title">Mariage</label></cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Mariage N°:</cell>
+	                    <cell sclass="cell-title">Mariage N°:</cell>
 	                    <cell>
 	                    <textbox id="txtNumMariage" width="200px"/>
 	                    </cell>
 	                 </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Date:</cell>
+	                    <cell sclass="cell-title">Date:</cell>
 	                    <cell>
 	                    <datebox format="dd/MM/yyyy" id="dateboxMariage"  width="200px"></datebox>
 	                    </cell>
 	                    
-	                     <cell sclass="row-title">Eglise:</cell>
+	                     <cell sclass="cell-title">Eglise:</cell>
 	                    <cell>
 	                    <textbox id="txtEgliseMariage" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Conjoint(e):</cell>
+	                    <cell sclass="cell-title">Conjoint(e):</cell>
 	                    <cell>
 	                    <textbox id="txtConjoint" width="200px"/>
 	                    </cell>
 	                    
-	                    <cell sclass="row-title">Date baptême conjoint:</cell>
+	                    <cell sclass="cell-title">Date baptême conjoint:</cell>
 	                    <cell>
 	                        <datebox format="dd/MM/yyyy" id="dateboxBaptConjoint"  width="200px"></datebox>
 	                    </cell>
 	                </row>
 	                	                
 	                <row>
-	                    <cell sclass="row-title">N° Baptême conjoint:</cell>
+	                    <cell sclass="cell-title">N° Baptême conjoint:</cell>
 	                    <cell>
 	                        <textbox id="txtNumBaptConjoint" width="200px"/>
 	                    </cell>
 	                    
-	                    <cell sclass="row-title">Prêtre:</cell>
+	                    <cell sclass="cell-title">Prêtre:</cell>
 	                    <cell>
 	                        <textbox id="txtPretreMariage"  width="200px"/>
 	                    </cell>
 	                </row>
 	                <row>
-	                    <cell sclass="row-title">Témoin 1:</cell>
+	                    <cell sclass="cell-title">Témoin 1:</cell>
 	                    <cell>
 	                        <textbox id="txtTemoin1" width="200px"/>
 	                    </cell>
 	                    
-	                    <cell sclass="row-title">Témoin 2:</cell>
+	                    <cell sclass="cell-title">Témoin 2:</cell>
 	                    <cell>
 	                        <textbox id="txtTemoin2"  width="200px"/>
 	                    </cell>
@@ -286,28 +286,28 @@
 	            <rows>
 	            
 	          	    <row>
-	                	<cell colspan="2" style="text-align:left">Bénédiction nuptiale</cell>
+	                	<cell colspan="2" style="text-align:left"><label sclass="grid-title">Bénédiction nuptiale</label></cell>
 	                </row>
 	                	                
 	                <row>
-	                    <cell sclass="row-title">Date:</cell>
+	                    <cell sclass="cell-title">Date:</cell>
 	                    <cell>
 	                    <datebox format="dd/MM/yyyy" id="dateboxBenNupt"  width="200px"></datebox>
 	                    </cell>
 	                    
-	                     <cell sclass="row-title">Eglise:</cell>
+	                     <cell sclass="cell-title">Eglise:</cell>
 	                    <cell>
 	                    <textbox id="txtEgliseBenNupt" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Dispense N°:</cell>
+	                    <cell sclass="cell-title">Dispense N°:</cell>
 	                    <cell>
 	                    <textbox id="txtDispenseBenNupt" width="200px"/>
 	                    </cell>
 	                    
-	                    <cell sclass="row-title">Evêché:</cell>
+	                    <cell sclass="cell-title">Evêché:</cell>
 	                    <cell>
 	                        <textbox id="txtEvecheBenNupt" width="200px"/>
 	                    </cell>
@@ -327,23 +327,23 @@
 	            <rows>
 	            
 	          	    <row>
-	                	<cell colspan="2" style="text-align:left">Formalités civiles</cell>
+	                	<cell colspan="2" style="text-align:left"><label sclass="grid-title">Formalités civiles</label></cell>
 	                </row>
 	                	                
 	                <row>
-	                    <cell sclass="row-title">Date:</cell>
+	                    <cell sclass="cell-title">Date:</cell>
 	                    <cell>
 	                    <datebox format="dd/MM/yyyy" id="dateboxFormCivile"  width="200px"></datebox>
 	                    </cell>
 	                    
-	                     <cell sclass="row-title">Numéro:</cell>
+	                     <cell sclass="cell-title">Numéro:</cell>
 	                    <cell>
 	                    <textbox id="txtNumFormCivile" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="row-title">Mairie de:</cell>
+	                    <cell sclass="cell-title">Mairie de:</cell>
 	                    <cell>
 	                    <textbox id="txtMairie" width="200px"/>
 	                    </cell>
@@ -363,7 +363,7 @@
 	            </columns>
 	            <rows id="rowsEnfants">
 	            	<row id="rowTitleEnfant">
-	            		<cell colspan="2" style="text-align:left">Enfants</cell>
+	            		<cell colspan="2" style="text-align:left"><label sclass="grid-title">Enfants</label></cell>
 	            		<cell colspan="2"><button id="btnAddEnfant" label="Ajouter"></button></cell>
 	            	</row>	            	
 	            </rows>
@@ -379,7 +379,7 @@
 	            </columns>
 	            <rows id="rowsSacrementMalades">
 	            	<row id="rowTitleMalade" sclass="rowTitle">
-	            		<cell colspan="2" style="text-align:left">Sacréments des malades</cell>
+	            		<cell colspan="2" style="text-align:left"><label sclass="grid-title">Sacréments des malades</label></cell>
 	            		<cell ><button id="btnAddMalade" label="Ajouter"></button></cell>
 	            	</row>	            	
 	            </rows>

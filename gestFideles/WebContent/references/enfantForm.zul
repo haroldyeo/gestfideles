@@ -18,14 +18,14 @@
                 <row>
                     <cell sclass="row-title">Date de naissance:</cell>
                     <cell>
-                    <datebox id="dateNaissanceEnfant" readonly="true" format="dd/MM/yyyy" width="200px"></datebox>
+                    <datebox id="dateNaissanceEnfant"  format="dd/MM/yyyy" width="200px"></datebox>
                     </cell>
                 </row>
                 
                  <row>
                     <cell sclass="row-title">Date de baptême:</cell>
                     <cell>
-                    <datebox id="dateBaptEnfant" readonly="true" format="dd/MM/yyyy" width="200px"></datebox>
+                    <datebox id="dateBaptEnfant"  format="dd/MM/yyyy" width="200px"></datebox>
                     </cell>
                 </row>
                 

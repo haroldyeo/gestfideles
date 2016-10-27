@@ -42,7 +42,7 @@ public class Mariage implements Serializable {
 	public Mariage(Date benedNuptDate, String benedNuptLieu, Date dateBaptEpoux, Date dateMariage,
 			String dispenseEveche, String dispenseNum, String epoux, Date formalitesDate, String formalitesNum,
 			String formalitesMairie, String lieu, String numBaptEpoux, String pretre, String temoin1, String temoin2,
-			String numMariage, Fidele fidele) {
+			String numMariage) {
 		super();
 		this.benedNuptDate = benedNuptDate;
 		this.benedNuptLieu = benedNuptLieu;
@@ -60,7 +60,6 @@ public class Mariage implements Serializable {
 		this.temoin1 = temoin1;
 		this.temoin2 = temoin2;
 		this.numMariage = numMariage;
-		this.fidele = fidele;
 	}
 
 

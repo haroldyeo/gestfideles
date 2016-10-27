@@ -21,7 +21,7 @@
                 <row>
                     <cell sclass="row-title">Date:</cell>
                     <cell>
-                    <datebox id="dateSacrement" readonly="true" format="dd/MM/yyyy" width="200px"></datebox>
+                    <datebox id="dateSacrement"  format="dd/MM/yyyy" width="200px"></datebox>
                     </cell>
                 </row>
                 <row>

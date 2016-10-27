@@ -81,6 +81,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	List<String> sacrementKeysInit = new ArrayList<>();
 	List<String> sacrementKeysForm = new ArrayList<>();
 	List<String> sacrementKeysThatRemain = new ArrayList<>();
+	List<String> sacrementKeysToDelete = new ArrayList<>();
 	List<Row> listNewRowsUpdate = new ArrayList<>();
 	
 	/*----  Mariage  ----*/
@@ -111,6 +112,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	List<String> enfantsKeysInit = new ArrayList<>();
 	List<String> enfantsKeysForm = new ArrayList<>();
 	List<String> enfantsKeysThatRemain = new ArrayList<>();
+	List<String> enfantsKeysToDelete = new ArrayList<>();
 	List<Row> listNewEnfantsRowsUpdate = new ArrayList<>();
 	
 	/*----  Sacréments malades  ----*/
@@ -123,6 +125,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	List<String> maladesKeysInit = new ArrayList<>();
 	List<String> maladesKeysForm = new ArrayList<>();
 	List<String> maladesKeysThatRemain = new ArrayList<>();
+	List<String> maladesKeysToDelete = new ArrayList<>();
 	List<Row> listNewMaladesRowsUpdate = new ArrayList<>();
 	
 	@Override
@@ -150,7 +153,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				txtEgliseBenNupt, txtDispenseBenNupt, txtEvecheBenNupt,
 				txtNumFormCivile, txtMairie};
 		
-		dateBoxes = new Datebox[]{dateDob, dateBapt, dateboxMariage, dateboxBenNupt, dateboxFormCivile};
+		dateBoxes = new Datebox[]{dateDob, dateBapt, dateboxMariage, dateboxBenNupt, dateboxFormCivile, dateboxBaptConjoint};
 		
 		rowTitles = new Row[]{rowTitleSacrement, rowTitleEnfant, rowTitleMalade};
 	}
@@ -371,7 +374,21 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		Fidele fid = null;
 		
 		if(mode.equals(Constants.modeSave)){
+			
+			// infos base
 			fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
+			
+			// bapteme
+			Bapteme b = new Bapteme(dateBapteme, diocese, eglise, numero, pretreBapteme);
+			fid.addBapteme(b);
+			
+			// mariage
+			Mariage m = new Mariage(benedNuptDate, benedNuptLieu, dateBaptEpoux, dateMariage, 
+					benedNuptEveche, dispenseNum, epoux, formalitesDate, formalitesNum, formalitesMairie,
+					lieu, numBaptEpoux, pretreMariage, temoin1, temoin2, numMariage);
+			fid.addMariage(m);
+			
+			
 		} else if(mode.equals(Constants.modeUpdate)){
 			fid = (Fidele)listbox.getSelectedItem().getValue();
 			
@@ -388,23 +405,64 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			fid.setNomMarraine(nomMarraine);
 			
 			
-		}
-		// bapteme
-		Bapteme b = new Bapteme(dateBapteme, diocese, eglise, numero, pretreMariage);
-		fid.addBapteme(b);
 		
-		// mariage
-		Mariage m = new Mariage(benedNuptDate, benedNuptLieu, dateBaptEpoux, dateMariage, 
-				benedNuptEveche, dispenseNum, epoux, formalitesDate, formalitesNum, formalitesMairie,
-				benedNuptLieu, numBaptEpoux, pretreMariage, temoin1, temoin2, numMariage);
-		fid.addMariage(m);
+			// bapteme			
+			Bapteme b = fid.getBaptemes().size() == 1 ? fid.getBaptemes().get(0) : null;
+			if(b != null){
+				b.setDateBapteme(dateBapteme);
+				b.setDiocese(diocese);
+				b.setEglise(eglise);
+				b.setNumero(numero);
+				b.setPretre(pretreBapteme);
+			}
+			
+			
+			// mariage
+			Mariage m = fid.getMariages().size() == 1 ?  fid.getMariages().get(0) : null;		
+			
+			if(m != null){
+				m.setBenedNuptDate(benedNuptDate);
+				m.setBenedNuptLieu(benedNuptLieu);
+				m.setDateBaptEpoux(dateBaptEpoux);
+				m.setDateMariage(dateMariage);
+				
+				m.setDispenseEveche(benedNuptEveche);
+				m.setDispenseNum(dispenseNum);
+				m.setEpoux(epoux);
+				m.setFormalitesDate(formalitesDate);
+				m.setformalitesMairie(formalitesMairie);
+				
+				m.setLieu(lieu);
+				m.setNumBaptEpoux(numBaptEpoux);
+				m.setPretre(pretreMariage);
+				m.setTemoin1(temoin1);
+				m.setTemoin2(temoin2);
+				m.setNumMariage(numMariage);
+				
+			}
+		
+		} // fin modeUpdate
+		
 		
 		// sacrements
+		
+		List<Sacrement> sacrementsFid = fid.getSacrements();
+		System.out.println(sacrementsFid.size());
+		if(sacrementsFid!= null && !sacrementsFid.isEmpty() && !sacrementKeysToDelete.isEmpty()){
+			for(Sacrement s : sacrementsFid){
+				if(sacrementKeysToDelete.contains(s.getId().toString())){
+					sacrementsFid.remove(s);
+				}
+			}
+		}
+		
 		if(!listSacrement.isEmpty()){
 			for(Sacrement s : listSacrement){
 				fid.addSacrement(s);
 			}
 		}
+		
+		System.out.println(sacrementsFid.size());
 		
 		// enfants
 		if(!listEnfants.isEmpty()){
@@ -734,6 +792,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		List<String> keysInit = null ;
 		List<String> keysForm = null ;
 		List<String> keysThatRemain = null ;
+		List<String> keysToDelete = null ;
 		String rowTitle = null;
 		Class<?> cl = null;
 		
@@ -743,6 +802,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysInit = sacrementKeysInit;
 			keysForm = sacrementKeysForm;
 			keysThatRemain = sacrementKeysThatRemain;
+			keysToDelete = sacrementKeysToDelete;
 			rowTitle = "rowTitleSacrement";
 			cl = Sacrement.class;
 			
@@ -753,14 +813,16 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysInit = enfantsKeysInit;
 			keysForm = enfantsKeysForm;
 			keysThatRemain = enfantsKeysThatRemain;
+			keysToDelete = enfantsKeysToDelete;
 			rowTitle = "rowTitleEnfant";
 			cl = Enfant.class;
-			
+			break;
 		case Constants.sacreMalades:
 			listNewRows = listNewMaladesRowsUpdate;
 			keysInit = maladesKeysInit;
 			keysForm =  maladesKeysForm;
 			keysThatRemain =  maladesKeysThatRemain;
+			keysToDelete = maladesKeysToDelete;
 			rowTitle = "rowTitleMalade";
 			cl = SacrementMalades.class;
 
@@ -800,7 +862,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		// liste des sacrements to delete -----> on les supprime right away
 		for(String sInit : keysInit){
 			if(!keysThatRemain.contains(sInit)){
-				OperationsDb.deleteById(cl, Integer.parseInt(sInit));
+				keysToDelete.add(sInit);
 			}
 		}
 		
@@ -900,6 +962,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		divForm.setVisible(true);
 		btnSave.setVisible(true);
 		btnSaveMod.setVisible(false);
+		btnRefresh.setVisible(true);
 		
 	}
 	
@@ -908,6 +971,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		divForm.setVisible(true);
 		btnSave.setVisible(false);
 		btnSaveMod.setVisible(true);
+		btnRefresh.setVisible(false);
 	}
 	
 	

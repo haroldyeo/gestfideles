@@ -211,14 +211,7 @@ public class OperationsDb {
         	      session.delete(persistentInstance);
         	      session.getTransaction().commit();
                   session.close();
-        	  }
-        	  
-            
-//              session.beginTransaction();
-//              session.delete(obj);  
-//              session.getTransaction().commit();
-//              session.close();
-              
+        	  }              
           } catch (Exception e){
               e.printStackTrace();
               

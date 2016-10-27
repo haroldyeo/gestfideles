@@ -389,7 +389,7 @@
 		       
 		        <hlayout style="margin-top: 20px">
 		            <button id="btnSave" label="Enregistrer"/>
-		            <button id="btnSaveMod" visible="false" label="Enregistrer"/>
+		            <button id="btnSaveMod" visible="false" label="Modifier"/>
 		            <button id="btnRefreshForm" label="Rafraichir"/>
 		        </hlayout>
 		    </vlayout>

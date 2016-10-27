@@ -20,7 +20,7 @@
     	
     	
     		<menubar>
-    			<menuitem id="menuDetails" label="Détails" image="/imgs/details-icon.png"></menuitem>
+    			<menuitem id="menuDetails" label="Consulter" image="/imgs/details-icon.png"></menuitem>
 				<menuitem id="menuAdd" label="Ajouter" image="/imgs/add-icon.png"></menuitem>
 				<menuitem id="menuUpdate" label="Modifier"  image="/imgs/update-icon.png"></menuitem>
 				<menuitem id="menuDelete" label="Supprimer" image="/imgs/del-icon.png"></menuitem>

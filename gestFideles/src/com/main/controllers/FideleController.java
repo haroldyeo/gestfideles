@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.zkoss.zk.ui.Component;
@@ -47,7 +48,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 
 	@Wire Window winFidele;
 	
-	@Wire Button btnSearch, btnSave, btnSaveMod,  btnRefresh, btnAddSacrement;
+	@Wire Button btnSearch, btnSave, btnSaveMod,  btnRefresh, btnAddSacrement, btnRefreshForm;
 	
 	@Wire Textbox txtSearch;
 	
@@ -58,6 +59,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	Textbox[] textBoxes = null;
 	Datebox[] dateBoxes = null;
 	Row[] rowTitles = null;
+	Rows[] rowsTitles = null;
 	
 	/*-----	Infos de base  ----*/
 	@Wire Textbox txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance, 
@@ -156,6 +158,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		dateBoxes = new Datebox[]{dateDob, dateBapt, dateboxMariage, dateboxBenNupt, dateboxFormCivile, dateboxBaptConjoint};
 		
 		rowTitles = new Row[]{rowTitleSacrement, rowTitleEnfant, rowTitleMalade};
+		
+		rowsTitles = new Rows[]{rowsSacrement, rowsEnfants, rowsSacrementMalades};
 	}
 	
 	private void displayList(List<Fidele> list) {
@@ -273,27 +277,28 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			
 			// mariage
 			Mariage m = selected.getMariages().size() == 1 ? selected.getMariages().get(0) : null;
-			txtNumMariage.setValue(m.getNumMariage()); 
-			txtEgliseMariage.setValue(m.getLieu());
-			txtConjoint.setValue(m.getEpoux());
-			txtNumBaptConjoint.setValue(m.getNumBaptEpoux());
-			txtPretreMariage.setValue(m.getPretre());
-			txtTemoin1.setValue(m.getTemoin1());
-			txtTemoin2.setValue(m.getTemoin2());
-			dateboxMariage.setValue(m.getDateMariage());
-			dateboxBaptConjoint.setValue(m.getDateBaptEpoux());
-			
-			// bénédiction nuptiale
-			dateboxBenNupt.setValue(m.getBenedNuptDate());
-			txtEgliseBenNupt.setValue(m.getBenedNuptLieu());
-			txtDispenseBenNupt.setValue(m.getDispenseNum());
-			txtEvecheBenNupt.setValue(m.getDispenseEveche());
-			
-			// Formalités civiles
-			dateboxFormCivile.setValue(m.getFormalitesDate());
-			txtNumFormCivile.setValue(m.getFormalitesNum());
-			txtMairie.setValue(m.getformalitesMairie());
-			
+			if(m!=null){
+				txtNumMariage.setValue(m.getNumMariage()); 
+				txtEgliseMariage.setValue(m.getLieu());
+				txtConjoint.setValue(m.getEpoux());
+				txtNumBaptConjoint.setValue(m.getNumBaptEpoux());
+				txtPretreMariage.setValue(m.getPretre());
+				txtTemoin1.setValue(m.getTemoin1());
+				txtTemoin2.setValue(m.getTemoin2());
+				dateboxMariage.setValue(m.getDateMariage());
+				dateboxBaptConjoint.setValue(m.getDateBaptEpoux());
+				
+				// bénédiction nuptiale
+				dateboxBenNupt.setValue(m.getBenedNuptDate());
+				txtEgliseBenNupt.setValue(m.getBenedNuptLieu());
+				txtDispenseBenNupt.setValue(m.getDispenseNum());
+				txtEvecheBenNupt.setValue(m.getDispenseEveche());
+				
+				// Formalités civiles
+				dateboxFormCivile.setValue(m.getFormalitesDate());
+				txtNumFormCivile.setValue(m.getFormalitesNum());
+				txtMairie.setValue(m.getformalitesMairie());
+			}
 			
 		}// fin du else
 		
@@ -366,6 +371,146 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				e.printStackTrace();
 			}
 			
+	}
+	
+	
+	@Listen("onClick=#btnSaveMod")
+	public void update() throws ParseException{
+		
+		assignValues(Constants.modeUpdate);
+		
+		if(errorCheck()){		
+			OperationsDb.updateObject(doFillFideleEntity(Constants.modeUpdate));
+			Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
+		}
+	}
+	
+	/*-------------    SACREMENTS   *****************************/
+
+	
+	@Listen("onClick=#btnAddSacrement")
+	public void onAddSacrement() throws Exception{
+		Utils.openModal("/references/sacrementForm.zul", null, null, "Ajouter un sacrément");
+	}
+	
+	private void preCreateNewSacrements(Row row) {
+		List<String> list = new ArrayList<String>();
+		for(Component cell : row.getChildren()){
+			if(cell.getFirstChild() instanceof Label){
+				Label l = (Label) cell.getFirstChild();
+				list.add(l.getValue()); 
+				// ajout dans l'ordre de libelle, date, lieu
+			}
+		}
+		
+		if(list.size() == 3){
+			libelle = list.get(0);
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				dateSacrement = formatter.parse(list.get(1));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			lieu = list.get(2);
+			Sacrement sacr = new Sacrement(dateSacrement, libelle, lieu, null);
+			listSacrement.add(sacr);
+		}
+		
+	}
+	
+	/*-------------    ENFANTS   *****************************/
+
+	@Listen("onClick=#btnAddEnfant")
+	public void onAddEnfant() throws Exception{
+		Utils.openModal("/references/enfantForm.zul", null, null, "Ajouter un enfant");
+	}
+
+
+	private void preCreateNewEnfants(Row row) {
+		List<String> list = new ArrayList<String>();
+		for(Component cell : row.getChildren()){
+			if(cell.getFirstChild() instanceof Label){
+				Label l = (Label) cell.getFirstChild();
+				list.add(l.getValue()); 
+				// ajout dans l'ordre: nom, dob, date bapt, num bapt, lieu bapt
+				
+				if(list.size() == 5){
+					nomEnfant = list.get(0);
+					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+					try {
+						dateNaissanceEnfant = formatter.parse(list.get(1));
+						dateBaptemeEnfant = formatter.parse(list.get(2));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					numBaptemeEnfant = list.get(3);
+					lieuBaptemeEnfant = list.get(4);
+					Enfant e = new Enfant(dateBaptemeEnfant, dateNaissanceEnfant, lieuBaptemeEnfant, nomEnfant, numBaptemeEnfant);
+					listEnfants.add(e);
+				}
+			}
+		}
+	
+		
+	}
+	
+	
+	/*-------------    SACREMENTS MALADE   *****************************/
+
+	@Listen("onClick=#btnAddMalade")
+	public void onAddMalade() throws Exception{
+		Utils.openModal("/references/sacreMaladeForm.zul", null, null, "Ajouter un sacrément des malades");
+	}
+
+
+	private void preCreateNewSacreMalade(Row row) {
+		List<String> list = new ArrayList<String>();
+		List<Component> lcomp = row.getChildren();
+		for(Component cell : lcomp){
+			if(cell.getFirstChild() instanceof Label){
+				Label l = (Label) cell.getFirstChild();
+				list.add(l.getValue()); 
+				// ajout dans l'ordre: date, lieu
+				
+				if(list.size() == 2){
+					
+					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+					try {
+						dateSacrementMalade = formatter.parse(list.get(0));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					lieuSacrementMalade = list.get(1);
+					SacrementMalades sm = new SacrementMalades(dateSacrementMalade, lieuSacrementMalade);
+					listSacrementsMalade.add(sm);
+				}
+			}
+		}
+	
+		
+	}
+	
+	
+	/*-------------    UTILS   *****************************/
+	
+	
+	
+	@Override
+	public void onEvent(Event event) throws Exception {
+		if(event.getName().equalsIgnoreCase(Constants.events_sacrement)){
+			Row row = (Row) event.getData();
+			rowsSacrement.appendChild(row);
+		} 
+		
+		if(event.getName().equalsIgnoreCase(Constants.events_enfant)){
+			Row row = (Row) event.getData();
+			rowsEnfants.appendChild(row);
+		} 
+		
+		if(event.getName().equalsIgnoreCase(Constants.events_sacrementMalade)){
+			Row row = (Row) event.getData();
+			rowsSacrementMalades.appendChild(row);
+		} 
 	}
 	
 	
@@ -447,11 +592,11 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		// sacrements
 		
 		List<Sacrement> sacrementsFid = fid.getSacrements();
-		System.out.println(sacrementsFid.size());
 		if(sacrementsFid!= null && !sacrementsFid.isEmpty() && !sacrementKeysToDelete.isEmpty()){
-			for(Sacrement s : sacrementsFid){
+			for(Iterator<Sacrement> it = sacrementsFid.iterator(); it.hasNext();){
+				Sacrement s = it.next();
 				if(sacrementKeysToDelete.contains(s.getId().toString())){
-					sacrementsFid.remove(s);
+					it.remove();
 				}
 			}
 		}
@@ -462,9 +607,17 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 		}
 		
-		System.out.println(sacrementsFid.size());
 		
 		// enfants
+		List<Enfant> enfantsFid = fid.getEnfants();
+		if(enfantsFid!= null && !enfantsFid.isEmpty() && !enfantsKeysToDelete.isEmpty()){
+			for(Iterator<Enfant> it = enfantsFid.iterator(); it.hasNext();){
+				Enfant e = it.next();
+				if(enfantsKeysToDelete.contains(e.getId().toString())){
+					it.remove();
+				}
+			}
+		}
 		if(!listEnfants.isEmpty()){
 			for(Enfant f : listEnfants){
 				fid.addEnfant(f);
@@ -472,6 +625,15 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 		
 		// sacrements malades
+		List<SacrementMalades> maladesFid = fid.getSacrementMalades();
+		if(maladesFid!= null && !maladesFid.isEmpty() && !maladesKeysToDelete.isEmpty()){
+			for(Iterator<SacrementMalades> it = maladesFid.iterator(); it.hasNext();){
+				SacrementMalades e = it.next();
+				if(maladesKeysToDelete.contains(e.getId().toString())){
+					it.remove();
+				}
+			}
+		}
 		if(!listSacrementsMalade.isEmpty()){
 			for(SacrementMalades sm : listSacrementsMalade){
 				fid.addSacrementMalades(sm);
@@ -479,26 +641,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 		
 		return fid;
-	}
-
-
-	@Listen("onClick=#btnSaveMod")
-	public void update() throws ParseException{
-		
-		assignValues(Constants.modeUpdate);
-		
-		if(errorCheck()){		
-			OperationsDb.updateObject(doFillFideleEntity(Constants.modeUpdate));
-			Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
-		}
-	}
-	
-	/*-------------    SACREMENTS   *****************************/
-
-	
-	@Listen("onClick=#btnAddSacrement")
-	public void onAddSacrement() throws Exception{
-		Utils.openModal("/references/sacrementForm.zul", null, null, "Ajouter un sacrément");
 	}
 	
 	private void doFillFormValues(List<Cell> listCells, String entity) {
@@ -539,129 +681,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 		}
 	}
-
-	private void createNewSacrements(Row row) {
-		
-		List<String> list = new ArrayList<String>();
-		for(Component cell : row.getChildren()){
-			if(cell.getFirstChild() instanceof Label){
-				Label l = (Label) cell.getFirstChild();
-				list.add(l.getValue()); 
-				// ajout dans l'ordre de libelle, date, lieu
-			}
-		}
-		
-		if(list.size() == 3){
-			libelle = list.get(0);
-			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			try {
-				dateSacrement = formatter.parse(list.get(1));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			lieu = list.get(2);
-			Sacrement sacr = new Sacrement(dateSacrement, libelle, lieu, null);
-			listSacrement.add(sacr);
-		}
-		
-	}
-	
-	/*-------------    ENFANTS   *****************************/
-
-	@Listen("onClick=#btnAddEnfant")
-	public void onAddEnfant() throws Exception{
-		Utils.openModal("/references/enfantForm.zul", null, null, "Ajouter un enfant");
-	}
-
-
-	private void createNewEnfants(Row row) {
-		
-		List<String> list = new ArrayList<String>();
-		for(Component cell : row.getChildren()){
-			if(cell.getFirstChild() instanceof Label){
-				Label l = (Label) cell.getFirstChild();
-				list.add(l.getValue()); 
-				// ajout dans l'ordre: nom, dob, date bapt, num bapt, lieu bapt
-				
-				if(list.size() == 5){
-					nomEnfant = list.get(0);
-					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-					try {
-						dateNaissanceEnfant = formatter.parse(list.get(1));
-						dateBaptemeEnfant = formatter.parse(list.get(2));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					numBaptemeEnfant = list.get(3);
-					lieuBaptemeEnfant = list.get(4);
-					Enfant e = new Enfant(dateBaptemeEnfant, dateNaissanceEnfant, lieuBaptemeEnfant, nomEnfant, numBaptemeEnfant);
-					listEnfants.add(e);
-				}
-			}
-		}
-	
-		
-	}
-	
-	
-	/*-------------    SACREMENTS MALADE   *****************************/
-
-	@Listen("onClick=#btnAddMalade")
-	public void onAddMalade() throws Exception{
-		Utils.openModal("/references/sacreMaladeForm.zul", null, null, "Ajouter un sacrément des malades");
-	}
-
-
-	private void createNewSacreMalade(Row row) {
-		
-		List<String> list = new ArrayList<String>();
-		List<Component> lcomp = row.getChildren();
-		for(Component cell : lcomp){
-			if(cell.getFirstChild() instanceof Label){
-				Label l = (Label) cell.getFirstChild();
-				list.add(l.getValue()); 
-				// ajout dans l'ordre: date, lieu
-				
-				if(list.size() == 2){
-					
-					SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-					try {
-						dateSacrementMalade = formatter.parse(list.get(0));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					lieuSacrementMalade = list.get(1);
-					SacrementMalades sm = new SacrementMalades(dateSacrementMalade, lieuSacrementMalade);
-					listSacrementsMalade.add(sm);
-				}
-			}
-		}
-	
-		
-	}
-	
-	
-	/*-------------    UTILS   *****************************/
-	
-	
-	@Override
-	public void onEvent(Event event) throws Exception {
-		if(event.getName().equalsIgnoreCase(Constants.events_sacrement)){
-			Row row = (Row) event.getData();
-			rowsSacrement.appendChild(row);
-		} 
-		
-		if(event.getName().equalsIgnoreCase(Constants.events_enfant)){
-			Row row = (Row) event.getData();
-			rowsEnfants.appendChild(row);
-		} 
-		
-		if(event.getName().equalsIgnoreCase(Constants.events_sacrementMalade)){
-			Row row = (Row) event.getData();
-			rowsSacrementMalades.appendChild(row);
-		} 
-	}
-	
 	
 	public boolean errorCheck(){
 		
@@ -735,7 +754,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 						// create new sacrements
 						for(Row row : listrowSacrements){
 							if(!row.getId().equals("rowTitleSacrement")){
-								createNewSacrements(row);
+								preCreateNewSacrements(row);
 							}
 						}
 					} // end mode save sacréments
@@ -756,7 +775,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					// create new enfants
 					for(Row row : listRowEnfants){
 						if(!row.getId().equals("rowTitleEnfant")){
-							createNewEnfants(row);
+							preCreateNewEnfants(row);
 						}
 					}
 				} // end mode save enfants
@@ -776,7 +795,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					// create new sacrémentsMalades
 					for(Row row : listRowSacreMalades){
 						if(!row.getId().equals("rowTitleMalade")){
-							createNewSacreMalade(row);
+							preCreateNewSacreMalade(row);
 						}
 					}
 				} // end mode save enfants
@@ -794,9 +813,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		List<String> keysThatRemain = null ;
 		List<String> keysToDelete = null ;
 		String rowTitle = null;
-		Class<?> cl = null;
 		
-		switch (entity) {
+		switch (entity) { // assigner les bonnes listes en fonction de l'entité
 		case Constants.sacrements:
 			listNewRows = listNewRowsUpdate;
 			keysInit = sacrementKeysInit;
@@ -804,7 +822,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysThatRemain = sacrementKeysThatRemain;
 			keysToDelete = sacrementKeysToDelete;
 			rowTitle = "rowTitleSacrement";
-			cl = Sacrement.class;
 			
 			break;
 			
@@ -815,7 +832,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysThatRemain = enfantsKeysThatRemain;
 			keysToDelete = enfantsKeysToDelete;
 			rowTitle = "rowTitleEnfant";
-			cl = Enfant.class;
 			break;
 		case Constants.sacreMalades:
 			listNewRows = listNewMaladesRowsUpdate;
@@ -824,13 +840,12 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysThatRemain =  maladesKeysThatRemain;
 			keysToDelete = maladesKeysToDelete;
 			rowTitle = "rowTitleMalade";
-			cl = SacrementMalades.class;
-
+			break;
 		default:
 			break;
 		}
 		
-		// obtenir liste des sacrements du form et ajout des rows des new sacrements
+		// obtenir liste des items de l'entité choisi du form et ajout des rows des nouveaux
 		listNewRows.clear();
 		keysForm.clear();
 		for(Row row : listrowSacrements){
@@ -845,8 +860,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 		}
 		
-		// liste des sacrements inchangés
-		//==> comparaison des deux listes
+		//==> comparaison des deux listes (init et form) pour déterminer ceux qui restent
 		
 		keysThatRemain.clear();
 		for(String sInit : keysInit){
@@ -859,7 +873,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 		
 		
-		// liste des sacrements to delete -----> on les supprime right away
+		// Liste des items à supprimer
 		for(String sInit : keysInit){
 			if(!keysThatRemain.contains(sInit)){
 				keysToDelete.add(sInit);
@@ -867,14 +881,14 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 		
 		
-		// liste des rows new sacrements -------> on les crée right away
+		// liste des rows new items
 		for(Row row : listNewRows){
 			if(entity.equals(Constants.sacrements))
-				createNewSacrements(row);
+				preCreateNewSacrements(row);
 			else if (entity.equals(Constants.enfants))
-				createNewEnfants(row);
+				preCreateNewEnfants(row);
 			else if (entity.equals(Constants.sacreMalades))
-				createNewSacreMalade(row);
+				preCreateNewSacreMalade(row);
 		}
 		
 	}
@@ -910,24 +924,29 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 		}
 
-		for(Component comp : rowsSacrement.getChildren()){
-			if(comp instanceof Row){
-				Row r = (Row)comp;
+		for(Rows rs : rowsTitles){
+			for(Component comp : rs.getChildren()){
+				if(comp instanceof Row){
+					Row r = (Row)comp;
 
-				for(Component comp2 : r.getChildren()){
-					if( comp2 instanceof Cell){
-						Cell c = (Cell)comp2;
-						if(c.getFirstChild() instanceof Button){
-							Button b = (Button) c.getFirstChild();
-							b.setVisible(false);
+					for(Component comp2 : r.getChildren()){
+						if( comp2 instanceof Cell){
+							Cell c = (Cell)comp2;
+							if(c.getFirstChild() instanceof Button){
+								Button b = (Button) c.getFirstChild();
+								b.setVisible(false);
+							}
 						}
 					}
 				}
 			}
 		}
+		
 	}
 	
+	
 	private void undoReadOnly(){
+		
 		for(Component comp : divForm.getFellows()){
 			if(comp instanceof Textbox){
 				((Textbox) comp).setReadonly(false);
@@ -937,22 +956,26 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					((Button) comp).setVisible(true);
 			}
 		}
+
+		for(Rows rs : rowsTitles){
+			for(Component comp : rs.getChildren()){
+				if(comp instanceof Row){
+					Row r = (Row)comp;
 		
-		for(Component comp : rowsSacrement.getChildren()){
-			if(comp instanceof Row){
-				Row r = (Row)comp;
-	
-				for(Component comp2 : r.getChildren()){
-					if( comp2 instanceof Cell){
-						Cell c = (Cell)comp2;
-						if(c.getFirstChild() instanceof Button){
-							Button b = (Button) c.getFirstChild();
-							b.setVisible(true);
+					for(Component comp2 : r.getChildren()){
+						if( comp2 instanceof Cell){
+							Cell c = (Cell)comp2;
+							if(c.getFirstChild() instanceof Button){
+								Button b = (Button) c.getFirstChild();
+								b.setVisible(true);
+							}
 						}
 					}
 				}
 			}
 		}
+		
+		
 	}
 
 
@@ -962,7 +985,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		divForm.setVisible(true);
 		btnSave.setVisible(true);
 		btnSaveMod.setVisible(false);
-		btnRefresh.setVisible(true);
+		btnRefreshForm.setVisible(true);
 		
 	}
 	
@@ -971,7 +994,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		divForm.setVisible(true);
 		btnSave.setVisible(false);
 		btnSaveMod.setVisible(true);
-		btnRefresh.setVisible(false);
+		btnRefreshForm.setVisible(false);
 	}
 	
 	

@@ -67,6 +67,11 @@
 	font-size: 15px;
 }
 
+.inner-title{
+	color: #800000;
+	font-weight: bold;
+}
+
 .fn-caption .z-caption-l{
 	font-weight: bold;
 	font-size: medium;

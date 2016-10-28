@@ -11,7 +11,7 @@
 	    	<div sclass="searchBoxes">
 		    	<hbox pack="center" align="center"> 
 		    		<label style="font-weight:bold">Recherche:</label>
-		    		<textbox id="txtSearch"  width="500px" placeholder="Nom ou prénoms"/>
+		    		<textbox id="txtSearch"  width="500px" placeholder="Nom ou prénoms ou numéro de baptême"/>
 		    		<button id="btnSearch" label="Rechercher" />
 		    		<button id="btnRefresh" label="Rafraichir" />
 		    	</hbox>
@@ -30,14 +30,14 @@
 		        <listhead>
 		            <listheader label="Nom" />
 		            <listheader label="Prénoms" />
-		            <listheader label="Date de naissance" />
+		            <listheader label="Numéro de baptême" />
 		        </listhead>
 		        
 		        	<template name="model" >
 		        		<listitem>
 		        			<listcell>${each.nom}</listcell>
 		        			<listcell>${each.prenoms}</listcell>
-		        			<listcell>${each._dob}</listcell>
+		        			<listcell>${each.baptemes.get(0).numero}</listcell>
 		        		</listitem>
 		        	</template>
 		       </listbox>
@@ -199,6 +199,12 @@
 	            	<row id="rowTitleSacrement" sclass="rowTitle">
 	            		<cell colspan="2" style="text-align:left"><label sclass="grid-title">Sacréments</label></cell>
 	            		<cell colspan="2"><button id="btnAddSacrement" label="Ajouter"></button></cell>
+	            	</row>
+	            	<row id="rowInnerTitleSacrement">
+	            		<cell><label sclass="inner-title">Libellé</label></cell>
+	            		<cell><label sclass="inner-title">Date</label></cell>
+	            		<cell><label sclass="inner-title">Lieu</label></cell>
+	            		<cell><label sclass="inner-title">Supprimer</label></cell>
 	            	</row>
 	            </rows>
 	         </grid>		
@@ -365,6 +371,14 @@
 	            	<row id="rowTitleEnfant">
 	            		<cell colspan="2" style="text-align:left"><label sclass="grid-title">Enfants</label></cell>
 	            		<cell colspan="2"><button id="btnAddEnfant" label="Ajouter"></button></cell>
+	            	</row>
+	            	<row id="rowInnerTitleEnfants">
+	            		<cell><label sclass="inner-title">Nom</label></cell>
+	            		<cell><label sclass="inner-title">Date de naissance</label></cell>
+	            		<cell><label sclass="inner-title">Date de baptême</label></cell>
+	            		<cell><label sclass="inner-title">Numéro de baptême</label></cell>
+	            		<cell><label sclass="inner-title">Lieu de baptême</label></cell>
+	            		<cell><label sclass="inner-title">Supprimer</label></cell>
 	            	</row>	            	
 	            </rows>
 	         </grid>
@@ -381,6 +395,11 @@
 	            	<row id="rowTitleMalade" sclass="rowTitle">
 	            		<cell colspan="2" style="text-align:left"><label sclass="grid-title">Sacréments des malades</label></cell>
 	            		<cell ><button id="btnAddMalade" label="Ajouter"></button></cell>
+	            	</row>
+	            	<row id="rowInnerTitleSacreMalade">
+	            		<cell><label sclass="inner-title">Date</label></cell>
+	            		<cell><label sclass="inner-title">Lieu</label></cell>
+	            		<cell><label sclass="inner-title">Supprimer</label></cell>
 	            	</row>	            	
 	            </rows>
 	         </grid>			

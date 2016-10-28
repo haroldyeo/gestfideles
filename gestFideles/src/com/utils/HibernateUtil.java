@@ -20,6 +20,9 @@ public class HibernateUtil {
     public static Session getHibSession(){
 		entityManagerFactory = Persistence.createEntityManagerFactory("gestFideles");
 		entityManager = entityManagerFactory.createEntityManager();
+//		Query q = entityManager.createNativeQuery("");	
+//		q.getResultList();
 		return (Session) entityManager.getDelegate();
 	}
+    
 }

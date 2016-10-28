@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -24,18 +25,24 @@ import model.User;
 @SuppressWarnings("rawtypes")
 public class OperationsDb {
 	
+	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where f.nom like :val or f.prenoms like :val "
+                                      + " or exists (select b  from Bapteme b where b.fidele = f and b.numero like :val)" ;
+	
 	public static List doSearch(String entity, String value){
 		List returnedList = null;
         
         switch(entity){            
             case(Constants.fideles):
             	
-            	Criteria crFideles = HibernateUtil.getHibSession().createCriteria(Fidele.class);
-        		crFideles.addOrder(Order.asc("id"));
-        		returnedList = crFideles.add(Restrictions.or(Restrictions.ilike(Constants.nom, "%"+value+"%"), 
-        				Restrictions.ilike(Constants.prenoms, "%"+value+"%"))).list();
-             
-                 
+//            	Criteria crFideles = HibernateUtil.getHibSession().createCriteria(Fidele.class);
+//        		crFideles.addOrder(Order.asc("id"));
+//        		returnedList = crFideles.add(Restrictions.or(Restrictions.ilike(Constants.nom, "%"+value+"%"), 
+//        				Restrictions.ilike(Constants.prenoms, "%"+value+"%"))).list();
+//                returnedList = crFideles.list();
+        		
+            	Query q = HibernateUtil.getHibSession().createQuery(QUERY_SEARCH_FIDELES);
+            	q.setParameter("val", "%"+value+"%");
+            	returnedList = q.list();
             	break;
         }
         return returnedList;

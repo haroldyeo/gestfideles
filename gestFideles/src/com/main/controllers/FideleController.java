@@ -76,7 +76,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	/*-----	Sacréments  ----*/
 	@Wire Rows rowsSacrement;
-	@Wire Row rowTitleSacrement;
+	@Wire Row rowTitleSacrement,rowInnerTitleSacrement;
 	String libelle, lieu;
 	Date dateSacrement;
 	List<Sacrement> listSacrement = new ArrayList<>();
@@ -107,7 +107,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	/*----  Enfants  ----*/
 	@Wire Rows rowsEnfants;
 	@Wire Button btnAddEnfant;
-	@Wire Row rowTitleEnfant;
+	@Wire Row rowTitleEnfant, rowInnerTitleEnfants;
 	String nomEnfant, numBaptemeEnfant, lieuBaptemeEnfant;
 	Date dateNaissanceEnfant, dateBaptemeEnfant;
 	List<Enfant> listEnfants = new ArrayList<>();
@@ -120,7 +120,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	/*----  Sacréments malades  ----*/
 	@Wire Rows rowsSacrementMalades;
 	@Wire Button btnAddMalade;
-	@Wire Row rowTitleMalade;
+	@Wire Row rowTitleMalade, rowInnerTitleSacreMalade;
 	String lieuSacrementMalade;
 	Date dateSacrementMalade;
 	List<SacrementMalades> listSacrementsMalade = new ArrayList<>();
@@ -157,7 +157,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		
 		dateBoxes = new Datebox[]{dateDob, dateBapt, dateboxMariage, dateboxBenNupt, dateboxFormCivile, dateboxBaptConjoint};
 		
-		rowTitles = new Row[]{rowTitleSacrement, rowTitleEnfant, rowTitleMalade};
+		rowTitles = new Row[]{rowInnerTitleSacrement, rowInnerTitleSacreMalade, rowInnerTitleEnfants};
 		
 		rowsTitles = new Rows[]{rowsSacrement, rowsEnfants, rowsSacrementMalades};
 	}
@@ -347,6 +347,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		divList.setVisible(true);
 		btnSearch.setVisible(true);
 		btnRefresh.setVisible(true);
+		txtSearch.setReadonly(false);
+		txtSearch.setValue("");
 		displayList(null);
 		
 	}

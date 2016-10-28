@@ -146,9 +146,6 @@ public class Utils {
 		Cell cell3 = new Cell();
 		cell3.appendChild(lblDateBapt);
 		
-		Cell cell4 = new Cell();
-		cell4.appendChild(lblDateBapt);
-		
 		Cell cell5 = new Cell();
 		cell5.appendChild(lblnumBaptEnfant); 
 		
@@ -162,7 +159,6 @@ public class Utils {
 		row.appendChild(cell1);
 		row.appendChild(cell2);
 		row.appendChild(cell3);
-		row.appendChild(cell4);
 		row.appendChild(cell5);
 		row.appendChild(cell6);
 		row.appendChild(cell7);

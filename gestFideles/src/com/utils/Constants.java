@@ -34,5 +34,7 @@ public class Constants {
 	public static final String events_sacrement = "onAddSacrement";
 	public static final String events_sacrementMalade = "onAddSacreMalade";
 	public static final String events_enfant = "onAddEnfant";
+	
+	public static final String popoup_title_create_fideles = "Créer un fidèle";
 
 }

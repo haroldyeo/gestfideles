@@ -25,7 +25,7 @@ import model.User;
 @SuppressWarnings("rawtypes")
 public class OperationsDb {
 	
-	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where f.nom like :val or f.prenoms like :val "
+	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where lower(f.nom) like :val or f.prenoms like :val "
                                       + " or exists (select b  from Bapteme b where b.fidele = f and b.numero like :val)" ;
 	
 	public static List doSearch(String entity, String value){
@@ -41,7 +41,7 @@ public class OperationsDb {
 //                returnedList = crFideles.list();
         		
             	Query q = HibernateUtil.getHibSession().createQuery(QUERY_SEARCH_FIDELES);
-            	q.setParameter("val", "%"+value+"%");
+            	q.setParameter("val", "%"+value.toLowerCase()+"%");
             	returnedList = q.list();
             	break;
         }

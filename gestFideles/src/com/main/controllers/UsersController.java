@@ -187,10 +187,8 @@ public class UsersController  extends SelectorComposer<Component> {
 		ident = txtIdentifiantF.getValue();
 		mdp1 = txtMdpF.getValue();
 		mdp2 = txtMdp2F.getValue();
-		
-		String[] abc = new String[]{nom, prenoms, ident, mdp1, mdp2};
-		
-		if(Utils.isEmptyCheck(abc)){
+				
+		if(Utils.checkEmptyComponents(new Component[]{txtNomF, txtPrenomsF, txtIdentifiantF, txtMdpF, txtMdp2F})){
 			bool = false;
 			Messagebox.show("Veuillze saisir les champs obligatoires", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
 		} else if(!mdp1.equals(mdp2)){

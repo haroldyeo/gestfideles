@@ -64,7 +64,7 @@
 	                	<cell colspan="2" style="text-align:left"><label sclass="grid-title">Informations de base</label></cell>
 	                </row>
 	                <row>
-	                    <cell sclass="cell-title">Nom:</cell>
+	                    <cell sclass="cell-title">Nom<span style="color:red">*</span>:</cell>
 	                    <cell>
 	                    <textbox id="txtNomF"  width="200px"/>
 	                    </cell>

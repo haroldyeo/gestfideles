@@ -38,8 +38,8 @@ public class SacreMaladeFormController  extends SelectorComposer<Component> {
 	
 	@Listen("onClick=#saveSacreMalade")
 	public void onSave(){
-		String[] textBoxes = new String[]{ txtLieuSacreMalade.getValue() };
-		if(Utils.isEmptyCheck(textBoxes) || dateSacreMalade.getText().equals("") ){
+		
+		if(Utils.checkEmptyComponents(new Component[]{txtLieuSacreMalade, dateSacreMalade})){
 			Messagebox.show("Veuillez remplir tous les champs", "Sacrément des malades", Messagebox.OK, Messagebox.EXCLAMATION);
 		} else {
 			

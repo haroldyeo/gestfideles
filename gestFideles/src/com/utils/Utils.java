@@ -7,6 +7,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -15,6 +16,7 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Cell;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -48,18 +50,38 @@ public class Utils {
 	}
 	
 	/**
+	 * Retourne true si un élément n'est pas 'empty'
 	 * @param abc
 	 * @return
 	 */
-	public static boolean isEmptyCheck(String[] abc){
+	public static boolean isNotEmptyCheck(String[] abc){
 		boolean result = false;
 		for(String s : abc){
-			if(s.isEmpty()){
+			if(!s.isEmpty()){
 				result = true;
 				break;
 			}
 		}
 		return result;
+	}
+	
+	public static boolean checkEmptyComponents(Component[] comps){
+			boolean b = false;
+			for(Component p : comps){
+				if(p instanceof Textbox){
+					if(((Textbox) p).getText().equals("")){
+						b = true;
+						break;
+					}
+				} else if (p instanceof Datebox){
+					if(((Datebox)p).getText().equals("")){
+						b = true;
+						break;
+					}
+				}
+			}
+		
+		return b;
 	}
 	
 	public static void clearComponents(Component[]... comps){
@@ -195,6 +217,37 @@ public class Utils {
 		
 		return row;
     	
+    }
+    
+    public static void errorMessages(String key){
+    	switch (key) {
+		case "noParrainOrMarraine":
+			Messagebox.show("Veuillez saisir un parrain ou une marraine", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException("Saisir parrain ou marraine!");
+			
+		case "emptyInfosBase":
+			Messagebox.show("Veuillez saisir les champs obligatoires de la rubrique \"Informations de base\"", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException("Empty info de base!");
+			
+		case "emptyBapteme":
+			Messagebox.show("Veuillez saisir les champs obligatoires de la rubrique \"Baptême\"", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException("Empty Bapteme!"); 
+			
+		case "emptyMariage":
+			Messagebox.show("Veuillez saisir les champs obligatoires de la rubrique \"Mariage\"", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException("Empty Mariage!"); 
+			
+		case "emptyBenNupt":
+			Messagebox.show("Veuillez saisir les champs obligatoires de la rubrique \"Bénédiction nuptiale\"", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException("Empty Bénédiction nuptiale!");  
+			
+		case "emptyFormCiviles":
+			Messagebox.show("Veuillez saisir les champs obligatoires de la rubrique \"Formalités civiles\"", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException("Empty Formalités civiles!");
+			
+		default:
+			break;
+		}
     }
 
 

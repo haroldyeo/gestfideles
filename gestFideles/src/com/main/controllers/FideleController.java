@@ -255,25 +255,33 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			
 			sacrementKeysInit = new ArrayList<>();
 			
-			// obtenir liste des sacrements initiaux
-			for(Sacrement s : listSacres){
-				rowsSacrement.appendChild(Utils.buildSacrements(s));
-				sacrementKeysInit.add(s.getId().toString());
+			if(listSacres.size() > 0){
+				// obtenir liste des sacrements initiaux
+				for(Sacrement s : listSacres){
+					rowsSacrement.appendChild(Utils.buildSacrements(s));
+					sacrementKeysInit.add(s.getId().toString());
+				}
 			}
 			
 			// enfants
 			List<Enfant> listenf = selected.getEnfants();  
-			for(Enfant e : listenf){
-				rowsEnfants.appendChild(Utils.buildEnfants(e));
-				enfantsKeysInit.add(e.getId().toString());
+			if(listenf.size() > 0){
+				for(Enfant e : listenf){
+					rowsEnfants.appendChild(Utils.buildEnfants(e));
+					enfantsKeysInit.add(e.getId().toString());
+				}
 			}
+			
 			
 			// sacrements malade
 			List<SacrementMalades> listsacreMalades = selected.getSacrementMalades();
-			for(SacrementMalades sm : listsacreMalades){
-				rowsSacrementMalades.appendChild(Utils.buildSacreMalade(sm));
-				maladesKeysInit.add(sm.getId().toString());
+			if(listsacreMalades.size() > 0){
+				for(SacrementMalades sm : listsacreMalades){
+					rowsSacrementMalades.appendChild(Utils.buildSacreMalade(sm));
+					maladesKeysInit.add(sm.getId().toString());
+				}
 			}
+			
 			
 			// mariage
 			Mariage m = selected.getMariages().size() == 1 ? selected.getMariages().get(0) : null;
@@ -359,18 +367,19 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	@Listen("onClick=#btnSave")
 	public void save() throws Exception{
 		
-			try{				
-				assignValues(Constants.modeSave);
-				//create new
-				if(errorCheck()){
+			try{
+				   errorCheck();
+					//create new
+					assignValues(Constants.modeSave);
+					
 					// Persist
 					OperationsDb.persistObject(doFillFideleEntity(Constants.modeSave));
-					Messagebox.show("Fidèle enregistré avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
+					Messagebox.show("Fidèle enregistré avec succès", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.INFORMATION);
 					refreshForm();
-				}	
 				
 			} catch(Exception e){
 				e.printStackTrace();
+				Messagebox.show("Une erreur est survenue", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
 			}
 			
 	}
@@ -379,11 +388,15 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	@Listen("onClick=#btnSaveMod")
 	public void update() throws ParseException{
 		
-		assignValues(Constants.modeUpdate);
-		
-		if(errorCheck()){		
+		try{
+			errorCheck();
+			assignValues(Constants.modeUpdate);		
 			OperationsDb.updateObject(doFillFideleEntity(Constants.modeUpdate));
-			Messagebox.show("Fidèle mis à jour avec succès", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Fidèle mis à jour avec succès", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.INFORMATION);
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			Messagebox.show("Une erreur est survenue", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
 		}
 	}
 	
@@ -684,19 +697,49 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		}
 	}
 	
-	public boolean errorCheck(){
+	public void errorCheck(){
 		
-		boolean bool = true;
-				
-//		String[] abc = new String[]{nom, lieuNaissance, nomPere, originePere, nomMere, origineMere,   
-//									diocese, eglise, numero, pretre};
-//		
-//		if(Utils.isEmptyCheck(abc)){
-//			bool = false;
-//			Messagebox.show("Veuillez saisir les champs obligatoires", "Créer un fidèle", Messagebox.OK, Messagebox.INFORMATION);
-//		}
+		// check parrain et marraine
+		if(txtNomParrain.getValue().isEmpty() && txtNomMarraine.getValue().isEmpty()){
+			Utils.errorMessages("noParrainOrMarraine");
+		}
 		
-		return bool;
+		// check des champs obligatoire des infos de base
+		if(Utils.checkEmptyComponents( new Component[]{txtNomF, txtPrenomsF, dateDob, txtlieuNaissance, txtNomPere, txtNomMere, txtOriginePere, txtOrigineMere})){
+			Utils.errorMessages("emptyInfosBase");
+		}
+		
+		// check des champs obligatoire de baptême
+		if(Utils.checkEmptyComponents( new Component[]{dateBapt, txtDiocese, txtEglise, txtNumeroBapt, txtPretreBapteme})){
+			Utils.errorMessages("emptyBapteme");
+		}
+		
+		// check de mariage: si 1 élément d'une rubrique est saisi, alors saisir les autres éléments de la rubrique
+		// ---> Mariage
+		if(Utils.isNotEmptyCheck(new String[]{txtNumMariage.getValue(), dateboxMariage.getValue().toString(), txtEgliseMariage.getValue(), txtConjoint.getValue(),
+				                             dateboxBaptConjoint.getValue().toString(), txtNumBaptConjoint.getValue(), txtPretreMariage.getValue(),
+				                             txtTemoin1.getValue(), txtTemoin2.getValue()})){
+			if(Utils.checkEmptyComponents( new Component[]{txtNumMariage, dateboxMariage, txtEgliseMariage, txtConjoint,
+											dateboxBaptConjoint, txtNumBaptConjoint, txtPretreMariage, txtTemoin1, txtTemoin2})){
+				Utils.errorMessages("emptyMariage");
+			}
+		}
+		
+		// ---> Bénédiction nuptiale
+		if(Utils.isNotEmptyCheck(new String[]{dateboxBenNupt.getValue().toString(), txtEgliseBenNupt.getValue(), txtDispenseBenNupt.getValue(), txtEvecheBenNupt.getValue()})){
+			if(Utils.checkEmptyComponents( new Component[]{dateboxBenNupt, txtEgliseBenNupt, txtDispenseBenNupt, txtEvecheBenNupt})){
+				Utils.errorMessages("emptyBenNupt");
+			}
+		}
+		
+		// ---> Formalités civiles
+		if(Utils.isNotEmptyCheck(new String[]{dateboxFormCivile.getValue().toString(), txtNumFormCivile.getValue(), txtMairie.getValue()})){
+			if(Utils.checkEmptyComponents( new Component[]{dateboxFormCivile, txtNumFormCivile, txtMairie})){
+				Utils.errorMessages("emptyFormCiviles");
+			}
+		}
+		
+		
 	}
 
 	private void assignValues(String mode) throws ParseException {
@@ -815,6 +858,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		List<String> keysThatRemain = null ;
 		List<String> keysToDelete = null ;
 		String rowTitle = null;
+		String rowInnerTitle = null;
 		
 		switch (entity) { // assigner les bonnes listes en fonction de l'entité
 		case Constants.sacrements:
@@ -824,7 +868,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysThatRemain = sacrementKeysThatRemain;
 			keysToDelete = sacrementKeysToDelete;
 			rowTitle = "rowTitleSacrement";
-			
+			rowInnerTitle = "rowInnerTitleSacrement";
 			break;
 			
 		case Constants.enfants:
@@ -834,6 +878,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysThatRemain = enfantsKeysThatRemain;
 			keysToDelete = enfantsKeysToDelete;
 			rowTitle = "rowTitleEnfant";
+			rowInnerTitle = "rowInnerTitleEnfants";
 			break;
 		case Constants.sacreMalades:
 			listNewRows = listNewMaladesRowsUpdate;
@@ -842,6 +887,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysThatRemain =  maladesKeysThatRemain;
 			keysToDelete = maladesKeysToDelete;
 			rowTitle = "rowTitleMalade";
+			rowInnerTitle = "rowInnerTitleSacreMalade";
 			break;
 		default:
 			break;
@@ -851,7 +897,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		listNewRows.clear();
 		keysForm.clear();
 		for(Row row : listrowSacrements){
-			if(!row.getId().equals(rowTitle)){
+			if(!row.getId().equals(rowTitle) || !row.getId().equals(rowInnerTitle)){
 				List<Cell> listCells = row.getChildren();
 				if(entity.equals(Constants.sacrements))
 					doFillFormValues(listCells, Constants.sacrements);

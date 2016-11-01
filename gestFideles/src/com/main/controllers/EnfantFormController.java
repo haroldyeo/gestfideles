@@ -39,9 +39,8 @@ public class EnfantFormController  extends SelectorComposer<Component> {
 	
 	@Listen("onClick=#saveEnfant")
 	public void onSave(){
-		String[] textBoxes = new String[]{
-				txtNomEnfant.getValue(), txtNumBaptEnfant.getValue(), txtLieuBaptEnfant.getValue()};
-		if(Utils.isEmptyCheck(textBoxes) || dateNaissanceEnfant.getText().equals("") || dateBaptEnfant.getText().equals("")){
+		
+		if(Utils.checkEmptyComponents(new Component[]{txtNomEnfant, txtNumBaptEnfant, txtLieuBaptEnfant, dateNaissanceEnfant, dateBaptEnfant})){
 			Messagebox.show("Veuillez remplir tous les champs", "Enfant", Messagebox.OK, Messagebox.EXCLAMATION);
 		} else {
 			

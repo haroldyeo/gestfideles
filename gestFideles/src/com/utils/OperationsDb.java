@@ -25,26 +25,24 @@ import model.User;
 @SuppressWarnings("rawtypes")
 public class OperationsDb {
 	
-	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where lower(f.nom) like :val or f.prenoms like :val "
+	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where lower(f.nom) like :val or lower(f.prenoms) like :val "
                                       + " or exists (select b  from Bapteme b where b.fidele = f and b.numero like :val)" ;
+	public final static String QUERY_SEARCH_USERS = "select u from User u where lower(u.identifiant) like :val or lower(u.nom) like :val "
+            + " or lower(u.prenoms) like :val" ;
 	
 	public static List doSearch(String entity, String value){
 		List returnedList = null;
-        
-        switch(entity){            
+		Query q = null;
+        switch(entity){
             case(Constants.fideles):
-            	
-//            	Criteria crFideles = HibernateUtil.getHibSession().createCriteria(Fidele.class);
-//        		crFideles.addOrder(Order.asc("id"));
-//        		returnedList = crFideles.add(Restrictions.or(Restrictions.ilike(Constants.nom, "%"+value+"%"), 
-//        				Restrictions.ilike(Constants.prenoms, "%"+value+"%"))).list();
-//                returnedList = crFideles.list();
-        		
-            	Query q = HibernateUtil.getHibSession().createQuery(QUERY_SEARCH_FIDELES);
-            	q.setParameter("val", "%"+value.toLowerCase()+"%");
-            	returnedList = q.list();
+            	q = HibernateUtil.getHibSession().createQuery(QUERY_SEARCH_FIDELES);
+            	break;
+            case(Constants.users):
+            	q = HibernateUtil.getHibSession().createQuery(QUERY_SEARCH_USERS);
             	break;
         }
+        q.setParameter("val", "%"+value.toLowerCase()+"%");
+    	returnedList = q.list();
         return returnedList;
 	}
     

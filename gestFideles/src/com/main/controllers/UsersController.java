@@ -38,6 +38,8 @@ public class UsersController  extends SelectorComposer<Component> {
 	
 	@Wire Button btnSearch,  btnRefresh, btnSave, btnSaveMod, btnRefreshForm;
 	
+	@Wire Textbox txtSearch;
+	
 	String nom, prenoms,ident, mdp1, mdp2;
 	
 	ListModelList<User> lml;
@@ -63,16 +65,12 @@ public class UsersController  extends SelectorComposer<Component> {
 
 	@Listen("onClick=#btnSearch")
 	public void doSearch(){
-		if(txtIdentifiant.getValue().isEmpty() &&  txtNom.getValue().isEmpty() && txtPrenoms.getValue().isEmpty()){
+		if(txtSearch.getValue().isEmpty()){
 			// don't do anything
-		} else {
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put(Constants.identifiant, txtIdentifiant.getValue());
-			params.put(Constants.nom, txtNom.getValue());
-			params.put(Constants.prenoms, txtPrenoms.getValue());
-			
-			List<User> listUsers = OperationsDb.find(Constants.users, params);
-	    	displayListUsers(listUsers);
+		} else {			
+			List<User> list = OperationsDb.doSearch(Constants.users, txtSearch.getValue());
+	    	displayListUsers(list);
+		
 		}
 	}
 	
@@ -143,6 +141,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	public void onBack(){
 		divUsersForm1.setVisible(false);
 		divUsersList.setVisible(true);
+		txtSearch.setValue("");
 		displayListUsers(null);
 		
 	}

@@ -245,6 +245,16 @@ public class Utils {
 			Messagebox.show("Veuillez saisir les champs obligatoires de la rubrique \"Formalités civiles\"", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
 			throw new WrongValueException("Empty Formalités civiles!");
 			
+		case "emptyUser":
+			Messagebox.show("Veuillez saisir les champs obligatoires", Constants.popoup_title_create_user, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException("Empty user!"); 
+			
+		case "passwordNotMatching":
+			Messagebox.show("Les mots de passe saisis ne sont pas identiques", Constants.popoup_title_create_user, Messagebox.OK, Messagebox.EXCLAMATION);
+			throw new WrongValueException("Mismatch passwords"); 
+			
+			
+			
 		default:
 			break;
 		}

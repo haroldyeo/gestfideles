@@ -7,28 +7,28 @@
     
     <vlayout>
     	
-	    	<label sclass="titles">Utilisateurs</label>
+	    	<label sclass="titles" value="${labels.LBL.title.user}"></label>
 	    	<div id="divUsersList" width="100%">
 	    	<div sclass="searchBoxes">
 	    		<hbox pack="center" align="center"> 
-		    		<label style="font-weight:bold">Recherche:</label>
-		    		<textbox id="txtSearch"  width="500px" placeholder="Nom ou prénoms ou Identifiant"/>
-		    		<button id="btnSearch" label="Rechercher" />
-		    		<button id="btnRefresh" label="Rafraichir" />
+		    		<label style="font-weight:bold" value="${labels.LBL.search}"></label>
+		    		<textbox id="txtSearch"  width="500px" placeholder="${labels.LBL.PLH.search}"/>
+		    		<button id="btnSearch" label="${labels.BTN.search}" />
+		    		<button id="btnRefresh" label="${labels.BTN.refresh}" />
 		    	</hbox>
 		    </div>
 	    		
     		<menubar>
-				<menuitem id="menuAdd" label="Ajouter" image="/imgs/add-icon.png"></menuitem>
-				<menuitem id="menuUpdate" label="Modifier"  image="/imgs/update-icon.png"></menuitem>
-				<menuitem id="menuDelete" label="Supprimer" image="/imgs/del-icon.png"></menuitem>
+				<menuitem id="menuAdd" label="${labels.LBL.add}" image="/imgs/add-icon.png"></menuitem>
+				<menuitem id="menuUpdate" label="${labels.LBL.edit}"  image="/imgs/update-icon.png"></menuitem>
+				<menuitem id="menuDelete" label="${labels.LBL.delete}" image="/imgs/del-icon.png"></menuitem>
 			</menubar>
 			
 	        <listbox id="listboxUsers" checkmark="true" >
 		        <listhead>
-		            <listheader label="Identifiant" />
-		            <listheader label="Nom" />
-		            <listheader label="Prénoms" />
+		            <listheader label="${labels.LBL.login}" />
+		            <listheader label="${labels.LBL.name}" />
+		            <listheader label="${labels.LBL.firstName}" />
 		        </listhead>
 		        
 		        	<template name="model" >
@@ -45,7 +45,7 @@
         
         <div id="divUsersForm1" visible="false">
         	<menubar>
-				<menuitem id="menuBack" label="Retour à la liste" image="/imgs/back-icon.png"></menuitem>
+				<menuitem id="menuBack" label="${labels.LBL.backToList}" image="/imgs/back-icon.png"></menuitem>
 			</menubar>
         	<vlayout>
 		        <grid width="500px" style="margin-top: 15px" >
@@ -56,33 +56,33 @@
 		            <rows>
 		                
 		                <row>
-		                    <cell sclass="row-title">*Nom:</cell>
+		                    <cell sclass="row-title">*<label value="${labels.LBL.name}"></label>:</cell>
 		                    <cell>
 		                    <textbox id="txtNomF"  width="200px"/>
 		                    </cell>
 		                </row>
 		                
 		                <row>
-		                    <cell sclass="row-title">Prénoms:</cell>
+		                    <cell sclass="row-title"><label value="${labels.LBL.firstName}"></label></cell>
 		                    <cell>
 		                    <textbox id="txtPrenomsF" width="200px"/>
 		                    </cell>
 		                </row>
 		                
 		                <row>
-		                    <cell sclass="row-title">*Identifiant:</cell>
+		                    <cell sclass="row-title">*<label value="${labels.LBL.login}"></label>:</cell>
 		                    <cell>
 		                        <textbox id="txtIdentifiantF"  width="200px"/>
 		                    </cell>
 		                </row>
 		                <row>
-		                    <cell sclass="row-title">*Mot de passe:</cell>
+		                    <cell sclass="row-title">*<label value="${labels.LBL.password}"></label>:</cell>
 		                    <cell>
 		                        <textbox id="txtMdpF" type="password" width="200px"/>
 		                    </cell>
 		                </row>
 		                <row>
-		                    <cell sclass="row-title">*Mot de passe (à nouveau):</cell>
+		                    <cell sclass="row-title">*<label value="${labels.LBL.password}"></label><label value="${labels.LBL.again}"></label>:</cell>
 		                    <cell>
 		                        <textbox id="txtMdp2F" type="password"  width="200px"/>
 		                    </cell>
@@ -90,10 +90,10 @@
 		            </rows>
 		        </grid>
 		        
-		        <hlayout style="margin-top: 20px" apply="com.main.controllers.UsersController">
-		            <button id="btnSave" label="Enregistrer"/>
-		            <button id="btnSaveMod" label="Enregistrer"/>
-		            <button id="btnRefreshForm" label="Rafraichir"/>
+		        <hlayout style="margin-top: 20px">
+		            <button id="btnSave" label="${labels.BTN.save}"/>
+		            <button id="btnSaveMod" label="${labels.LBL.edit}"/>
+		            <button id="btnRefreshForm" label="${labels.BTN.refresh}"/>
 		        </hlayout>
 		    </vlayout>
         </div>

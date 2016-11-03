@@ -1,6 +1,6 @@
 <div hflex="1" vflex="1" sclass="footer">
     <vbox hflex="1" vflex="1" align="center">
-     	  Développé par Harold YEO - haroldyeo@gmail.com
+     	  <label value="${labels.LBL.copyright}"></label>
         
     </vbox>
 </div>

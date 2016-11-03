@@ -1,8 +1,11 @@
 
 <window width="80%" title="Session Timeout" border="normal">
+	<zscript><![CDATA[  
+	        Sessions.getCurrent().invalidate();
+			Executions.sendRedirect("/index.zul");           
+	    ]]>
+	    </zscript> 
 	<vbox>
-The page or component you request is no longer available.
-This is normally caused by timeout, opening too many Web pages, or rebooting
-the server.
+		Vouz serez redirigez à la page de connexion!
 	</vbox>
 </window>

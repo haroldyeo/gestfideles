@@ -3,8 +3,7 @@
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
 <div align="center" hflex="1" vflex="1"  sclass="ipad2" style="background-color:red">
-
-	<borderlayout sclass="ipad2" style="background-color:red">
+		<borderlayout sclass="ipad2" style="background-color:red">
 		<north height="200px" sclass="no-border"></north>
 		<center sclass="no-border">
 		

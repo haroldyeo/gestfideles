@@ -1,8 +1,6 @@
 package com.main.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -76,7 +74,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	
 	@Listen("onClick=#btnRefresh")
 	public void doRefresh(){
-		txtIdentifiant.setValue(""); txtNom.setValue(""); txtPrenoms.setValue("");
+		txtSearch.setValue("");
 		List<User> listUsers = OperationsDb.find(Constants.users, null);
     	displayListUsers(listUsers);
 	}
@@ -149,55 +147,44 @@ public class UsersController  extends SelectorComposer<Component> {
 	@Listen("onClick=#btnSaveMod")
 	public void update(){
 		
-		if(errorCheck()){
-			
-			User luser = (User)listboxUsers.getSelectedItem().getValue();
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put(Constants.id, luser.getId());
-			List<User> listUsers = OperationsDb.find(Constants.users, params);
-			User usr = listUsers.get(0);
-			usr.setIdentifiant(ident);
-			usr.setNom(nom);
-			usr.setPrenoms(prenoms);
-			usr.setMotPasse(mdp1);
-			OperationsDb.updateObject(usr);	
-			Messagebox.show("Utilisateur mis à jour avec succès", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
-		}
+		errorCheck();
+		
+		User usr = (User)listboxUsers.getSelectedItem().getValue();
+		usr.setIdentifiant(ident);
+		usr.setNom(nom);
+		usr.setPrenoms(prenoms);
+		usr.setMotPasse(mdp1);
+		OperationsDb.updateObject(usr);	
+		Messagebox.show("Utilisateur mis à jour avec succès", Constants.popoup_title_create_user, Messagebox.OK, Messagebox.INFORMATION);
 	}
 	
 	@Listen("onClick=#btnSave")
 	public void save() throws Exception{
 			//create new
-			if(errorCheck()){
-				User usr= new User(ident, mdp1, nom, prenoms);
-				OperationsDb.persistObject(usr);
-				Messagebox.show("Utilisateur enregistré avec succès", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
-				refreshForm();
-			}	
+			errorCheck();
+			User usr= new User(ident, mdp1, nom, prenoms);
+			OperationsDb.persistObject(usr);
+			Messagebox.show("Utilisateur enregistré avec succès", Constants.popoup_title_create_user, Messagebox.OK, Messagebox.INFORMATION);
+			refreshForm();
 	}
 	
 	
-	public boolean errorCheck(){
-		
-		boolean bool = true;
-		
+	public void errorCheck(){
+				
 		nom = txtNomF.getValue();
 		prenoms = txtPrenomsF.getValue();
 		ident = txtIdentifiantF.getValue();
 		mdp1 = txtMdpF.getValue();
 		mdp2 = txtMdp2F.getValue();
 				
-		if(Utils.checkEmptyComponents(new Component[]{txtNomF, txtPrenomsF, txtIdentifiantF, txtMdpF, txtMdp2F})){
-			bool = false;
-			Messagebox.show("Veuillze saisir les champs obligatoires", "Créer un utilisateur", Messagebox.OK, Messagebox.INFORMATION);
+		if(Utils.checkEmptyComponents(new Component[]{txtNomF, txtIdentifiantF, txtMdpF, txtMdp2F})){
+			Utils.errorMessages("emptyUser");
 		} else if(!mdp1.equals(mdp2)){
-			bool = false;
-			Messagebox.show("Les mots de passe saisis ne sont pas identiques", "Créer un utilisateur", Messagebox.OK, Messagebox.EXCLAMATION);
 			txtMdpF.setValue("");
 			txtMdp2F.setValue("");
+			Utils.errorMessages("passwordNotMatching");
 		}
 		
-		return bool;
 	}
 
 	@Listen("onClick=#btnRefreshForm")

@@ -1,3 +1,4 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 <div hflex="1" vflex="1" sclass="banner">
     <hbox hflex="1" vflex="1" align="center">
         <div width="700px">
@@ -6,7 +7,7 @@
         <hbox hflex="1" vflex="1" pack="end" align="end">
             <label>${userCredentials.nom} ${userCredentials.prenoms}</label>
             <span>   -   </span>
-            <a id="linkLogout" style="text-decoration: none; color:white">Se déconnecter</a>
+            <a id="linkLogout" style="text-decoration: none; color:white" label="${labels.LBL.disconnect}"></a>
         </hbox>
     </hbox>
 </div>

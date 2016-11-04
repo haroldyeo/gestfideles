@@ -2,29 +2,32 @@
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
-<div align="center" hflex="1" vflex="1"  sclass="ipad2" style="background-color:red">
-		<borderlayout sclass="ipad2" style="background-color:red">
+<div align="center" hflex="1" vflex="1"  >
+		<borderlayout style="background-image:url('imgs/lblue2.jpg'); background-repeat: repeat center center">
 		<north height="200px" sclass="no-border"></north>
 		<center sclass="no-border">
 		
-		<window title="Gestion des fidèles" position="center" border="normal" apply="com.controllers.AuthenticationServiceImpl2" id="pnlLogin" width="500px" height="210px">
+		<window title="Carnets de baptême électronique" position="center" border="normal" apply="com.controllers.AuthenticationServiceImpl2" id="pnlLogin" width="500px" height="210px">
 	
-			<x:table>
-	   			<x:tr>
-	   				<x:td><label value="Identifiant"/></x:td>
-	   				<x:td>:</x:td>
-	   				<x:td><textbox id="txtIdentifiant" constraint="no empty: Saisir l'identifiant" width="200px"/></x:td>
-	   			</x:tr>
-	   			
-	   			<x:tr>
-	   				<x:td><label value="Mot de passe "/></x:td>
-	   				<x:td>:</x:td>
-	   				<x:td><textbox id="txtPassword" type="password"  constraint="no empty: champs obligatoire" width="200px"/></x:td>
-	   			</x:tr>
-	   			
-	   		</x:table>
+			<div style="padding-top:25px; background-color:#eee">
+				<x:table>
+		   			<x:tr>
+		   				<x:td><label value="Identifiant"/></x:td>
+		   				<x:td>:</x:td>
+		   				<x:td><textbox id="txtIdentifiant" constraint="no empty: Saisir l'identifiant" width="200px"/></x:td>
+		   			</x:tr>
+		   			
+		   			<x:tr>
+		   				<x:td><label value="Mot de passe "/></x:td>
+		   				<x:td>:</x:td>
+		   				<x:td><textbox id="txtPassword" type="password"  constraint="no empty: champs obligatoire" width="200px"/></x:td>
+		   			</x:tr>
+		   			
+		   		</x:table>
+			</div>
+			
 	   		
-	        <hlayout>
+	        <hlayout style="padding-top:15px">
 	            <button id="btnLogin" label="Connexion" />
 	        </hlayout>
 		</window>

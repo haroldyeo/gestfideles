@@ -2,6 +2,6 @@
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
 	<div align="center">
-		<label style="font-size:40px; font-weight:bold; color:blue" value="${lables.LBL.bienvenue}"></label>
+		<label style="font-size:40px; font-weight:bold; color:blue" value="${labels.LBL.bienvenue}"></label>
 	</div>
 </zk>

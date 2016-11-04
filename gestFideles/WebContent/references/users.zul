@@ -82,7 +82,7 @@
 		                    </cell>
 		                </row>
 		                <row>
-		                    <cell sclass="row-title">*<label value="${labels.LBL.password}"></label><label value="${labels.LBL.again}"></label>:</cell>
+		                    <cell sclass="row-title">*<label value="${labels.LBL.password} ${labels.LBL.again}">:</cell>
 		                    <cell>
 		                        <textbox id="txtMdp2F" type="password"  width="200px"/>
 		                    </cell>

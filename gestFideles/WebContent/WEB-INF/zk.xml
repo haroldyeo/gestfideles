@@ -13,7 +13,7 @@
 	  <timer-keep-alive>true</timer-keep-alive>
 	</session-config>
 	<system-config>
-		<label-location>/WEB-INF/messages.properties</label-location>
+		<label-location>/messages.properties</label-location>
 	</system-config>
 	
 </zk>

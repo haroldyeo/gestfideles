@@ -326,15 +326,15 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	@Listen("onClick=#menuDelete")
 	public void onDelete() throws Exception{
 		if(listbox.getSelectedItem() == null){
-			Messagebox.show("Veuillez sélectionner un élement de la liste", "Créer un fidèle", Messagebox.OK, Messagebox.EXCLAMATION);
+			Messagebox.show("Veuillez sélectionner un élement de la liste", Constants.app_title, Messagebox.OK, Messagebox.EXCLAMATION);
 		} else{
-			Messagebox.show("Êtes vous sûrs de vouloir supprimer?", "Supprimer un fidèle", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+			Messagebox.show("Êtes vous sûrs de vouloir supprimer?", Constants.app_title, Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
 			    public void onEvent(Event evt) throws InterruptedException {
 			        if (evt.getName().equals("onYes")) {
 			        	try {
 			        		Fidele entity = (Fidele)listbox.getSelectedItem().getValue();
 							OperationsDb.deleteById(Fidele.class, entity.getId());
-							Messagebox.show("Fidèle supprimé avec succès", "Supprimer un fidèle", Messagebox.OK, Messagebox.EXCLAMATION);
+							Messagebox.show("Fidèle supprimé avec succès", Constants.app_title, Messagebox.OK, Messagebox.EXCLAMATION);
 							displayList(null);
 						} catch (Exception e) {
 							e.printStackTrace();

@@ -2,6 +2,8 @@ package com.utils;
 
 public class Constants {
 	
+	public static final String app_title = "Carnets de baptême électronique";
+	
 	public static final String modeSave = "save";
 	public static final String modeUpdate = "update";
 	

@@ -26,7 +26,7 @@
 				<menuitem id="menuDelete" label="Supprimer" image="/imgs/del-icon.png"></menuitem>
 			</menubar>
 			
-	        <listbox id="listbox" checkmark="true" >
+	        <listbox id="listbox" checkmark="true" maxlength="15">
 		        <listhead>
 		            <listheader label="Nom" />
 		            <listheader label="Prénoms" />

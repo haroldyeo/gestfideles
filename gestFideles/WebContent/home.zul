@@ -1,4 +1,4 @@
-<?page title="Gestion des fidèles" contentType="text/html;charset=UTF-8"?>
+<?page title="Carnets de baptême électronique" contentType="text/html;charset=UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 <zk>
 	<window id="winMain" apply="com.controllers.MainController" border="none" hflex="1" vflex="1" contentStyle="overflow:auto">

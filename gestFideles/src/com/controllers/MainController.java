@@ -43,7 +43,7 @@ public class MainController extends SelectorComposer<Component> {
 //    		Executions.sendRedirect("http://localhost:8083/gestFideles/");
 //    	}else{
     		String v = (String) Utils.getSessionAttribute("locationURI");
-        	mainFrame.setSrc(v!=null ? v : "/common/bienvenue.zul");
+        	mainFrame.setSrc(v!=null ? v : "/references/fideles.zul");
         	
         	 //initialize view after view construction.
             	Rows rows = fnList.getRows();

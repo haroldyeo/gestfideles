@@ -2,8 +2,6 @@
 
 <zk xmlns:w="client" xmlns:n="native" xmlns:x="xhtml">
 <window apply="com.main.controllers.UsersController" id="winUsers" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
-
-	
     
     <vlayout>
     	
@@ -82,7 +80,7 @@
 		                    </cell>
 		                </row>
 		                <row>
-		                    <cell sclass="row-title">*<label value="${labels.LBL.password} ${labels.LBL.again}">:</cell>
+		                    <cell sclass="row-title">*<label value="${labels.LBL.password} ${labels.LBL.again}"></label>:</cell>
 		                    <cell>
 		                        <textbox id="txtMdp2F" type="password"  width="200px"/>
 		                    </cell>

@@ -20,6 +20,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Textbox;
 
@@ -47,6 +48,10 @@ public class AuthenticationServiceImpl2 extends SelectorComposer<Component> impl
 		if( onlineUser != null){
 			getUserCredential(onlineUser);
 			Executions.getCurrent().sendRedirect("/home.zul");
+		} else{
+			Messagebox.show("Informations incorrectes", Constants.app_title, Messagebox.OK, Messagebox.EXCLAMATION);
+			
+			
 		}
 	}
 	

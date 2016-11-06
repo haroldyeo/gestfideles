@@ -15,5 +15,9 @@
 	<system-config>
 		<label-location>/messages.properties</label-location>
 	</system-config>
+	<library-property>
+	    <name>org.zkoss.theme.preferred</name>
+	    <value>sapphire</value> <!-- or silvertail, atlantic -->
+	</library-property>
 	
 </zk>

@@ -49,11 +49,11 @@
         	<menubar>
 				<menuitem id="menuBack" label="Retour à la liste" image="/imgs/back-icon.png"></menuitem>
 			</menubar>
-			
-			
+			<div style="height:15px"></div>
+			<label style="color:red">*Champs obligatoires</label>
 <!-- 		   			INFOS DE BASE -->
 		   				
-			<grid width="800px" style="margin-top: 15px" >
+			<grid width="800px" style="margin-top: 10px" >
 							
 	            <columns>
 	                <column align="left" hflex="min" />
@@ -64,12 +64,12 @@
 	                	<cell colspan="2" style="text-align:left"><label sclass="grid-title">Informations de base</label></cell>
 	                </row>
 	                <row>
-	                    <cell sclass="cell-title">Nom<span style="color:red">*</span>:</cell>
+	                    <cell sclass="cell-title">Nom<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                    <textbox id="txtNomF"  width="200px"/>
 	                    </cell>
 	                    
-	                     <cell sclass="cell-title">Prénoms:</cell>
+	                     <cell sclass="cell-title">Prénoms<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                    <textbox id="txtPrenomsF" width="200px"/>
 	                    </cell>
@@ -77,24 +77,24 @@
 	                
 	                
 	                <row>
-	                    <cell sclass="cell-title">Date de naissance:</cell>
+	                    <cell sclass="cell-title">Date de naissance<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <datebox format="dd/MM/yyyy" id="dateDob" width="200px"/>
 	                    </cell>
 	                    
-	                     <cell sclass="cell-title">Lieu de naissance:</cell>
+	                     <cell sclass="cell-title">Lieu de naissance<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <textbox id="txtlieuNaissance"  width="200px"/>
 	                    </cell>
 	                </row>
 	              
 	                <row>
-	                    <cell sclass="cell-title">Nom du père:</cell>
+	                    <cell sclass="cell-title">Nom du père<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <textbox id="txtNomPere"  width="200px"/>
 	                    </cell>
 	                    
-	                    <cell sclass="cell-title">Origine du père:</cell>
+	                    <cell sclass="cell-title">Origine du père<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <textbox id="txtOriginePere"  width="200px"/>
 	                    </cell>
@@ -102,12 +102,12 @@
 	              
 	                
 	                <row>
-	                    <cell sclass="cell-title">Nom de la mère:</cell>
+	                    <cell sclass="cell-title">Nom de la mère<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <textbox id="txtNomMere"  width="200px"/>
 	                    </cell>
 	                    
-	                      <cell sclass="cell-title">Origine de la mère:</cell>
+	                      <cell sclass="cell-title">Origine de la mère<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <textbox id="txtOrigineMere"  width="200px"/>
 	                    </cell>
@@ -148,34 +148,34 @@
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="cell-title">Numéro de baptême:</cell>
+	                    <cell sclass="cell-title">Numéro de baptême<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                    <textbox id="txtNumeroBapt" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="cell-title">Date du baptême:</cell>
+	                    <cell sclass="cell-title">Date du baptême<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                    <datebox format="dd/MM/yyyy" id="dateBapt"  width="200px"></datebox>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="cell-title">Diocèse:</cell>
+	                    <cell sclass="cell-title">Diocèse<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                    <textbox id="txtDiocese" width="200px"/>
 	                    </cell>
 	                </row>
 	                
 	                <row>
-	                    <cell sclass="cell-title">Eglise:</cell>
+	                    <cell sclass="cell-title">Eglise<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <textbox id="txtEglise" width="200px"/>
 	                    </cell>
 	                </row>
 	                <row>
-	                    <cell sclass="cell-title">Prêtre:</cell>
+	                    <cell sclass="cell-title">Prêtre<label style="color:red">*</label>:</cell>
 	                    <cell>
 	                        <textbox id="txtPretreBapteme"  width="200px"/>
 	                    </cell>

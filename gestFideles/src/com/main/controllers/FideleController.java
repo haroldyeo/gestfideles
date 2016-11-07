@@ -287,7 +287,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			Mariage m = selected.getMariages().size() == 1 ? selected.getMariages().get(0) : null;
 			if(m!=null){
 				txtNumMariage.setValue(m.getNumMariage()); 
-				txtEgliseMariage.setValue(m.getLieu());
+				txtEgliseMariage.setValue(m.getEgliseMariage());
 				txtConjoint.setValue(m.getEpoux());
 				txtNumBaptConjoint.setValue(m.getNumBaptEpoux());
 				txtPretreMariage.setValue(m.getPretre());
@@ -546,7 +546,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			if(!numMariage.equals("") || !dispenseNum.equals("") || !formalitesNum.equals("")){
 				Mariage m = new Mariage(benedNuptDate, benedNuptLieu, dateBaptEpoux, dateMariage, 
 						benedNuptEveche, dispenseNum, epoux, formalitesDate, formalitesNum, formalitesMairie,
-						lieu, numBaptEpoux, pretreMariage, temoin1, temoin2, numMariage);
+						egliseMariage, numBaptEpoux, pretreMariage, temoin1, temoin2, numMariage);
 				fid.addMariage(m);
 			}
 			
@@ -595,7 +595,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				m.setFormalitesDate(formalitesDate);
 				m.setformalitesMairie(formalitesMairie);
 				
-				m.setLieu(lieu);
+				m.setEgliseMariage(egliseMariage);
 				m.setNumBaptEpoux(numBaptEpoux);
 				m.setPretre(pretreMariage);
 				m.setTemoin1(temoin1);

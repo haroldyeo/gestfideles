@@ -25,7 +25,7 @@ public class Mariage implements Serializable {
 	private Date formalitesDate;
 	private String formalitesNum;
 	private String formalitesMairie;
-	private String lieu;
+	private String egliseMariage;
 	private String numBaptEpoux;
 	private String pretre;
 	private String temoin1;
@@ -41,7 +41,7 @@ public class Mariage implements Serializable {
 
 	public Mariage(Date benedNuptDate, String benedNuptLieu, Date dateBaptEpoux, Date dateMariage,
 			String dispenseEveche, String dispenseNum, String epoux, Date formalitesDate, String formalitesNum,
-			String formalitesMairie, String lieu, String numBaptEpoux, String pretre, String temoin1, String temoin2,
+			String formalitesMairie, String egliseMariage, String numBaptEpoux, String pretre, String temoin1, String temoin2,
 			String numMariage) {
 		super();
 		this.benedNuptDate = benedNuptDate;
@@ -54,7 +54,7 @@ public class Mariage implements Serializable {
 		this.formalitesDate = formalitesDate;
 		this.formalitesNum = formalitesNum;
 		this.formalitesMairie = formalitesMairie;
-		this.lieu = lieu;
+		this.egliseMariage = egliseMariage;
 		this.numBaptEpoux = numBaptEpoux;
 		this.pretre = pretre;
 		this.temoin1 = temoin1;
@@ -179,13 +179,13 @@ public class Mariage implements Serializable {
 		this.formalitesMairie = formalitesMairie;
 	}
 
-
-	public String getLieu() {
-		return this.lieu;
+	@Column(name="lieu")
+	public String getEgliseMariage() {
+		return this.egliseMariage;
 	}
 
-	public void setLieu(String lieu) {
-		this.lieu = lieu;
+	public void setEgliseMariage(String egliseMariage) {
+		this.egliseMariage = egliseMariage;
 	}
 
 

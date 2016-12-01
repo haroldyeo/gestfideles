@@ -43,7 +43,7 @@
         
         <div id="divUsersForm1" visible="false">
         	<menubar>
-				<menuitem id="menuBack" label="${labels.LBL.backToList}" image="/imgs/back-icon.png"></menuitem>
+				<menuitem id="menuBack" label="Retour à la liste" image="/imgs/back-icon.png"></menuitem>
 			</menubar>
         	<vlayout>
 		        <grid width="500px" style="margin-top: 15px" >
@@ -80,7 +80,7 @@
 		                    </cell>
 		                </row>
 		                <row>
-		                    <cell sclass="row-title">*<label value="${labels.LBL.password} ${labels.LBL.again}"></label>:</cell>
+		                    <cell sclass="row-title">*<label value="${labels.LBL.password} à nouveau"></label>:</cell>
 		                    <cell>
 		                        <textbox id="txtMdp2F" type="password"  width="200px"/>
 		                    </cell>

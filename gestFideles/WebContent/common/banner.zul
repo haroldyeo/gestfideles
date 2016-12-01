@@ -9,8 +9,22 @@
             <a id="linkLogout" style="text-decoration: none; color:white" label="${labels.LBL.disconnect}">
             	<attribute name="onClick">
 						<![CDATA[
-						         Sessions.getCurrent().invalidate();
-								 Executions.sendRedirect("/index.zul"); 
+								Messagebox.show("Se déconnecter?", "Carnets de baptêmes éléectonique", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+								    public void onEvent(Event evt) throws InterruptedException {
+								        if (evt.getName().equals("onYes")) {
+								        	try {
+								        		Sessions.getCurrent().invalidate();
+												 Executions.sendRedirect("/index.zul"); 
+											} catch (Exception e) {
+												e.printStackTrace();
+											}
+								        	
+								        } else if (evt.getName().equals("onNo")) {
+								            // nada
+								        } 
+								    }
+								});
+						         
 			             ]]>
 				</attribute>	
             </a>

@@ -46,7 +46,7 @@ public class OperationsDb {
         return returnedList;
 	}
     
-	public static List find (String strEntity, Map<String,Object> mapParams){
+	public static List find (String strEntity, Map<String,Object> mapParams, Integer maxResults){
         
 		List returnedList = null;
         
@@ -54,7 +54,7 @@ public class OperationsDb {
             
             case(Constants.users):
                        Criteria crUsers = HibernateUtil.getHibSession().createCriteria(User.class);
-                       crUsers.addOrder(Order.asc("id"));
+                       crUsers.addOrder(Order.desc("id"));
                        		if(mapParams != null){
                        			
                        			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null; 
@@ -83,6 +83,9 @@ public class OperationsDb {
                                 if (motPasse != null && !motPasse.equals("")){
                                  	crUsers.add(Restrictions.eq(Constants.mdp, motPasse));
                                 }
+                                if(maxResults != null){
+                                	crUsers.setMaxResults(maxResults);
+                                }
                                         					
                        		} // end if params != null
 
@@ -91,7 +94,7 @@ public class OperationsDb {
             	case(Constants.fideles):
             	
             	Criteria crFideles = HibernateUtil.getHibSession().createCriteria(Fidele.class);
-            	crFideles.addOrder(Order.asc("id"));
+            	crFideles.addOrder(Order.desc("id"));
             		if(mapParams != null){
             			
             			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null; 
@@ -122,7 +125,7 @@ public class OperationsDb {
             	
             	case(Constants.bapteme):
             		Criteria crBapteme = HibernateUtil.getHibSession().createCriteria(Bapteme.class);
-            		crBapteme.addOrder(Order.asc("id"));
+            		crBapteme.addOrder(Order.desc("id"));
             		crBapteme.createAlias("fidele", "fid");
             		if(mapParams != null){
             			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null;
@@ -139,7 +142,7 @@ public class OperationsDb {
             		
             	case(Constants.sacrements):
             		Criteria crSacrements = HibernateUtil.getHibSession().createCriteria(Sacrement.class);
-            			crSacrements.addOrder(Order.asc("id"));
+            			crSacrements.addOrder(Order.desc("id"));
             			crSacrements.createAlias("fidele", "fid");
             		if(mapParams != null){
             			Integer id =  mapParams.get(Constants.id) != null ? (Integer) (mapParams.get(Constants.id)) : null;

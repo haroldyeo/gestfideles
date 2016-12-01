@@ -55,7 +55,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	
 	private void displayListUsers(List<User> listUsers) {
 		if(listUsers == null)
-			listUsers = OperationsDb.find(Constants.users, null);
+			listUsers = OperationsDb.find(Constants.users, null, 10);
 		lml = new ListModelList<User>(listUsers);
     	listboxUsers.setModel(lml);
 		
@@ -75,7 +75,7 @@ public class UsersController  extends SelectorComposer<Component> {
 	@Listen("onClick=#btnRefresh")
 	public void doRefresh(){
 		txtSearch.setValue("");
-		List<User> listUsers = OperationsDb.find(Constants.users, null);
+		List<User> listUsers = OperationsDb.find(Constants.users, null, 10);
     	displayListUsers(listUsers);
 	}
 	

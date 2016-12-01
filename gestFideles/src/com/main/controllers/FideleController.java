@@ -164,7 +164,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	private void displayList(List<Fidele> list) {
 		if(list == null)
-			list = OperationsDb.find(Constants.fideles, null);
+			list = OperationsDb.find(Constants.fideles, null, 10);
 		lml = new ListModelList<Fidele>(list);
 		SimpleDateFormat sm = new SimpleDateFormat("dd-MM-yyyy");
 		for(Fidele fid : list){
@@ -189,7 +189,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	@Listen("onClick=#btnRefresh")
 	public void doRefresh(){
 		txtSearch.setValue("");
-		List<Fidele> list = OperationsDb.find(Constants.fideles, null);
+		List<Fidele> list = OperationsDb.find(Constants.fideles, null, 10);
     	displayList(list);
 	}
 	
@@ -334,7 +334,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			        	try {
 			        		Fidele entity = (Fidele)listbox.getSelectedItem().getValue();
 							OperationsDb.deleteById(Fidele.class, entity.getId());
-							Messagebox.show("Fidèle supprimé avec succès", Constants.app_title, Messagebox.OK, Messagebox.EXCLAMATION);
+							Messagebox.show("Fidèle supprimé avec succès", Constants.app_title, Messagebox.OK, Messagebox.INFORMATION);
 							displayList(null);
 						} catch (Exception e) {
 							e.printStackTrace();

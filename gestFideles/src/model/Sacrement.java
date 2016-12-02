@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="\"FIDELESDEV\".sacrements")
+@Table(name="sacrements")
 @NamedQuery(name="Sacrement.findAll", query="SELECT s FROM Sacrement s")
 public class Sacrement implements Serializable {
 	private static final long serialVersionUID = 1L;

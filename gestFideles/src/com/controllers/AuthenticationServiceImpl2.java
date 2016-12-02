@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl2 extends SelectorComposer<Component> impl
 		Map<String, Object> mapParams = new HashMap<String, Object>();
 		mapParams.put("identifiant", nm);
 		mapParams.put("motPasse", pd);
-		List<User> list = OperationsDb.find(Constants.users, mapParams);
+		List<User> list = OperationsDb.find(Constants.users, mapParams,null);
 		
 		return list!=null && list.size()==1 ? list.get(0) : null;
 	}

@@ -17,10 +17,10 @@
 <!-- 			<property name="hibernate.archive.autodetection" value="class, hbm"/> -->
 			
 				<property name="hibernate.show_sql" value="true"/>
-				<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/fidelesdb?currentSchema=FIDELESDEV" />
-		        <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-		        <property name="javax.persistence.jdbc.user" value="harold" />
-		        <property name="javax.persistence.jdbc.password" value="harold" />
+				<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/carnetsdb" />
+		        <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+		        <property name="javax.persistence.jdbc.user" value="root" />
+		        <property name="javax.persistence.jdbc.password" value="" />
 				
 			
 			</properties>

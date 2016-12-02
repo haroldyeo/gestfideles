@@ -24,7 +24,7 @@ import javax.persistence.Transient;
  * 
  */
 @Entity
-@Table(name="\"FIDELESDEV\".fideles")
+@Table(name="fideles")
 @NamedQuery(name="Fidele.findAll", query="SELECT f FROM Fidele f")
 public class Fidele implements Serializable {
 	private static final long serialVersionUID = 1L;

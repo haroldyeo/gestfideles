@@ -11,15 +11,16 @@
 		<class>model.SacrementMalades</class>
 		<properties>
 					
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.hbm2ddl.auto" value="create"/>
 			
 			
 <!-- 			<property name="hibernate.archive.autodetection" value="class, hbm"/> -->
 			
 				<property name="hibernate.show_sql" value="true"/>
-				<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/carnetsdb" />
-		        <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-		        <property name="javax.persistence.jdbc.user" value="root" />
+				<property name="javax.persistence.jdbc.url" value="jdbc:sqlite:D:\WORK\2016\git\gestFideles\carnetsdb.sqlite" />
+		        <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
+		        <property name="hibernate.dialect" value="com.utils.SQLiteDialect" />
+		        <property name="javax.persistence.jdbc.user" value="" />
 		        <property name="javax.persistence.jdbc.password" value="" />
 				
 			

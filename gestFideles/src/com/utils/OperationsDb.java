@@ -25,6 +25,8 @@ import model.User;
 @SuppressWarnings("rawtypes")
 public class OperationsDb {
 	
+	public static final Session hibSession = HibernateUtil.getHibSession();
+	
 	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where lower(f.nom) like :val or lower(f.prenoms) like :val "
                                       + " or exists (select b  from Bapteme b where b.fidele = f and b.numero like :val)" ;
 	public final static String QUERY_SEARCH_USERS = "select u from User u where lower(u.identifiant) like :val or lower(u.nom) like :val "
@@ -35,10 +37,10 @@ public class OperationsDb {
 		Query q = null;
         switch(entity){
             case(Constants.fideles):
-            	q = HibernateUtil.getHibSession().createQuery(QUERY_SEARCH_FIDELES);
+            	q = hibSession.createQuery(QUERY_SEARCH_FIDELES);
             	break;
             case(Constants.users):
-            	q = HibernateUtil.getHibSession().createQuery(QUERY_SEARCH_USERS);
+            	q = hibSession.createQuery(QUERY_SEARCH_USERS);
             	break;
         }
         q.setParameter("val", "%"+value.toLowerCase()+"%");
@@ -53,7 +55,7 @@ public class OperationsDb {
         switch(strEntity){
             
             case(Constants.users):
-                       Criteria crUsers = HibernateUtil.getHibSession().createCriteria(User.class);
+                       Criteria crUsers = hibSession.createCriteria(User.class);
                        crUsers.addOrder(Order.desc("id"));
                        		if(mapParams != null){
                        			
@@ -93,7 +95,7 @@ public class OperationsDb {
                         break;
             	case(Constants.fideles):
             	
-            	Criteria crFideles = HibernateUtil.getHibSession().createCriteria(Fidele.class);
+            	Criteria crFideles = hibSession.createCriteria(Fidele.class);
             	crFideles.addOrder(Order.desc("id"));
             		if(mapParams != null){
             			
@@ -124,7 +126,7 @@ public class OperationsDb {
             	break;
             	
             	case(Constants.bapteme):
-            		Criteria crBapteme = HibernateUtil.getHibSession().createCriteria(Bapteme.class);
+            		Criteria crBapteme = hibSession.createCriteria(Bapteme.class);
             		crBapteme.addOrder(Order.desc("id"));
             		crBapteme.createAlias("fidele", "fid");
             		if(mapParams != null){
@@ -141,7 +143,7 @@ public class OperationsDb {
             		break;
             		
             	case(Constants.sacrements):
-            		Criteria crSacrements = HibernateUtil.getHibSession().createCriteria(Sacrement.class);
+            		Criteria crSacrements = hibSession.createCriteria(Sacrement.class);
             			crSacrements.addOrder(Order.desc("id"));
             			crSacrements.createAlias("fidele", "fid");
             		if(mapParams != null){
@@ -169,11 +171,11 @@ public class OperationsDb {
   public static void persistObject(Object obj){
        
           try{
-              Session session = HibernateUtil.getHibSession();
+              Session session = hibSession;
               session.beginTransaction();
               session.save(obj);
               session.getTransaction().commit();
-              session.close();
+              //session.close();
               
           } catch (HibernateException e){
               e.printStackTrace();
@@ -184,11 +186,11 @@ public class OperationsDb {
   public static void updateObject(Object obj){
        
           try{
-              Session session = HibernateUtil.getHibSession();
+              Session session = hibSession;
               session.beginTransaction();
               session.merge(obj);  
               session.getTransaction().commit();
-              session.close();
+              //session.close();
               
           } catch (HibernateException e){
               e.printStackTrace();
@@ -201,7 +203,7 @@ public class OperationsDb {
   public static Object getById(Class<?> type, Serializable id){
 	  Object obj = null;
 	  try{
-    	  Session session = HibernateUtil.getHibSession();
+    	  Session session = hibSession;
     	  obj = session.get(type, id);  
 	  } catch (HibernateException e){
           e.printStackTrace();
@@ -212,13 +214,13 @@ public class OperationsDb {
   public static void deleteById(Class<?> type, Serializable id) {
        
           try{
-        	  Session session = HibernateUtil.getHibSession();
+        	  Session session = hibSession;
         	  Object persistentInstance = session.get(type, id);
         	  if (persistentInstance != null) {
         		  session.beginTransaction();
         	      session.delete(persistentInstance);
         	      session.getTransaction().commit();
-                  session.close();
+                  //session.close();
         	  }              
           } catch (Exception e){
               e.printStackTrace();

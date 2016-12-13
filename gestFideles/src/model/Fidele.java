@@ -49,6 +49,7 @@ public class Fidele implements Serializable {
 	private String numTelephone;
 	private String numTelephone2;
 	private Integer matricule;
+	private String metier;
 	
 
 	public Fidele() {
@@ -390,6 +391,14 @@ public class Fidele implements Serializable {
 
 	public void setMatricule(Integer matricule) {
 		this.matricule = matricule;
+	}
+
+	public String getMetier() {
+		return metier;
+	}
+
+	public void setMetier(String metier) {
+		this.metier = metier;
 	}
 	
 	

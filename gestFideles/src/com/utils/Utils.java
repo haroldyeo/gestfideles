@@ -14,6 +14,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.SerializableEventListener;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Cell;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
@@ -21,6 +22,7 @@ import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import model.CommunionPascale;
 import model.Enfant;
 import model.Sacrement;
 import model.SacrementMalades;
@@ -188,6 +190,33 @@ public class Utils {
 		return row;
     	
     }
+    
+    
+    public static Row buildCommunionPascale(CommunionPascale c){
+		Label lblAnnee = new Label(String.valueOf(c.getAnnee()));
+		Checkbox chkDenierCulte = new Checkbox();
+		chkDenierCulte.setChecked(c.getDenierCulte().equals("oui") ? true : false);
+		chkDenierCulte.setDisabled(true);
+		
+		Button btnDel = new Button();
+		btnDel.setImage("/imgs/btn-del.png");
+		if(c.getId() != null)
+			btnDel.setAttribute("idComPascale", c.getId().toString());
+		btnDel.addEventListener(Events.ON_CLICK, actionListener);
+		
+		Cell cell1 = new Cell(); cell1.appendChild(lblAnnee);
+		Cell cell2 = new Cell(); cell2.appendChild(chkDenierCulte);
+		Cell cell3 = new Cell(); cell3.appendChild(btnDel);
+		
+		Row row = new Row();
+		row.appendChild(cell1);
+		row.appendChild(cell2);
+		row.appendChild(cell3);
+		
+		return row;
+    	
+    }
+
 
         
     public static Row buildSacreMalade(SacrementMalades sm){
@@ -219,11 +248,15 @@ public class Utils {
     	
     }
     
-    public static void errorMessages(String key){
+    public static void errorMessages(String key){ 
     	switch (key) {
 		case "noParrainOrMarraine":
 			Messagebox.show("Veuillez saisir un parrain ou une marraine", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
 			throw new WrongValueException("Saisir parrain ou marraine!");
+			
+		case "noPhoneNumber":
+			Messagebox.show("Veuillez saisir au moins un numéro de téléphone", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);
+			throw new WrongValueException();
 			
 		case "emptyInfosBase":
 			Messagebox.show("Veuillez saisir les champs obligatoires de la rubrique \"Informations de base\"", Constants.popoup_title_create_fideles, Messagebox.OK, Messagebox.ERROR);

@@ -15,6 +15,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Cell;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
@@ -31,6 +32,7 @@ import com.utils.OperationsDb;
 import com.utils.Utils;
 
 import model.Bapteme;
+import model.CommunionPascale;
 import model.Enfant;
 import model.Fidele;
 import model.Mariage;
@@ -62,10 +64,10 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	Rows[] rowsTitles = null;
 	
 	/*-----	Infos de base  ----*/
-	@Wire Textbox txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance, 
-				  txtOriginePere, txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine;
+	@Wire Textbox txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance,  txtOriginePere, 
+				txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine, txtNumPhone, txtNumPhone2;
 	@Wire Datebox txtDateNaissance, dateDob;
-	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine;
+	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine, numPhone, numPhone2;
 	Date dob;
 	
 	/*-----	Bapteme  ----*/
@@ -117,6 +119,19 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	List<String> enfantsKeysToDelete = new ArrayList<>();
 	List<Row> listNewEnfantsRowsUpdate = new ArrayList<>();
 	
+	/*----  Communion pascale  ----*/
+	@Wire Rows rowsComPascale;
+	@Wire Button btnAddComPascale;
+	@Wire Row rowTitleComPascale, rowInnerTitleComPascale;
+	String denierCulte;
+	Integer anneeComPascale;
+	List<CommunionPascale> listComPascale = new ArrayList<>();
+	List<String> comPascaleKeysInit = new ArrayList<>();
+	List<String> comPascaleKeysForm = new ArrayList<>();
+	List<String> comPascaleKeysThatRemain = new ArrayList<>();
+	List<String> comPascaleKeysToDelete = new ArrayList<>();
+	List<Row> listNewComPascaleRowsUpdate = new ArrayList<>();
+	
 	/*----  Sacréments malades  ----*/
 	@Wire Rows rowsSacrementMalades;
 	@Wire Button btnAddMalade;
@@ -139,6 +154,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
     		comp.addEventListener(Constants.events_sacrement, this);
     		comp.addEventListener(Constants.events_enfant, this);
     		comp.addEventListener(Constants.events_sacrementMalade, this);
+    		comp.addEventListener(Constants.events_comPascale, this);
     		Utils.setSessionAttribute("winFidele", winFidele);
     	}
     	
@@ -150,16 +166,16 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	private void initLists(){
 		textBoxes = new Textbox[]{txtNomF, txtPrenomsF, txtlieuNaissance, txtNomPere, txtNomMere, txtOriginePere,
-				txtOrigineMere, txtNomParrain, txtNomMarraine,  txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme,
+				txtOrigineMere, txtNomParrain, txtNomMarraine, txtNumPhone, txtNumPhone2, txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme,
 				txtNumMariage, txtEgliseMariage, txtConjoint, txtNumBaptConjoint, txtPretreMariage, txtTemoin1, txtTemoin2,
 				txtEgliseBenNupt, txtDispenseBenNupt, txtEvecheBenNupt,
 				txtNumFormCivile, txtMairie};
 		
 		dateBoxes = new Datebox[]{dateDob, dateBapt, dateboxMariage, dateboxBenNupt, dateboxFormCivile, dateboxBaptConjoint};
 		
-		rowTitles = new Row[]{rowInnerTitleSacrement, rowInnerTitleSacreMalade, rowInnerTitleEnfants};
+		rowTitles = new Row[]{rowInnerTitleSacrement, rowInnerTitleSacreMalade, rowInnerTitleEnfants, rowInnerTitleComPascale};
 		
-		rowsTitles = new Rows[]{rowsSacrement, rowsEnfants, rowsSacrementMalades};
+		rowsTitles = new Rows[]{rowsSacrement, rowsEnfants, rowsSacrementMalades, rowsComPascale};
 	}
 	
 	private void displayList(List<Fidele> list) {
@@ -203,6 +219,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		listSacrement.clear();
 		listSacrementsMalade.clear();
 		listEnfants.clear();
+		listComPascale.clear();
 	}
 	
 	
@@ -217,6 +234,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			listSacrement.clear();
 			listSacrementsMalade.clear();
 			listEnfants.clear();
+			listComPascale.clear();
 			
 			Fidele selected = ((Fidele)listbox.getSelectedItem().getValue());
 			
@@ -236,6 +254,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			txtOrigineMere.setValue(selected.getOrigineMere());
 			txtNomParrain.setValue(selected.getNomParrain());
 			txtNomMarraine.setValue(selected.getNomMarraine());
+			txtNumPhone.setValue(selected.getNumTelephone());
+			txtNumPhone2.setValue(selected.getNumTelephone2());
 			
 			
 			//bapteme
@@ -269,6 +289,16 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				for(Enfant e : listenf){
 					rowsEnfants.appendChild(Utils.buildEnfants(e));
 					enfantsKeysInit.add(e.getId().toString());
+				}
+			}
+			
+			// Communion pascale
+			
+			List<CommunionPascale> listcomPascale = selected.getCommunionPascales();  
+			if(listcomPascale.size() > 0){
+				for(CommunionPascale c : listcomPascale){
+					rowsComPascale.appendChild(Utils.buildCommunionPascale(c));
+					comPascaleKeysInit.add(c.getId().toString());
 				}
 			}
 			
@@ -469,6 +499,30 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		
 	}
 	
+	/*-------------    COMMUNION PASCALE	   *****************************/
+
+	@Listen("onClick=#btnAddComPascale")
+	public void onAddComPascale() throws Exception{
+		Utils.openModal("/references/comPascaleForm.zul", null, null, Constants.app_title);
+	}
+
+
+	private void preCreateNewComPascale(Row row) {
+		for(Component cell : row.getChildren()){
+			if(cell.getFirstChild() instanceof Label){
+				Label l = (Label) cell.getFirstChild();
+				anneeComPascale = Integer.parseInt(l.getValue());
+			} else if(cell.getFirstChild() instanceof Checkbox){
+				Checkbox chk = (Checkbox)cell.getFirstChild();
+				denierCulte = chk.isChecked() ? "oui" : "non";
+			}
+		}
+
+		CommunionPascale cp = new CommunionPascale(anneeComPascale, denierCulte);
+		listComPascale.add(cp);
+		
+	}
+	
 	
 	/*-------------    SACREMENTS MALADE   *****************************/
 
@@ -508,8 +562,6 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	/*-------------    UTILS   *****************************/
 	
-	
-	
 	@Override
 	public void onEvent(Event event) throws Exception {
 		if(event.getName().equalsIgnoreCase(Constants.events_sacrement)){
@@ -526,6 +578,11 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			Row row = (Row) event.getData();
 			rowsSacrementMalades.appendChild(row);
 		} 
+		
+		if(event.getName().equalsIgnoreCase(Constants.events_comPascale)){
+			Row row = (Row) event.getData();
+			rowsComPascale.appendChild(row);
+		} 
 	}
 	
 	
@@ -536,7 +593,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		if(mode.equals(Constants.modeSave)){
 			
 			// infos base
-			fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms);
+			fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms, numPhone, numPhone2);
 			
 			// bapteme
 			Bapteme b = new Bapteme(dateBapteme, diocese, eglise, numero, pretreBapteme);
@@ -566,6 +623,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			fid.setOrigineMere(origineMere);
 			fid.setNomParrain(nomParain);
 			fid.setNomMarraine(nomMarraine);
+			fid.setNumTelephone(numPhone);
+			fid.setNumTelephone2(numPhone2);
 			
 			
 		
@@ -642,6 +701,22 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			}
 		}
 		
+		// Communion pascale
+			List<CommunionPascale> comPascaleFid = fid.getCommunionPascales();
+			if(comPascaleFid!= null && !comPascaleFid.isEmpty() && !comPascaleKeysToDelete.isEmpty()){
+				for(Iterator<CommunionPascale> it = comPascaleFid.iterator(); it.hasNext();){
+					CommunionPascale cp = it.next();
+					if(comPascaleKeysToDelete.contains(cp.getId().toString())){
+						it.remove();
+					}
+				}
+			}
+			if(!listComPascale.isEmpty()){
+				for(CommunionPascale c : listComPascale){
+					fid.addCommunionPascale(c);
+				}
+			}
+		
 		// sacrements malades
 		List<SacrementMalades> maladesFid = fid.getSacrementMalades();
 		if(maladesFid!= null && !maladesFid.isEmpty() && !maladesKeysToDelete.isEmpty()){
@@ -683,6 +758,11 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			keysForm = maladesKeysForm;
 			listNewRows = listNewMaladesRowsUpdate;
 			break;
+		case Constants.comPascale:
+			id = "idComPascale";
+			keysForm = comPascaleKeysForm;
+			listNewRows = listNewComPascaleRowsUpdate;
+			break;
 
 		default:
 			break;
@@ -701,16 +781,21 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	}
 	
 	public void errorCheck(){
-		
-		// check parrain et marraine
-		if(txtNomParrain.getValue().isEmpty() && txtNomMarraine.getValue().isEmpty()){
-			Utils.errorMessages("noParrainOrMarraine");
-		}
-		
+				
 		// check des champs obligatoire des infos de base
 		if(Utils.checkEmptyComponents( new Component[]{txtNomF, txtPrenomsF, dateDob, txtlieuNaissance, txtNomPere, txtNomMere, txtOriginePere, txtOrigineMere})){
 			Utils.errorMessages("emptyInfosBase");
 		}
+		
+		// check parrain et marraine
+				if(txtNomParrain.getValue().isEmpty() && txtNomMarraine.getValue().isEmpty()){
+					Utils.errorMessages("noParrainOrMarraine");
+				}
+		
+		// check phone number
+				if(txtNumPhone.getValue().isEmpty() && txtNumPhone2.getValue().isEmpty()){
+					Utils.errorMessages("noPhoneNumber");
+				}
 		
 		// check des champs obligatoire de baptême
 		if(Utils.checkEmptyComponents( new Component[]{dateBapt, txtDiocese, txtEglise, txtNumeroBapt, txtPretreBapteme})){
@@ -757,6 +842,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				origineMere = txtOrigineMere.getValue();
 				nomParain = txtNomParrain.getValue();
 				nomMarraine = txtNomMarraine.getValue();
+				numPhone = txtNumPhone.getValue();
+				numPhone2 = txtNumPhone2.getValue();
 				
 				// bapteme
 				dateBapteme = dateBapt.getValue();
@@ -789,17 +876,26 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				
 				
 				
-				// sacréments
+				// sacréments - enfants- com pascale - sacrements malades
 
 					// get rows
 					List<Row> listrowSacrements = rowsSacrement.getChildren();
+					List<Row> listRowEnfants = rowsEnfants.getChildren();
+					List<Row> listRowComPascale = rowsComPascale.getChildren();
+					List<Row> listRowSacreMalades = rowsSacrementMalades.getChildren();
+					
+					
 					if(mode.equals(Constants.modeUpdate)){
-						doUpdateDynamicEntities(listrowSacrements, Constants.sacrements);							
+												
+						doUpdateDynamicEntities(listrowSacrements, Constants.sacrements);	
+						doUpdateDynamicEntities(listRowEnfants,Constants.enfants);
+						doUpdateDynamicEntities(listRowComPascale,Constants.comPascale);	
+						doUpdateDynamicEntities(listRowSacreMalades,Constants.sacreMalades);
 					} // end mode update sacréments
 							
 					
 					if(mode.equals(Constants.modeSave)){
-						// create new sacrements
+						// create new 
 						for(Row row : listrowSacrements){
 							if(row.getId().equals("rowTitleSacrement") || row.getId().equals("rowInnerTitleSacrement")){
 								// nada
@@ -807,59 +903,40 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 								preCreateNewSacrements(row);
 							}
 						}
-					} // end mode save sacréments
-					
-					
-					
-			// enfants
-					
-				
-				// get rows
-				List<Row> listRowEnfants = rowsEnfants.getChildren();
-				if(mode.equals(Constants.modeUpdate)){
-					doUpdateDynamicEntities(listRowEnfants,Constants.enfants);							
-				} // end mode update enfants
 						
-				
-				if(mode.equals(Constants.modeSave)){
-					// create new enfants
-					for(Row row : listRowEnfants){
-						if(row.getId().equals("rowTitleEnfant") || row.getId().equals("rowInnerTitleEnfants")){
-							// nada
-						} else{
-							preCreateNewEnfants(row);
+						for(Row row : listRowEnfants){
+							if(row.getId().equals("rowTitleEnfant") || row.getId().equals("rowInnerTitleEnfants")){
+								// nada
+							} else{
+								preCreateNewEnfants(row);
+							}
 						}
-					}
-				} // end mode save enfants
-				
-			
-		   // sacrémentsMalades
-					
-				
-				// get rows
-				List<Row> listRowSacreMalades = rowsSacrementMalades.getChildren();
-				if(mode.equals(Constants.modeUpdate)){
-					doUpdateDynamicEntities(listRowSacreMalades,Constants.sacreMalades);							
-				} // end mode update sacrémentsMalades
 						
-				
-				if(mode.equals(Constants.modeSave)){
-					// create new sacrémentsMalades
-					for(Row row : listRowSacreMalades){
-						if(row.getId().equals("rowTitleMalade") || row.getId().equals("rowInnerTitleSacreMalade")){
-							// nada
-						} else{
-							preCreateNewSacreMalade(row);
+						for(Row row : listRowComPascale){
+							if(row.getId().equals("rowTitleComPascale") || row.getId().equals("rowInnerTitleComPascale")){
+								// nada
+							} else{
+								preCreateNewComPascale(row);
+							}
 						}
-					}
-				} // end mode save enfants
-				
+						
+						for(Row row : listRowSacreMalades){
+							if(row.getId().equals("rowTitleMalade") || row.getId().equals("rowInnerTitleSacreMalade")){
+								// nada
+							} else{
+								preCreateNewSacreMalade(row);
+							}
+						}
+						
+						
+					} // end mode save sacréments - enfants- com pascale - sacrements malades
+					
 						
 							
 	}
 
 
-	private void doUpdateDynamicEntities(List<Row> listrowSacrements, String entity ) {
+	private void doUpdateDynamicEntities(List<Row> listrow, String entity ) {
 		
 		List<Row> listNewRows = null;
 		List<String> keysInit = null ;
@@ -898,6 +975,16 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			rowTitle = "rowTitleMalade";
 			rowInnerTitle = "rowInnerTitleSacreMalade";
 			break;
+			
+		case Constants.comPascale:
+			listNewRows = listNewComPascaleRowsUpdate;
+			keysInit = comPascaleKeysInit;
+			keysForm =  comPascaleKeysForm;
+			keysThatRemain =  comPascaleKeysThatRemain;
+			keysToDelete = comPascaleKeysToDelete;
+			rowTitle = "rowTitleComPascale";
+			rowInnerTitle = "rowInnerTitleComPascale";
+			break;
 		default:
 			break;
 		}
@@ -905,8 +992,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		// obtenir liste des items de l'entité choisi du form et ajout des rows des nouveaux
 		listNewRows.clear();
 		keysForm.clear();
-		for(Row row : listrowSacrements){
-			if(!row.getId().equals(rowTitle) || !row.getId().equals(rowInnerTitle)){
+		for(Row row : listrow){
+			if(!row.getId().equals(rowTitle) && !row.getId().equals(rowInnerTitle)){
 				List<Cell> listCells = row.getChildren();
 				if(entity.equals(Constants.sacrements))
 					doFillFormValues(listCells, Constants.sacrements);
@@ -914,6 +1001,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 					doFillFormValues(listCells, Constants.enfants);
 				else if (entity.equals(Constants.sacreMalades))
 					doFillFormValues(listCells, Constants.sacreMalades);
+				else if (entity.equals(Constants.comPascale))
+					doFillFormValues(listCells, Constants.comPascale);
 			}
 		}
 		
@@ -946,6 +1035,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				preCreateNewEnfants(row);
 			else if (entity.equals(Constants.sacreMalades))
 				preCreateNewSacreMalade(row);
+			else if (entity.equals(Constants.comPascale))
+				preCreateNewComPascale(row);
 		}
 		
 	}

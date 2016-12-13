@@ -1,0 +1,33 @@
+<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<window id="winEnfantForm" apply="com.main.controllers.ComPascaleFormController" border="normal" hflex="1" vflex="1" contentStyle="overflow:auto">
+    <caption sclass="fn-caption" label="Communion pascale"/>
+    <vlayout>
+        <grid width="400px">
+            <columns>
+                <column align="right" hflex="min"/>
+                <column/>
+            </columns>
+            <rows>
+            	<row>
+                    <cell sclass="row-title">année :</cell>
+                    <cell>
+	                    <combobox id="cbAnnee"  width="200px" readonly="true">
+	                    </combobox>
+                    </cell>
+                </row>
+                
+                <row>
+                    <cell sclass="row-title">Denier du culte</cell>
+                    <cell>
+                    <checkbox id="chkDenierCulte"></checkbox>
+                    </cell>
+                </row>
+                
+            </rows>
+        </grid>
+        
+        <hlayout>
+            <button id="saveComPascale" label="Enregistrer"/>
+        </hlayout>
+    </vlayout>
+</window>

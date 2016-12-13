@@ -125,6 +125,18 @@
 	                        <textbox id="txtNomMarraine"  width="200px"/>
 	                    </cell>
 	                </row>
+	                
+	                <row>
+	                	<cell sclass="cell-title">Numéro de téléphone:</cell>
+	                    <cell>
+	                        <textbox id="txtNumPhone"  width="200px"/>
+	                    </cell>
+	                    
+	                    <cell sclass="cell-title">Autre numéro:</cell>
+	                    <cell>
+	                        <textbox id="txtNumPhone2"  width="200px"/>
+	                    </cell>
+	                </row>
 	            
 	                
 	            </rows>
@@ -379,6 +391,28 @@
 	            		<cell><label sclass="inner-title">Numéro de baptême</label></cell>
 	            		<cell><label sclass="inner-title">Lieu de baptême</label></cell>
 	            		<cell><label sclass="inner-title">Supprimer</label></cell>
+	            	</row>	            	
+	            </rows>
+	         </grid>
+	         
+	         
+	         <!-- COMMUNION PASCALE -->		
+		   				
+		   	 <grid width="800px" id="gridComPascale" style="margin-top: 15px" >
+	            <columns>
+	                <column align="left" width="150px"/>
+	                <column/>
+	                <column/>
+	                <column/>
+	            </columns>
+	            <rows id="rowsComPascale">
+	            	<row id="rowTitleComPascale">
+	            		<cell colspan="2" style="text-align:left"><label sclass="grid-title">Communion pascale</label></cell>
+	            		<cell colspan="2"><button id="btnAddComPascale" label="Ajouter"></button></cell>
+	            	</row>
+	            	<row id="rowInnerTitleComPascale">
+	            		<cell><label sclass="inner-title">Année</label></cell>
+	            		<cell><label sclass="inner-title">denier du culte</label></cell>
 	            	</row>	            	
 	            </rows>
 	         </grid>

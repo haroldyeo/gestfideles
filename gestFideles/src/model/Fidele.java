@@ -46,6 +46,10 @@ public class Fidele implements Serializable {
 	private List<Mariage> mariages;
 	private List<Sacrement> sacrements;
 	private String _dob;
+	private String numTelephone;
+	private String numTelephone2;
+	private Integer matricule;
+	
 
 	public Fidele() {
 	}
@@ -54,7 +58,7 @@ public class Fidele implements Serializable {
 
 
 	public Fidele(Date dob, String lieuNaissance, String nom, String nomMarraine, String nomMere, String nomParrain,
-			String nomPere, String origineMere, String originePere, String prenoms) {
+			String nomPere, String origineMere, String originePere, String prenoms, String numPhone, String numPhone2) {
 		super();
 		this.dob = dob;
 		this.lieuNaissance = lieuNaissance;
@@ -66,6 +70,8 @@ public class Fidele implements Serializable {
 		this.origineMere = origineMere;
 		this.originePere = originePere;
 		this.prenoms = prenoms;
+		this.numTelephone = numPhone;
+		this.numTelephone2 = numPhone2;
 	}
 
 
@@ -234,8 +240,10 @@ public class Fidele implements Serializable {
 
 
 	//bi-directional many-to-one association to CommunionPascale
-	@OneToMany(mappedBy="fidele")
+	@OneToMany(cascade={CascadeType.ALL}, orphanRemoval = true, mappedBy="fidele")
 	public List<CommunionPascale> getCommunionPascales() {
+		if(communionPascales == null)
+			communionPascales = new ArrayList<>();
 		return this.communionPascales;
 	}
 
@@ -351,6 +359,40 @@ public class Fidele implements Serializable {
 	public void set_dob(String _dob) {
 		this._dob = _dob;
 	}
+
+
+	@Column(name="numero_telephone")
+	public String getNumTelephone() {
+		return numTelephone;
+	}
+
+
+	public void setNumTelephone(String numTelephone) {
+		this.numTelephone = numTelephone;
+	}
+	
+	@Column(name="numero_telephone2")
+	public String getNumTelephone2() {
+		return numTelephone2;
+	}
+
+
+	public void setNumTelephone2(String numTelephone2) {
+		this.numTelephone2 = numTelephone2;
+	}
+
+
+	@Column(name="matricule")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public Integer getMatricule() {
+		return matricule;
+	}
+
+	public void setMatricule(Integer matricule) {
+		this.matricule = matricule;
+	}
+	
+	
 	
 	
 

@@ -20,6 +20,14 @@ public class CommunionPascale implements Serializable {
 
 	public CommunionPascale() {
 	}
+	
+	public CommunionPascale(Integer annee, String denierCulte) {
+		super();
+		this.annee = annee;
+		this.denierCulte = denierCulte;
+	}
+
+
 
 
 	@Id

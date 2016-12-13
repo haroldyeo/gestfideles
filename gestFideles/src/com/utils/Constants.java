@@ -14,6 +14,7 @@ public class Constants {
 	public static final String mariage = "mariage";
 	public static final String enfants = "enfants";
 	public static final String sacreMalades = "sacreMalades";
+	public static final String comPascale = "comPascale";
 	
 	
 	public static final String identifiant = "identifiant";
@@ -36,8 +37,11 @@ public class Constants {
 	public static final String events_sacrement = "onAddSacrement";
 	public static final String events_sacrementMalade = "onAddSacreMalade";
 	public static final String events_enfant = "onAddEnfant";
+	public static final String events_comPascale = "onAddComPascale";
 	
 	public static final String popoup_title_create_fideles = "Créer un fidèle";
 	public static final String popoup_title_create_user = "Créer un utilisateur";
+
+	
 
 }

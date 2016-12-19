@@ -27,8 +27,8 @@ public class OperationsDb {
 	
 	public static final Session hibSession = HibernateUtil.getHibSession();
 	
-	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where lower(f.nom) like :val or lower(f.prenoms) like :val "
-                                      + " or exists (select b  from Bapteme b where b.fidele = f and b.numero like :val)" ;
+	public final static String QUERY_SEARCH_FIDELES = "select f from Fidele f where lower(f.nom) like :val or lower(f.prenoms) like :val or lower(f.matricule) like :val or lower(f.numTelephone) like :val or lower(numTelephone2) like :val"
+                                      + " or exists (select b  from Bapteme b where b.fidele = f and b.numero like :val)";
 	public final static String QUERY_SEARCH_USERS = "select u from User u where lower(u.identifiant) like :val or lower(u.nom) like :val "
             + " or lower(u.prenoms) like :val" ;
 	
@@ -48,7 +48,7 @@ public class OperationsDb {
         return returnedList;
 	}
     
-	public static List find (String strEntity, Map<String,Object> mapParams, Integer maxResults){
+	 public static List find (String strEntity, Map<String,Object> mapParams, Integer maxResults){
         
 		List returnedList = null;
         
@@ -168,50 +168,48 @@ public class OperationsDb {
     }
     
   
-  public static void persistObject(Object obj){
-       
-          try{
-              Session session = hibSession;
-              session.beginTransaction();
-              session.save(obj);
-              session.getTransaction().commit();
-              //session.close();
-              
-          } catch (HibernateException e){
-              e.printStackTrace();
-              
-          }
-  }
-
-  public static void updateObject(Object obj){
-       
-          try{
-              Session session = hibSession;
-              session.beginTransaction();
-              session.merge(obj);  
-              session.getTransaction().commit();
-              //session.close();
-              
-          } catch (HibernateException e){
-              e.printStackTrace();
-              
-          }
-  }
-  
-  
-  
-  public static Object getById(Class<?> type, Serializable id){
-	  Object obj = null;
-	  try{
-    	  Session session = hibSession;
-    	  obj = session.get(type, id);  
-	  } catch (HibernateException e){
-          e.printStackTrace();
-  }
-	return obj;
-  }
-  
-  public static void deleteById(Class<?> type, Serializable id) {
+	  public static void persistObject(Object obj){
+	       
+	          try{
+	              Session session = hibSession;
+	              session.beginTransaction();
+	              session.save(obj);
+	              session.getTransaction().commit();
+	              //session.close();
+	              
+	          } catch (HibernateException e){
+	              e.printStackTrace();
+	              
+	          }
+	  }
+	
+	  public static void updateObject(Object obj){
+	       
+	          try{
+	              Session session = hibSession;
+	              session.beginTransaction();
+	              session.merge(obj);  
+	              session.getTransaction().commit();
+	              //session.close();
+	              
+	          } catch (HibernateException e){
+	              e.printStackTrace();
+	              
+	          }
+	  }
+	     
+	  public static Object getById(Class<?> type, Serializable id){
+		  Object obj = null;
+		  try{
+	    	  Session session = hibSession;
+	    	  obj = session.get(type, id);  
+		  } catch (HibernateException e){
+	          e.printStackTrace();
+	  }
+		return obj;
+	  }
+	  
+	  public static void deleteById(Class<?> type, Serializable id) {
        
           try{
         	  Session session = hibSession;

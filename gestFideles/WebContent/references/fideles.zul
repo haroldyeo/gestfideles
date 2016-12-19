@@ -11,7 +11,7 @@
 	    	<div sclass="searchBoxes">
 		    	<hbox pack="center" align="center"> 
 		    		<label style="font-weight:bold">Recherche:</label>
-		    		<textbox id="txtSearch"  width="500px" placeholder="Nom ou prénoms ou numéro de baptême"/>
+		    		<textbox id="txtSearch"  width="500px" placeholder="Nom ou prénoms ou numéro de baptême ou numéro de téléphone"/>
 		    		<button id="btnSearch" label="Rechercher" />
 		    		<button id="btnRefresh" label="Rafraichir" />
 		    	</hbox>
@@ -30,14 +30,18 @@
 		        <listhead>
 		            <listheader label="Nom" />
 		            <listheader label="Prénoms" />
+		            <listheader label="Numéro Téléphone" />
 		            <listheader label="Numéro de baptême" />
+		            <listheader label="Matricule" />
 		        </listhead>
 		        
 		        	<template name="model" >
 		        		<listitem>
 		        			<listcell>${each.nom}</listcell>
 		        			<listcell>${each.prenoms}</listcell>
+		        			<listcell>${each.numTelephone}</listcell>
 		        			<listcell>${each.baptemes.get(0).numero}</listcell>
+		        			<listcell>${each.matricule}</listcell>
 		        		</listitem>
 		        	</template>
 		       </listbox>

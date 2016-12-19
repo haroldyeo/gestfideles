@@ -384,7 +384,6 @@ public class Fidele implements Serializable {
 
 
 	@Column(name="matricule")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getMatricule() {
 		return matricule;
 	}

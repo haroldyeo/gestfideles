@@ -141,6 +141,18 @@
 	                        <textbox id="txtNumPhone2"  width="200px"/>
 	                    </cell>
 	                </row>
+	                
+	                <row>
+	                	<cell sclass="cell-title">Matricule:</cell>
+	                    <cell>
+	                        <textbox id="txtMatricule"  width="200px"/>
+	                    </cell>
+	                    
+	                    <cell sclass="cell-title">Métier:</cell>
+	                    <cell>
+	                        <textbox id="txtMetier"  width="200px"/>
+	                    </cell>
+	                </row>
 	            
 	                
 	            </rows>

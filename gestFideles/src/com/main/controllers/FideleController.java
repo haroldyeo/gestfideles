@@ -65,9 +65,9 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	/*-----	Infos de base  ----*/
 	@Wire Textbox txtNomF, txtPrenomsF, txtNomPere, txtlieuNaissance,  txtOriginePere, 
-				txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine, txtNumPhone, txtNumPhone2;
+				txtNomMere, txtOrigineMere, txtNomParrain, txtNomMarraine, txtNumPhone, txtNumPhone2, txtMatricule, txtMetier;
 	@Wire Datebox txtDateNaissance, dateDob;
-	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine, numPhone, numPhone2;
+	String nom, prenoms, lieuNaissance, nomPere, originePere, nomMere, origineMere, nomParain, nomMarraine, numPhone, numPhone2, matricule, metier;
 	Date dob;
 	
 	/*-----	Bapteme  ----*/
@@ -166,7 +166,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 	
 	private void initLists(){
 		textBoxes = new Textbox[]{txtNomF, txtPrenomsF, txtlieuNaissance, txtNomPere, txtNomMere, txtOriginePere,
-				txtOrigineMere, txtNomParrain, txtNomMarraine, txtNumPhone, txtNumPhone2, txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme,
+				txtOrigineMere, txtNomParrain, txtNomMarraine, txtNumPhone, txtNumPhone2, txtMatricule, txtMetier, txtNumeroBapt, txtDiocese, txtEglise, txtPretreBapteme,
 				txtNumMariage, txtEgliseMariage, txtConjoint, txtNumBaptConjoint, txtPretreMariage, txtTemoin1, txtTemoin2,
 				txtEgliseBenNupt, txtDispenseBenNupt, txtEvecheBenNupt,
 				txtNumFormCivile, txtMairie};
@@ -256,6 +256,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			txtNomMarraine.setValue(selected.getNomMarraine());
 			txtNumPhone.setValue(selected.getNumTelephone());
 			txtNumPhone2.setValue(selected.getNumTelephone2());
+			txtMatricule.setValue(selected.getMatricule());
+			txtMetier.setValue(selected.getMetier());
 			
 			
 			//bapteme
@@ -593,7 +595,7 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 		if(mode.equals(Constants.modeSave)){
 			
 			// infos base
-			fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms, numPhone, numPhone2);
+			fid = new Fidele(dob, lieuNaissance, nom, nomMarraine, nomMere, nomParain, nomPere, origineMere, originePere, prenoms, numPhone, numPhone2, matricule, metier);
 			
 			// bapteme
 			Bapteme b = new Bapteme(dateBapteme, diocese, eglise, numero, pretreBapteme);
@@ -625,6 +627,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 			fid.setNomMarraine(nomMarraine);
 			fid.setNumTelephone(numPhone);
 			fid.setNumTelephone2(numPhone2);
+			fid.setMatricule(matricule);
+			fid.setMetier(metier);
 			
 			
 		
@@ -844,6 +848,8 @@ public class FideleController  extends SelectorComposer<Component> implements Ev
 				nomMarraine = txtNomMarraine.getValue();
 				numPhone = txtNumPhone.getValue();
 				numPhone2 = txtNumPhone2.getValue();
+				matricule = txtMatricule.getValue();
+				metier = txtMetier.getValue();
 				
 				// bapteme
 				dateBapteme = dateBapt.getValue();

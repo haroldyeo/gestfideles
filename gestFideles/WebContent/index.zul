@@ -29,6 +29,7 @@
 	   		
 	        <hlayout style="padding-top:15px">
 	            <button id="btnLogin" label="Connexion" />
+	            <button id="btnImport" label="ImportFromDB" />
 	        </hlayout>
 		</window>
 	

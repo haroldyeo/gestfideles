@@ -26,6 +26,7 @@ import org.zkoss.zul.Textbox;
 
 import com.services.UserCredential;
 import com.utils.Constants;
+import com.utils.DataCollector;
 import com.utils.OperationsDb;
 import com.utils.Utils;
 
@@ -40,7 +41,7 @@ public class AuthenticationServiceImpl2 extends SelectorComposer<Component> impl
 	
 	@Wire Textbox txtPassword;
 	
-	@Wire Button btnLogin;
+	@Wire Button btnLogin, btnImport;
 	
 	@Listen("onClick=#btnLogin")
 	public void doCheckLogin(){
@@ -78,6 +79,11 @@ public class AuthenticationServiceImpl2 extends SelectorComposer<Component> impl
 			
 		}
 		return cre;
+	}
+	
+	@Listen("onClick=#btnImport")
+	public void importData(){
+		DataCollector.copyToDb();
 	}
 	
 

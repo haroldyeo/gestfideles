@@ -48,7 +48,7 @@ public class Fidele implements Serializable {
 	private String _dob;
 	private String numTelephone;
 	private String numTelephone2;
-	private Integer matricule;
+	private String matricule;
 	private String metier;
 	
 
@@ -59,7 +59,7 @@ public class Fidele implements Serializable {
 
 
 	public Fidele(Date dob, String lieuNaissance, String nom, String nomMarraine, String nomMere, String nomParrain,
-			String nomPere, String origineMere, String originePere, String prenoms, String numPhone, String numPhone2) {
+			String nomPere, String origineMere, String originePere, String prenoms, String numPhone, String numPhone2, String matricule, String metier) {
 		super();
 		this.dob = dob;
 		this.lieuNaissance = lieuNaissance;
@@ -73,6 +73,8 @@ public class Fidele implements Serializable {
 		this.prenoms = prenoms;
 		this.numTelephone = numPhone;
 		this.numTelephone2 = numPhone2;
+		this.matricule = matricule;
+		this.metier = metier;
 	}
 
 
@@ -384,11 +386,11 @@ public class Fidele implements Serializable {
 
 
 	@Column(name="matricule")
-	public Integer getMatricule() {
+	public String getMatricule() {
 		return matricule;
 	}
 
-	public void setMatricule(Integer matricule) {
+	public void setMatricule(String matricule) {
 		this.matricule = matricule;
 	}
 
